@@ -1,0 +1,671 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
+	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
+	<meta name="changed" content="2018-04-16T23:09:37.322502975"/>
+	<style type="text/css">
+		@page { margin: 2cm }
+		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
+		p.western { font-size: 11pt }
+		p.cjk { font-size: 10pt; font-weight: normal }
+		h1 { margin-top: 1cm; line-height: 200%; text-align: center; page-break-before: auto }
+		h1.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 20pt }
+		h1.cjk { font-size: 10pt; font-weight: normal }
+		h1.ctl { font-size: 12pt; font-weight: normal }
+		h2 { margin-top: 0.8cm; margin-bottom: 0.4cm; line-height: 150%; text-align: center; page-break-before: auto }
+		h2.western { font-family: "Bitstream Vera Sans", sans-serif }
+		h2.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h2.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		h3 { margin-top: 0.6cm; margin-bottom: 0.3cm; line-height: 100%; page-break-before: auto; page-break-after: auto }
+		h3.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 16pt; font-style: normal }
+		h3.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h3.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		h4 { margin-top: 0.4cm; margin-bottom: 0.2cm; line-height: 150%; text-align: left; page-break-before: auto; page-break-after: auto }
+		h4.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 14pt; font-style: normal }
+		h4.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h4.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		pre { line-height: 150%; page-break-before: auto }
+		pre.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 11pt }
+		pre.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		pre.ctl { font-family: "Tahoma"; font-size: 12pt }
+		pre.php-western { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #001f3f; font-family: "Bitstream Vera Sans Mono", monospace; font-size: 11pt; font-style: normal; font-weight: normal; line-height: 100%; background: #dfdfdf; page-break-after: avoid }
+		pre.php-cjk { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #001f3f; font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal; line-height: 100%; background: #dfdfdf; page-break-after: avoid }
+		pre.php-ctl { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #001f3f; font-family: "Tahoma"; font-size: 12pt; line-height: 100%; background: #dfdfdf; page-break-after: avoid }
+		pre.shell-western { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #000000; font-family: "Bitstream Vera Sans Mono", monospace; font-size: 11pt; line-height: 100%; background: #ffffef; page-break-after: auto }
+		pre.shell-cjk { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #000000; font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal; line-height: 100%; background: #ffffef; page-break-after: auto }
+		pre.shell-ctl { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #000000; font-family: "Tahoma"; font-size: 12pt; line-height: 100%; background: #ffffef; page-break-after: auto }
+		a.cjk:link { so-language: zxx }
+		a.ctl:link { so-language: zxx }
+		a.western:visited { so-language: en-GB }
+	</style>
+</head>
+<body lang="en-GB" bgcolor="#efefef" dir="ltr">
+<h1 class="western">SimpleESI</h1>
+<h3 class="western" align="center"><i>Programming EVE's Swagger
+Interface (ESI)</i></h3>
+<h3 class="western" align="center"><i>The Simple And Easy Way</i></h3>
+<h3 class="western" align="center"><i>in PHP</i></h3>
+<hr/>
+
+<h2 class="western">Features</h2>
+<h3 class="western"><i>Compact</i></h3>
+<p class="western" style="orphans: 2">- A single file, with one PHP
+class and five essential methods.</p>
+<p class="western" style="orphans: 2">- Less than 600 lines of code.</p>
+<p class="western" style="orphans: 2">- Can be used instantly.</p>
+<h3 class="western"><i>Fast</i></h3>
+<p class="western" style="orphans: 2">- Support of multiple &amp;
+single requests over HTTP/1.1 &amp; HTTP/2.</p>
+<p class="western" style="orphans: 2">- Request caching, with respect
+to ESI's expiration timers.</p>
+<p class="western" style="orphans: 2">- Support of Just-In-Time
+processing with callbacks.</p>
+<p class="western" style="orphans: 2">- Full page set retrieval, in-
+and out-of-order.</p>
+<h3 class="western"><i>Tolerant</i></h3>
+<p class="western" style="orphans: 2">- Automatic retrial on failed
+requests.</p>
+<p class="western" style="orphans: 2">- Dynamic throttling and exit,
+with respect to ESI's error limit.</p>
+<h3 class="western"><i>Nice</i></h3>
+<p class="western" style="orphans: 2">- Provides an easy
+&quot;key/value&quot;-database for meta data storage.</p>
+<p class="western" style="orphans: 2">- Can use SQLite3 or plain
+directories &amp; files for storage.</p>
+<p class="western" style="orphans: 2">- Logging of errors, traffic
+flow and performance timings.</p>
+<p class="western" style="orphans: 2">- Support of SSO OAuth2
+authorization.</p>
+<p class="western" style="orphans: 2">- Few configuration options.</p>
+<hr/>
+
+<h2 class="western">Installation</h2>
+<h3 class="western">General</h3>
+<p class="western" style="orphans: 2">Apart from fulfilling any
+platform-specific needs for PHP does one only need to download
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">SimpleESI.php</span></font>
+and can begin using it. Additionally can one download the examples
+and the documentation, too. To follow the examples (see below) is it
+best to <a class="western" href="https://github.com/sdack/SimpleESI/archive/master.zip">download
+the directory from GitHub as a ZIP file</a> and to extract it.</p>
+<p class="western" style="orphans: 2"><u>Note:</u> SimpleESI is free
+software. Please add a copy of the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">LICENSE</span></font>
+file (i.e. as <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">LICENSE.SimpleESI</span></font>)
+when you include it with your own software so that it can remain
+free.</p>
+<h3 class="western">Linux (Debian)</h3>
+<p class="western" style="orphans: 2"><img src="SimpleESI-LinuxDebian.png" name="Debian Linux" align="right" width="666" height="312" border="0"/>
+Any
+recent Linux distribution with PHP7.2, cURL7.58 and SQLite3.22 should
+work.<br clear="right"/>
+
+</p>
+<p class="western" style="orphans: 2">The required packages for a
+Debian-based distribution are called <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">php</span></font>,
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">php-curl</span></font>
+and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">php-sqlite3</span></font>:</p>
+<pre class="shell-western"><code>$ sudo apt-get install php php-curl php-sqlite3</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<h3 class="western">Windows (native)</h3>
+<p class="western" style="orphans: 2">It is currently unknown to me
+what works. It will however likely need the cURL option
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">CURLOPT_SSL_VERIFYPEER</span></font>
+set to false, because the native binaries of PHP for Windows do not
+include any SSL certificates …</p>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h3 class="western">Windows (Cygwin)</h3>
+<p class="western" style="orphans: 2"><img src="SimpleESI-Cygwin.png" name="Windows" align="right" width="587" height="366" border="0"/>
+Using
+Cygwin 2.10 from <a class="western" href="http://www.cygwin.com/">http://www.cygwin.com/</a>
+works and it supports Windows Vista, 7, 8 and 10. To install PHP does
+one need to select it during the installation process. Cygwin
+provides a UNIX/Linux-like environment under Windows and supports
+many popular open source packages.<br clear="right"/>
+
+</p>
+<p class="western" style="orphans: 2">One will have to use the
+installer’s search function during the installation to find it.
+Easiest is to select the entire PHP tree … Once the installation
+has completed can one run Cygwin and use it like a regular UNIX/Linux
+shell.</p>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h3 class="western">Windows 10 (WSL with Debian)</h3>
+<p class="western" style="orphans: 2"><img src="SimpleESI-Win10WSLDebian.png" name="Windows 10" align="right" width="640" height="293" border="0"/>
+Debian
+under Windows 10 with the Windows Subsystem for Linux (WSL) works,
+too. However, the Debian distribution first requires an upgrade.
+Microsoft only provides an older version of Debian (Debian 9 /
+“Stretch”) and the included packages are already older than what
+is required. The Windows Subsystem for Linux allows Windows 10 to run
+native Linux software within Windows.<br clear="right"/>
+
+</p>
+<p class="western" style="orphans: 2">To install WSL for Windows does
+one need to follow the steps described by Microsoft
+<a class="western" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a>.
+After entering a username and a password can one upgrade the
+distribution to Debian 10 / “Buster” as follows:</p>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<pre class="shell-western"><code>$ sudo sed -i~ -e 's/stretch/buster/' /etc/apt/sources.list</code>
+<code>$ sudo apt-get update</code>
+<code>$ sudo apt-get dist-upgrade</code>
+<code>$ sudo apt-get autoremove</code>
+<code>$ sudo apt-get autoclean</code>
+<code>$ sudo apt-get install php php-curl php-sqlite3</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2">One will be asked to say “yes”
+or “no” during the upgrade and one can safely say “yes” to
+all of the questions. The last line here will install PHP together
+with cURL and SQLite3 support as shown above for Linux.</p>
+<hr/>
+
+<h2 class="western">Examples</h2>
+<h4 class="western">1. A single request.</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+<code>$esi-&gt;get($veldspar, 'universe/types/1230/')-&gt;exec();</code>
+
+<code>echo $veldspar['description'].PHP_EOL;</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-1.php</code>
+<code>The most common ore type in the known universe, veldspar can be found almost everywhere. It is still in constant demand as it holds a large portion of the much-used tritanium mineral. </code>
+
+<code>Available in &lt;color='0xFF33FFFF'&gt;1.0&lt;/color&gt; security status solar systems or lower.</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> it creates
+a SimpleESI object to get data on item type 1230 and prints its
+description.</p>
+<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+of the class SimpleESI is used to queue a request. The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+executes queued requests and stores responses in variables, that were
+previously passed to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method.</p>
+<p class="western" style="orphans: 2">Before sending requests to the
+server does the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+check its cache to see if it has executed the same request recently,
+and if so, gets it from its cache without sending a request to the
+server. This is done with respect to the ESI server’s expiration
+timers so no redundant requests are being send and to speed up
+program execution. Only when no match is found, or when it has
+expired, will the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+send a request to the server to get a new response. It then also
+updates its cache.</p>
+<h4 class="western">2. Some more requests.</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+<code>$esi-&gt;get($items, [9832, 33468, 12612], 'universe/types/~/')</code>
+<code>    -&gt;get($status, 'status/')</code>
+<code>    -&gt;exec();</code>
+
+<code>foreach ($items as $id =&gt; $thing)</code>
+<code>    echo $thing['name'].' has got an id of '.$id.'.'.PHP_EOL;</code>
+
+<code>echo 'There are currently '.$status['players'].</code>
+<code>    ' players in EVE Online.'.PHP_EOL;</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-2.php</code>
+<code>Coolant has got an id of 9832.</code>
+<code>Astero has got an id of 33468.</code>
+<code>Void S has got an id of 12612.</code>
+<code>There are currently 21356 players in EVE Online.</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> the object
+is being used to get the game's current status as well as data on 3
+item types. The ids for the items are being provided as an array
+together with a pattern from which it forms the requests. The
+requests are then executed. Once completed does it print the names
+and ids of the items, and last but not least, the number of players
+online.</p>
+<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+allows to queue multiple requests and can create them automatically
+when given an array and a pattern. The values of the passed array are
+being inserted at the position of the marker (<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">~</span></font>-sign).
+The returned data is stored as an array in the variable and the
+values of the array become the keys to the responses.</p>
+<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+will first attempt to answer the requests from its cache, but then
+send out any remaining requests to the ESI server in parallel. This
+allows the ESI server to respond to multiple requests at once,
+allowing it to reply in any order it sees fit, which speeds up
+program execution.</p>
+<h4 class="western">3. What is The Forge's id?</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+<code>$esi-&gt;post($bulk, 'universe/ids/', ['The Forge'])-&gt;exec();</code>
+
+<code>if (isset($bulk['regions'][0]['id']))</code>
+<code>    echo 'The Forge\'s id is '.$bulk['regions'][0]['id'].'.'.PHP_EOL;</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-3.php</code>
+<code>The Forge's id is 10000002.</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> the object
+is used to send a POST request to the ESI server, in order to get the
+id of The Forge. When found does it print out the id.</p>
+<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">post()</span></font>-method
+encodes the array (… <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">[‘The
+Forge’]</span></font>) and sends it directly to the ESI server.
+POST requests are not cached and are considered slow. They are
+commonly used to send bulk data to the ESI server as well as for
+controlling the game client through ESI for instance.</p>
+<h4 class="western">4. Where is The Forge's id?</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+<code>$esi-&gt;get($result, 'search/?categories=region&amp;strict=1&amp;', ['search' =&gt; 'The Forge'])-&gt;exec();</code>
+
+<code>if (isset($result['region'][0]))</code>
+<code>    echo 'The Forge\'s id is '.$result['region'][0].'.'.PHP_EOL;</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-4.php</code>
+<code>The Forge's id is 10000002.</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> the object
+is again used to get The Forge's region id, this time by using ESI's
+search function, and once found printed out.</p>
+<p class="western" style="orphans: 2">When an associative array is
+being passed as argument to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+and after the resource path then it creates an URL query string,
+which is appended to the resource path. This is useful for strings
+containing characters that need to be encoded, such as <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">‘The
+Forge’</span></font>. Here it creates:</p>
+<p class="western" style="orphans: 2"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'search/?categories=region&amp;strict=1&amp;search=The%20Forge'</span></font></p>
+<p class="western" style="orphans: 2">before adding it to the queue
+and executing it.</p>
+<h4 class="western">5. Which is The Forge’s id?</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+
+<code>$RegionNameToId = $esi-&gt;meta('RegionNameToId');</code>
+
+<code>if (empty($RegionNameToId)) {</code>
+<code>    $esi-&gt;get($RegionIds, 'universe/regions/')</code>
+<code>        -&gt;exec()</code>
+<code>        -&gt;get($Regions, $RegionIds, 'universe/regions/~/')</code>
+<code>        -&gt;exec();</code>
+<code>    $RegionNameToId = array_column($Regions, 'region_id', 'name');</code>
+<code>    $esi-&gt;meta('RegionNameToId', $RegionNameToId);</code>
+<code>}</code>
+
+<code>if (isset($RegionNameToId['The Forge']))</code>
+<code>    echo 'The Forge\'s id is '.$RegionNameToId['The Forge'].'.'.PHP_EOL;</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-5.php</code>
+<code>The Forge's id is 10000002.</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> it creates
+a SimpleESI object to see if it holds an array in its meta database
+for mapping region names to ids. If it cannot find one then it uses
+the object to create it by first requesting the list of region ids,
+then requesting the data on all regions based on their ids in a
+second execution, and then uses the PHP function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">array_column()</span></font>
+to map the ids of every region to its name. It then stores the
+associative array in the meta database so it can find it again next
+time. Finally, it prints the id of The Forge.</p>
+<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
+functions as a simple “key/value”-database, which is stored
+alongside with the cache. It allows an application to reduce the
+number of its ESI requests to an essential minimum. By storing static
+data such as the names of regions in a local database can one save
+time and speed up execution. When passed a single argument does the
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
+work as a query. With two arguments does it work as an assignment
+(“key = value”).</p>
+<p class="western" style="orphans: 2"><u>Note:</u> all requests to
+the ESI server take time. The fastest request is the one, which does
+not need to be made!</p>
+<h4 class="western">6. All things new and gone.</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+
+<code>$esi-&gt;get($TypeIdsBook, 'universe/types/')</code>
+<code>    -&gt;get($TSTypeIdsBook, 'universe/types/?datasource=singularity')</code>
+<code>    -&gt;exec();</code>
+
+<code>$old_ids = $new_ids = [];</code>
+<code>foreach ($TypeIdsBook as $page)</code>
+<code>    foreach ($page as $id)</code>
+<code>        $old_ids[] = $id;</code>
+<code>foreach ($TSTypeIdsBook as $page)</code>
+<code>    foreach ($page as $id)</code>
+<code>        $new_ids[] = $id;</code>
+
+<code>echo 'Number of item types found on Tranquility: '.count($old_ids).PHP_EOL;</code>
+<code>echo '                              Singularity: '.count($new_ids).PHP_EOL;</code>
+
+<code>$missing_ids = array_diff($old_ids, $new_ids);</code>
+<code>echo PHP_EOL.'   Missing on Singularity: '.count($missing_ids).PHP_EOL;</code>
+<code>$esi-&gt;get($MissingTypes, $missing_ids, 'universe/types/~/')-&gt;exec();</code>
+<code>if (isset($MissingTypes))</code>
+<code>    foreach ($MissingTypes as $type)</code>
+<code>        echo '      #'.$id.' - \''.($type['name'] ?? '- unknown -').'\''.PHP_EOL;</code>
+
+<code>$added_ids = array_diff($new_ids, $old_ids);</code>
+<code>echo PHP_EOL.'   New on Singularity: '.count($added_ids).PHP_EOL;</code>
+<code>$esi-&gt;get($AddedTypes, $added_ids, 'universe/types/~/?datasource=singularity')-&gt;exec();</code>
+<code>if (isset($AddedTypes))</code>
+<code>    foreach ($AddedTypes as $id =&gt; $type)</code>
+<code>        echo '      #'.$id.' - \''.($type['name'] ?? '- unknown -').'\''.PHP_EOL;</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-6.php</code>
+<code>Number of item types found on Tranquility: 34029</code>
+<code>                              Singularity: 34034</code>
+
+<code>   Missing on Singularity: 0</code>
+
+<code>   New on Singularity: 5</code>
+<code>      #47861 - 'Capsuleer Day - Dungeon Spawner'</code>
+<code>      #47881 - 'Outpost Conversion Rig 1'</code>
+<code>      #47882 - 'Outpost Conversion Rig 2'</code>
+<code>      #47883 - 'Outpost Conversion Rig 3'</code>
+<code>      #47884 - 'Outpost Conversion Rig 4'</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> the object
+is used to get the list of all type ids from Tranquility and
+Singularity. It prints the number of item types found for each
+server, computes their difference and shows which items can only be
+found on the test server, and which are missing.</p>
+<p class="western" style="orphans: 2">Due to their large size are the
+lists only available as sets of pages – books. This technique
+allows the ESI server to respond to every application in a fair
+manner without one, single application blocking it. It also requires
+applications to send a request for every page before the data can be
+processed in its entirety.</p>
+<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+detects when responses are being segmented into pages and will send
+additional requests automatically. On completion will a variable hold
+an array with all pages in their correct order.</p>
+<h4 class="western">7. The price of PLEX.</h4>
+<pre class="php-western"><code>&lt;?php</code>
+<code>require_once 'SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+
+<code>$RegionsOfInterest = [ 10000002 =&gt; 'The Forge'  , 10000030 =&gt; 'Heimatar',</code>
+<code>                       10000032 =&gt; 'Sinq Laison', 10000043 =&gt; 'Domain' ];</code>
+<code>$IdOfPLEX = 44992;</code>
+
+<code>$GLOBALS += $esi-&gt;meta('GLOBALS') ?: [];</code>
+
+<code>$esi-&gt;get($SellOrders,</code>
+<code>          array_keys($RegionsOfInterest),</code>
+<code>          'markets/~/orders/?order_type=sell&amp;type_id='.$IdOfPLEX,</code>
+<code>          'orders_callback')</code>
+<code>    -&gt;exec();</code>
+<code>function orders_callback($esi, $rq) {</code>
+<code>    global $Stations;</code>
+<code>    foreach ($rq-&gt;vl as $order)</code>
+<code>        if (isset($order['location_id'])) {</code>
+<code>            $id = $order['location_id'];</code>
+<code>            if (empty($Stations[$id]))</code>
+<code>                $esi-&gt;get($Stations[$id], 'universe/stations/'.$id.'/', 24*60*60, 'station_callback');</code>
+<code>        }</code>
+<code>}</code>
+<code>function station_callback($esi, $rq) {</code>
+<code>    global $Systems;</code>
+<code>    if (isset($rq-&gt;vl['system_id'])) {</code>
+<code>        $id = $rq-&gt;vl['system_id'];</code>
+<code>        if (empty($Systems[$id]))</code>
+<code>            $esi-&gt;get($Systems[$id], 'universe/systems/'.$id.'/', 30*60);</code>
+<code>    }</code>
+<code>}</code>
+
+<code>foreach ($RegionsOfInterest as $id =&gt; $name) {</code>
+<code>    echo 'The best 3 sell orders for PLEX in '.$name.':'.PHP_EOL;</code>
+<code>    $orders = [];</code>
+<code>    foreach ($SellOrders[$id] as $page)</code>
+<code>        foreach ($page as $order)</code>
+<code>            $orders[] = $order;</code>
+<code>    usort($orders, function ($a, $b) { return $a['price'] &lt;=&gt; $b['price']; });</code>
+<code>    for ($i = 0; $i &lt; 3; ++$i) {</code>
+<code>        $o = $orders[$i];</code>
+<code>        $station = $Stations[$o['location_id']];</code>
+<code>        $system = $Systems[$station['system_id']];</code>
+<code>        $security = $system['security_status'];</code>
+<code>        printf('   %10.2f ISK (%4d units) - %10s (%.1f) %s'.PHP_EOL,</code>
+<code>               $o['price'], $o['volume_remain'], $system['name'], $security, $station['name']);</code>
+<code>    }</code>
+<code>}</code>
+
+<code>$esi-&gt;meta('GLOBALS', [ 'Stations' =&gt; $Stations,</code>
+<code>                        'Systems'  =&gt; $Systems ]);</code>
+<code>?&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -f examples/example-7.php</code>
+<code>The best 3 sell orders for PLEX in The Forge:</code>
+<code>   2930000.00 ISK (1266 units) -       Jita (0.9) Jita IV - Moon 4 - Caldari Navy Assembly Plant</code>
+<code>   2995999.99 ISK ( 500 units) -       Jita (0.9) Jita IV - Moon 4 - Caldari Navy Assembly Plant</code>
+<code>   2996000.00 ISK ( 792 units) -       Jita (0.9) Jita IV - Moon 4 - Caldari Navy Assembly Plant</code>
+<code>The best 3 sell orders for PLEX in Heimatar:</code>
+<code>   2899999.90 ISK ( 174 units) -       Rens (0.9) Rens VI - Moon 8 - Brutor Tribe Treasury</code>
+<code>   2900000.00 ISK ( 469 units) -       Rens (0.9) Rens VI - Moon 8 - Brutor Tribe Treasury</code>
+<code>   2988973.99 ISK (1029 units) -       Rens (0.9) Rens VI - Moon 8 - Brutor Tribe Treasury</code>
+<code>The best 3 sell orders for PLEX in Sinq Laison:</code>
+<code>   3006599.91 ISK ( 128 units) -    Dodixie (0.9) Dodixie IX - Moon 20 - Federation Navy Assembly Plant</code>
+<code>   3006599.92 ISK ( 310 units) -    Dodixie (0.9) Dodixie IX - Moon 20 - Federation Navy Assembly Plant</code>
+<code>   3006990.00 ISK (1990 units) -    Dodixie (0.9) Dodixie IX - Moon 20 - Federation Navy Assembly Plant</code>
+<code>The best 3 sell orders for PLEX in Domain:</code>
+<code>   3000000.00 ISK ( 375 units) -    Fahruni (0.5) Fahruni XII - Sisters of EVE Bureau</code>
+<code>   3000000.00 ISK ( 377 units) -      Amarr (1.0) Amarr VIII (Oris) - Emperor Family Academy</code>
+<code>   3050000.00 ISK (1000 units) -      Amarr (1.0) Amarr VIII (Oris) - Emperor Family Academy</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> the
+SimpleESI object is used to set two global variables with the help of
+the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method.
+It is then used to queue 4 requests for sell orders on PLEX, one for
+each region of interest, and to execute the requests. The last
+argument passed to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+is the name of a function, which will be called at the moment a
+response arrives and once for each of the four requests. The callback
+function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">orders_callback()</span></font>
+will then itself queue additional requests and for every station
+listed in the sell orders, if the station is not already known. These
+secondary requests themselves have a second callback function
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">station_callback()</span></font>
+registered with them. The secondary callback is used to queue even
+more requests, one for each system it does not yet know about. Once
+all requests have been executed does it print out the 3 best PLEX
+sell orders for each region of interest. At the end is the object
+used again to store system and station information so it can be
+retrieved again later.</p>
+<p class="western" style="orphans: 2">Requests queued with the
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+from within callbacks do not require an explicit call to the
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method,
+because the requests are being queued while an execution is already
+running. The calls to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+inside the callback functions further each get passed a numeric
+argument. This number is used to briefly extend the expiration time
+of a request artificially. The reason why this can be useful is
+because some resources of the ESI have unusual expiration times, or
+simply fall onto the downtime. So does the information on stations
+expire within only 5 minutes. Yet the stations themselves do not seem
+to change at all... It is because of the office rent prices contained
+within the information that their data expires so quickly. Yet for
+this application are the rent prices of no interest and therefore it
+makes sense to ignore the short expiration timers and to extend these
+artificially by +24 hours. The information on solar systems expires
+every 24 hours during downtime where the ESI server is unavailable.
+Extending the expiration timers artificially by +30 minutes helps in
+avoiding the downtime.</p>
+<p class="western" style="orphans: 2">Callbacks allow to react to
+responses the moment these arrive, and before all requests have been
+answered and before execution ends. This speeds up applications by
+exploiting the ESI server’s ability to respond to requests out of
+order.</p>
+<p class="western" style="orphans: 2"><u>Note:</u> due to the current
+structure of the ESI does this example only list prices found at NPC
+stations and does not include sell orders at player-owned stations.</p>
+<h4 class="western">8. Onto the Web!</h4>
+<pre class="php-western"><code>&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt; &lt;meta http-equiv=&quot;refresh&quot; content=&quot;300&quot;&gt;&lt;head&gt;&lt;style&gt;</code>
+<code>body      { color: #ffffff; background-color: #373737; }</code>
+<code>table     { width: 100%; }</code>
+<code>tr.region { font-size: 90%; margin: 0px; text-align:   left; background-color: #5f5f5f; }</code>
+<code>tr.head   { font-size: 80%; margin: 0px; text-align: center; background-color: #4f4f4f; }</code>
+<code>tr.data   { font-size: 70%; margin: 0px; text-align:  right; }</code>
+<code>td, th    { padding-left: 5px; padding-right: 5px; padding-top: 0px; padding-bottom: 0px; }</code>
+<code>&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;</code>
+<code>&lt;?php</code>
+<code>require_once '../SimpleESI.php';</code>
+
+<code>$esi = new SimpleESI;</code>
+
+<code>if (isset($_GET['debug'])) {</code>
+<code>    $esi-&gt;debug_level = 4;</code>
+<code>    $esi-&gt;debug_html = true;</code>
+<code>}</code>
+
+<code>$RegionsOfInterest = [ 10000002 =&gt; 'The Forge'  , 10000030 =&gt; 'Heimatar',</code>
+<code>                       10000032 =&gt; 'Sinq Laison', 10000043 =&gt; 'Domain' ];</code>
+<code>$IdOfPLEX = 44992;</code>
+
+<code>$GLOBALS += $esi-&gt;meta('GLOBALS') ?: [];</code>
+
+<code>$esi-&gt;get($SellOrders,</code>
+<code>          array_keys($RegionsOfInterest),</code>
+<code>          'markets/~/orders/?order_type=sell&amp;type_id='.$IdOfPLEX,</code>
+<code>          'orders_callback')</code>
+<code>    -&gt;exec();</code>
+<code>function orders_callback($esi, $rq) {</code>
+<code>    global $Stations;</code>
+<code>    foreach ($rq-&gt;vl as $order)</code>
+<code>        if (isset($order['location_id'])) {</code>
+<code>            $id = $order['location_id'];</code>
+<code>            if (empty($Stations[$id]))</code>
+<code>                $esi-&gt;get($Stations[$id], 'universe/stations/'.$id.'/', 24*60*60, 'station_callback');</code>
+<code>        }</code>
+<code>}</code>
+<code>function station_callback($esi, $rq) {</code>
+<code>    global $Systems;</code>
+<code>    if (isset($rq-&gt;vl['system_id'])) {</code>
+<code>        $id = $rq-&gt;vl['system_id'];</code>
+<code>        if (empty($Systems[$id]))</code>
+<code>            $esi-&gt;get($Systems[$id], 'universe/systems/'.$id.'/', 30*60);</code>
+<code>    }</code>
+<code>}</code>
+
+<code>foreach ($RegionsOfInterest as $id =&gt; $name) {</code>
+<code>    echo '&lt;tr class=&quot;region&quot;&gt;&lt;th colspan=&quot;10&quot;&gt;The best 3 sell orders for PLEX in '.$name.'&lt;/th&gt;&lt;/tr&gt;';</code>
+<code>    $orders = [];</code>
+<code>    foreach ($SellOrders[$id] as $page)</code>
+<code>        foreach ($page as $order)</code>
+<code>            $orders[] = $order;</code>
+<code>    usort($orders, function ($a, $b) { return $a['price'] &lt;=&gt; $b['price']; });</code>
+<code>    echo '&lt;tr class=&quot;head&quot;&gt;'</code>
+<code>        .     '&lt;th colspan=&quot;2&quot;&gt;Price &amp; Volume&lt;/th&gt;&lt;th&gt;System&lt;/th&gt;&lt;th&gt;Security&lt;/th&gt;'</code>
+<code>        .     '&lt;th style=&quot;text-align:left&quot;&gt;Station&lt;/th&gt;&lt;/h5&gt;&lt;/tr&gt;';</code>
+<code>    for ($i = 0; $i &lt; 3; ++$i) {</code>
+<code>        $o = $orders[$i];</code>
+<code>        $station = $Stations[$o['location_id']];</code>
+<code>        $system = $Systems[$station['system_id']];</code>
+<code>        $security = $system['security_status'];</code>
+<code>        printf('&lt;tr class=&quot;data&quot;&gt;'</code>
+<code>               .  '&lt;td&gt;%10.2f ISK&lt;/td&gt;&lt;td&gt;%4d units&lt;/td&gt;&lt;td style=&quot;text-align:center&quot;&gt;%s&lt;/td&gt;'</code>
+<code>               .  '&lt;td style=&quot;text-align:center&quot;&gt;%.1f&lt;/td&gt;&lt;td style=&quot;text-align:left&quot;&gt;%s&lt;/td&gt;&lt;/tr&gt;',</code>
+<code>               $o['price'], $o['volume_remain'], $system['name'], $security, $station['name']);</code>
+<code>    }</code>
+<code>}</code>
+
+<code>$esi-&gt;meta('GLOBALS', [ 'Stations' =&gt; $Stations,</code>
+<code>                        'Systems'  =&gt; $Systems ]);</code>
+<code>?&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<pre class="shell-western"><code>$ php -S localhost:9000</code>
+<code>PHP 7.2.4 Development Server started at Fri Apr 13 21:39:02 2018</code>
+<code>Listening on http://localhost:9000</code>
+<code>Document root is /home/sven/EVE/SimpleESI</code>
+<code>Press Ctrl-C to quit.</code>
+<code>[Fri Apr 13 21:39:08 2018] 127.0.0.1:56846 [200]: /examples/example-8.php</code></pre><p class="western" style="orphans: 2">
+<br/>
+
+</p>
+<p class="western" style="orphans: 2"><b>What it does:</b> it is the
+same example as before, now embedded within HTML and extended <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">echo</span></font>-
+&amp; <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">printf</span></font>-statements
+to include HTML tagging. It further checks if it’s URL contains a
+query argument with the name <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug</span></font>,
+in which case it enables debug support for the SimpleESI object.</p>
+<p class="western" style="orphans: 2"><img src="example-8a.png" name="example 8" align="right" width="560" height="279" border="0"/>
+When
+php is run with <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-S
+localhost:9000</span></font> does it start a small web server on the
+local machine at port 9000 and the URL
+<a class="western" href="http://localhost:9000/examples/example-8.php">http://localhost:9000/examples/example-8.php</a>
+will open the example and display its output in a browser.<br clear="right"/>
+
+</p>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<p class="western" style="orphans: 2"><img src="example-8b.png" name="example 8 debug" align="right" width="560" height="415" border="0"/>
+When
+opened with <a class="western" href="http://localhost:9000/examples/example-8.php?debug=1">http://localhost:9000/examples/example-8.php?debug=1</a>
+does it include debugging information on the SimpleESI object. It
+shows the time and number of bytes received since creation, the debug
+level and a message for each event.<br clear="right"/>
+
+</p>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+</body>
+</html>
