@@ -9,6 +9,35 @@ SimpleESI
 
 ------------------------------------------------------------------------
 
+Introduction
+------------
+
+**What is it?** SimpleESI is an API for programming the game EVE Online in order to provide third-party services to its players. It builds on the existing interface called the EVE’s Swagger Interface (ESI) and tries to provide a simple and easy to use “All In One” alternative to it. In comparison, the default API for PHP consists of 377 files with 227,000 lines of automatically generated code, whereas SimpleESI consists of one single file with less than 600 lines of code (see also **Features** below).
+
+**For whom is it?** SimpleESI is for everyone, from beginners in web design who don’t want to commit to the full API yet, the intermediate who is looking to gain an advantage in the game without spending too much time on programming, as well as for the professional who needs a compact API for implementing gadgets.
+
+Where can I learn more about it? You will find a list of features as well as several code examples below. A reference manual will be provided at a later time.
+
+To learn more about the game and it’s API please follow these links:
+
+<a href="https://www.ccpgames.com/" class="western">CCP Games</a> and <a href="https://www.eveonline.com/" class="western">EVE Online</a>
+
+<a href="https://forums.eveonline.com/" class="western">Game Forum</a> and <a href="https://forums.eveonline.com/c/technology-research/third-party-developers" class="western">Game Forum on 3<sup>rd</sup> Party Software Development</a>
+
+<a href="https://developers.eveonline.com/resource/license-agreement" class="western">Developer License Agreement</a>
+
+<a href="https://esi.tech.ccp.is/ui/" class="western">The EVE Swagger Interface</a>
+
+<a href="https://developers.eveonline.com/blog" class="western">3<sup>rd</sup> Party Developer Blog</a>, <a href="https://developers.eveonline.com/resource/resources" class="western">Resources</a> and <a href="https://developers.eveonline.com/applications" class="western">Managing Applications</a>
+
+<a href="https://developers.eveonline.com/blog/article/swagger-codegen" class="western">The Swagger CodeGen</a> and <a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">Description of the SSO process</a>
+
+Important notice:
+
+© 2014 CCP hf. All rights reserved. "EVE", "EVE Online", "CCP", and all related logos and images are trademarks or registered trademarks of CCP hf.
+
+------------------------------------------------------------------------
+
 Features
 --------
 

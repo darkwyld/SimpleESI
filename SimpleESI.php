@@ -317,7 +317,7 @@ class SimpleESI {
             $rr = $r.http_build_query($q);
             if (isset($this->get_arr[$rr]))
                 continue;
-            $this->get_arr[$rr] = (object) [ 'rq' => $rr, 'ex' =>  $x, 'lm' =>  0, 'vl' => &$v[$i],
+            $this->get_arr[$rr] = (object) [ 'rq' => $rr, 'ex' =>  $x, 'lm' =>  0, 'vl' => &$v[$i - 1],
                                              'cb' =>  $c, 'pn' => $p1, 'pi' => $i, 'rt' => 0 ];
             if (empty($this->idle))
                 $this->queue_get($this->get_arr[$rr]);
