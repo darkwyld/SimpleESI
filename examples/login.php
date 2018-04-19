@@ -24,9 +24,9 @@ if ($esi->auth($Authorization, $code) === true) {
     $esi->meta('LastAuthorization', $Authorization);
     echo '<h3><p><a href="'.$Authorization['redirect_uri'].'?signout=true">Sign out</a></p></h3>';
 
-    $esi->get($Standings, "characters/{$Authorization['char_id']}/standings/")
+    $esi->get($Standings, "characters/{$Authorization['char_id']}/standings/", 0, $Authorization)
         ->get($Factions, 'universe/factions/')
-        ->exec($Authorization);
+        ->exec();
 
     $FactionIdToName = array_column($Factions, 'name', 'faction_id');
     $FactionStandings = [];

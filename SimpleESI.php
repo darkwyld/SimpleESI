@@ -44,8 +44,8 @@ trait fulldebug {
 
 trait nodb {
     protected function db_init($f) {}
-    protected function query_cache($rq, $ex) {}
-    protected function update_cache($rq, $ex, $pn, $lm, $vl) {}
+    protected function query_cache($rq, $ci, $ex) {}
+    protected function update_cache($rq, $ci, $ex, $pn, $lm, $vl) {}
     public function meta($k, $v = null) {}
 }
 trait dirdb {
@@ -61,12 +61,11 @@ trait dirdb {
         if (!file_exists($this->db_meta_dir) && !mkdir($this->db_meta_dir, 0755, true))
             $this->debug(-1, 'Could not create meta directory');
     }
-    protected function query_cache($rq, $ex) {
+    protected function query_cache($rq, $ci, $ex) {
         if ($this->caching) {
             $a = parse_url($rq);
             $d = rtrim($this->db_cache_dir.$a['path'], '/');
-            $f = $d.rawurlencode($a['query'] ?? '?');
-            $d = dirname($d);
+            $f = $d.rawurlencode($a['query'] ?? '?').'.'.$ci;
             $h = @fopen($f, 'r');
             if ($h && fstat($h)[9] >= $ex) {
                 flock($h, LOCK_SH);
@@ -81,11 +80,11 @@ trait dirdb {
             }
         }
     }
-    protected function update_cache($rq, $ex, $pn, $lm, $vl) {
+    protected function update_cache($rq, $ci, $ex, $pn, $lm, $vl) {
         if ($this->caching) {
             $a = parse_url($rq);
             $d = rtrim($this->db_cache_dir.$a['path'], '/');
-            $f = $d.rawurlencode($a['query'] ?? '?');
+            $f = $d.rawurlencode($a['query'] ?? '?').'.'.$ci;
             $d = dirname($d);
             if (!file_exists($d) && !mkdir($d, 0755, true))
                 $this->debug(-1, 'Could not create cache subdirectory');
@@ -132,33 +131,36 @@ trait dirdb {
 }
 trait sqlite3db {
     public $caching = true;
-    protected $db, $db_rq_ref, $db_ex_ref, $db_pn_ref, $db_lm_ref, $db_vl_ref;
+    protected $db, $db_rq_ref, $db_ci_ref, $db_ex_ref, $db_pn_ref, $db_lm_ref, $db_vl_ref;
     protected $cache_qry_stmt, $cache_upd_stmt, $meta_qry_stmt, $meta_upd_stmt;
 
     protected function db_init($f) {
         $this->db = new \SQLite3($f.'.sq3', SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
         $this->db->exec(
             'PRAGMA synchronous = OFF; PRAGMA journal_mode = OFF;'.
-            'CREATE TABLE IF NOT EXISTS cache(rq TEXT NOT NULL PRIMARY KEY, ex INT, pn INT, lm INT, vl TEXT);'.
+            'CREATE TABLE IF NOT EXISTS cache(rq TEXT NOT NULL PRIMARY KEY, ci INT, ex INT, pn INT, lm INT, vl TEXT);'.
             'CREATE TABLE IF NOT EXISTS  meta(rq TEXT NOT NULL PRIMARY KEY, vl BLOB);');
-        $this->cache_qry_stmt = $this->db->prepare('SELECT ex, pn, lm, vl FROM cache WHERE rq = ? AND ex >= ?');
+        $this->cache_qry_stmt = $this->db->prepare('SELECT ex, pn, lm, vl FROM cache WHERE rq = ? AND ci = ? AND ex >= ?');
         $this->cache_qry_stmt->bindParam(1, $this->db_rq_ref, SQLITE3_TEXT);
-        $this->cache_qry_stmt->bindParam(2, $this->db_ex_ref, SQLITE3_INTEGER);
-        $this->cache_upd_stmt = $this->db->prepare('REPLACE INTO cache(rq, ex, pn, lm, vl) VALUES(?, ?, ?, ?, ?)');
+        $this->cache_qry_stmt->bindParam(2, $this->db_ci_ref, SQLITE3_INTEGER);
+        $this->cache_qry_stmt->bindParam(3, $this->db_ex_ref, SQLITE3_INTEGER);
+        $this->cache_upd_stmt = $this->db->prepare('REPLACE INTO cache(rq, ci, ex, pn, lm, vl) VALUES(?, ?, ?, ?, ?, ?)');
         $this->cache_upd_stmt->bindParam(1, $this->db_rq_ref, SQLITE3_TEXT);
-        $this->cache_upd_stmt->bindParam(2, $this->db_ex_ref, SQLITE3_INTEGER);
-        $this->cache_upd_stmt->bindParam(3, $this->db_pn_ref, SQLITE3_INTEGER);
-        $this->cache_upd_stmt->bindParam(4, $this->db_lm_ref, SQLITE3_INTEGER);
-        $this->cache_upd_stmt->bindParam(5, $this->db_vl_ref, SQLITE3_TEXT);
+        $this->cache_upd_stmt->bindParam(2, $this->db_ci_ref, SQLITE3_INTEGER);
+        $this->cache_upd_stmt->bindParam(3, $this->db_ex_ref, SQLITE3_INTEGER);
+        $this->cache_upd_stmt->bindParam(4, $this->db_pn_ref, SQLITE3_INTEGER);
+        $this->cache_upd_stmt->bindParam(5, $this->db_lm_ref, SQLITE3_INTEGER);
+        $this->cache_upd_stmt->bindParam(6, $this->db_vl_ref, SQLITE3_TEXT);
         $this->meta_qry_stmt = $this->db->prepare('SELECT vl FROM meta WHERE rq = ?');
         $this->meta_qry_stmt->bindParam(1, $this->db_rq_ref, SQLITE3_TEXT);
         $this->meta_upd_stmt = $this->db->prepare('REPLACE INTO meta(rq, vl) VALUES(?, ?)');
         $this->meta_upd_stmt->bindParam(1, $this->db_rq_ref, SQLITE3_TEXT);
         $this->meta_upd_stmt->bindParam(2, $this->db_vl_ref, SQLITE3_BLOB);
     }
-    protected function query_cache($rq, $ex) {
+    protected function query_cache($rq, $ci, $ex) {
         if ($this->caching) {
             $this->db_rq_ref = $rq;
+            $this->db_ci_ref = $ci;
             $this->db_ex_ref = $ex;
             $a = $this->cache_qry_stmt->execute()->fetchArray(SQLITE3_NUM);
             if ($a !== false && count($a) === 4) {
@@ -167,9 +169,10 @@ trait sqlite3db {
             }
         }
     }
-    protected function update_cache($rq, $ex, $pn, $lm, $vl) {
+    protected function update_cache($rq, $ci, $ex, $pn, $lm, $vl) {
         if ($this->caching) {
             $this->db_rq_ref = $rq;
+            $this->db_ci_ref = $ci;
             $this->db_ex_ref = $ex;
             $this->db_pn_ref = $pn;
             $this->db_lm_ref = $lm;
@@ -213,7 +216,7 @@ class SimpleESI {
         $this->curl_mh = curl_multi_init();
         curl_multi_setopt($this->curl_mh, CURLMOPT_PIPELINING, CURLPIPE_HTTP1 | CURLPIPE_MULTIPLEX);
         $this->curl_opt_get_arr = [ CURLOPT_RETURNTRANSFER => true,
-                                    CURLOPT_HTTPHEADER     => [ 'Accept: application/json' ],
+                                    CURLOPT_HTTPHEADER     => [ null /*reserved*/, 'Accept: application/json' ],
                                     CURLOPT_HEADERFUNCTION => __CLASS__.'::process_header',
                                     CURLOPT_PIPEWAIT       => true,
                                     CURLOPT_BUFFERSIZE     => 256 << 10,
@@ -271,12 +274,12 @@ class SimpleESI {
     }
 
     protected function queue_get($rq) {
-        $a = $this->query_cache($rq->rq, $rq->ex);
+        $a = $this->query_cache($rq->rq, $rq->ci, $rq->ex);
         if (isset($a)) {
             list($rq->ex, $rq->pn, $rq->lm) = $a;
             if (isset($rq->pn) && empty($rq->pi)) {
                 if ($rq->pn > 1 && isset($this->paging))
-                    $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->cb);
+                    $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->ci, $rq->ah, $rq->cb);
                 $rq->vl = &$rq->vl[0];
             }
             $rq->vl = json_decode($a[3], true);
@@ -290,21 +293,22 @@ class SimpleESI {
         }
         $this->debug(3, 'Requesting: ', $rq->rq);
         $h = curl_init($this->esi_uri.$rq->rq);
+        $this->curl_opt_get_arr[CURLOPT_HTTPHEADER][0] = $rq->ah;
         curl_setopt_array($h, $this->curl_opt_get_arr);
         curl_multi_add_handle($this->curl_mh, $h);
         $this->curl_arr[(int) $h] = $rq;
     }
 
-    public function single_get(&$v, $r, $x = 0, $c = null) {
-        if (isset($this->get_arr[$r]))
-            return;
-        $this->get_arr[$r] = (object) [ 'rq' => $r, 'ex' => time() - $x, 'lm' => 0, 'vl' => &$v,
-                                        'cb' => $c, 'pn' => null, 'pi' => null, 'rt' => 0 ];
-        if (empty($this->idle))
-            $this->queue_get($this->get_arr[$r]);
+    public function single_get(&$v, $r, $x = 0, $i = 0, $h = null, $c = null) {
+        if (empty($this->get_arr[$r]) || $this->get_arr[$r]->ah !== $h) {
+            $this->get_arr[$r] = (object) [ 'rq' => $r, 'ci' =>   $i, 'ex' => time() - $x, 'lm' =>  0, 'vl' => &$v,
+                                            'cb' => $c, 'pn' => null, 'pi' => null       , 'ah' => $h, 'rt' => 0 ];
+            if (empty($this->idle))
+                $this->queue_get($this->get_arr[$r]);
+        }
     }
 
-    public function pages_get(&$v, $r, $p0, $p1, $x, $c) {
+    public function pages_get(&$v, $r, $p0, $p1, $x, $i = 0, $h = null, $c = null) {
         $a = parse_url($r);
         $r = $a['path'].'?';
         if (isset($a['query']))
@@ -317,8 +321,8 @@ class SimpleESI {
             $rr = $r.http_build_query($q);
             if (isset($this->get_arr[$rr]))
                 continue;
-            $this->get_arr[$rr] = (object) [ 'rq' => $rr, 'ex' =>  $x, 'lm' =>  0, 'vl' => &$v[$i - 1],
-                                             'cb' =>  $c, 'pn' => $p1, 'pi' => $i, 'rt' => 0 ];
+            $this->get_arr[$rr] = (object) [ 'rq' => $rr, 'ci' =>  $i, 'ex' => $x, 'lm' =>  0, 'vl' => &$v[$i - 1],
+                                             'cb' =>  $c, 'pn' => $p1, 'pi' => $i, 'ah' => $h, 'rt' => 0 ];
             if (empty($this->idle))
                 $this->queue_get($this->get_arr[$rr]);
         }
@@ -341,7 +345,15 @@ class SimpleESI {
                 $c = next($args);
             } else
                 $x = 0;
-            $this->single_get($v, $r, $x, $c);
+            if (is_array($c)) {
+                $i = $c['char_id'];
+                $h = $c['header'];
+                $c = next($args);
+            } else {
+                $i = 0;
+                $h = null;
+            }
+            $this->single_get($v, $r, $x, $i, $h, $c);
         } else {
             $rr = next($args);
             if (is_string($rr)) {
@@ -370,8 +382,16 @@ class SimpleESI {
                 $c = next($args);
             } else
                 $x = 0;
-            foreach ($r as $i) {
-                $this->single_get($v[$i], current($rr), $x, $c);
+            if (is_array($c)) {
+                $i = $c['char_id'];
+                $h = $c['header'];
+                $c = next($args);
+            } else {
+                $i = 0;
+                $h = null;
+            }
+            foreach ($r as $ri) {
+                $this->single_get($v[$ri], current($rr), $x, $i, $h, $c);
                 next($rr);
             }
         }
@@ -386,17 +406,18 @@ class SimpleESI {
         $this->debug(3, 'Requesting (POST): ', $rq->rq);
         $h = curl_init($this->esi_uri.$rq->rq);
         $this->curl_opt_post_arr[CURLOPT_POSTFIELDS] = $rq->pd;
+        $this->curl_opt_post_arr[CURLOPT_HTTPHEADER][0] = $rq->ah;
         curl_setopt_array($h, $this->curl_opt_post_arr);
         curl_multi_add_handle($this->curl_mh, $h);
         $this->curl_arr[(int) $h] = $rq;
     }
 
-    public function post(&$v, $r, $d, $c = null) {
-        if (empty($this->post_arr[$r])) {
+    public function post(&$v, $r, $d, $h = null, $c = null) {
+        if (empty($this->post_arr[$r]) || $this->post_arr[$r]->ah !== $h) {
             $s = json_encode($d);
             if (isset($s)) {
                 $this->post_arr[$r] = (object) [ 'rq' => $r, 'pd' => $s, 'vl' => &$v,
-                                                 'cb' => $c, 'rt' => 0 ];
+                                                 'cb' => $c, 'ah' => $h, 'rt' => 0 ];
                 if (empty($this->idle))
                     $this->queue_post($this->post_arr[$r]);
             }
@@ -404,12 +425,7 @@ class SimpleESI {
         return $this;
     }
 
-    public function exec($a = null) {
-        if (isset($a['header'])) {
-            $this->curl_opt_get_arr[CURLOPT_HTTPHEADER][] = $a['header'];
-            $this->curl_opt_post_arr[CURLOPT_HTTPHEADER][] = $a['header'];
-        }
-
+    public function exec() {
         if (isset($this->post_arr) || isset($this->get_arr) && isset($this->idle)) {
             unset($this->idle);
             if (isset($this->post_arr))
@@ -432,10 +448,10 @@ class SimpleESI {
                             if (isset($v)) {
                                 if (empty($v['error'])) {
                                     if (empty($rq->pd)) {
-                                        $this->update_cache($rq->rq, $rq->ex, $rq->pn, $rq->lm, $s);
+                                        $this->update_cache($rq->rq, $rq->ci, $rq->ex, $rq->pn, $rq->lm, $s);
                                         if (isset($rq->pn) && empty($rq->pi)) {
                                             if ($rq->pn > 1 && isset($this->paging))
-                                                $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->cb);
+                                                $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->ci, $rq->ah, $rq->cb);
                                             $rq->vl = &$rq->vl[0];
                                         }
                                     }
@@ -472,10 +488,6 @@ class SimpleESI {
             }
             $this->idle = true;
             unset($this->curl_arr, $this->get_arr, $this->post_arr);
-        }
-        if (isset($a['header'])) {
-            array_pop($this->curl_opt_get_arr);
-            array_pop($this->curl_opt_post_arr);
         }
         return $this;
     }
