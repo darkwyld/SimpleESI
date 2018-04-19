@@ -276,7 +276,7 @@ class SimpleESI {
             list($rq->ex, $rq->pn, $rq->lm) = $a;
             if (isset($rq->pn) && empty($rq->pi)) {
                 if ($rq->pn > 1 && isset($this->paging))
-                    $this->pages_get($rq->vl, $rq->rq, 1, $rq->pn, $rq->ex, $rq->cb);
+                    $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->cb);
                 $rq->vl = &$rq->vl[0];
             }
             $rq->vl = json_decode($a[3], true);
@@ -311,9 +311,9 @@ class SimpleESI {
             parse_str($a['query'], $q);
         if (isset($q['page']))
             return;
-        $this->debug(3, 'Requesting pages ', $p0 + 1, ' to ', $p1, ' of: ', $r);
-        for ($i = $p0; $i < $p1; ++$i) {
-            $q['page'] = $i + 1;
+        $this->debug(3, 'Requesting pages ', $p0, ' to ', $p1, ' of: ', $r);
+        for ($i = $p0; $i <= $p1; ++$i) {
+            $q['page'] = $i;
             $rr = $r.http_build_query($q);
             if (isset($this->get_arr[$rr]))
                 continue;
@@ -435,7 +435,7 @@ class SimpleESI {
                                         $this->update_cache($rq->rq, $rq->ex, $rq->pn, $rq->lm, $s);
                                         if (isset($rq->pn) && empty($rq->pi)) {
                                             if ($rq->pn > 1 && isset($this->paging))
-                                                $this->pages_get($rq->vl, $rq->rq, 1, $rq->pn, $rq->ex, $rq->cb);
+                                                $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->cb);
                                             $rq->vl = &$rq->vl[0];
                                         }
                                     }
