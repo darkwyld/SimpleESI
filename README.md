@@ -28,7 +28,7 @@ To learn more about the game itself and as well its API please follow these link
 
 <a href="https://developers.eveonline.com/blog" class="western">3</a><a href="https://developers.eveonline.com/blog" class="western"><sup>rd</sup></a><a href="https://developers.eveonline.com/blog" class="western">Party Developer Blog</a>, <a href="https://developers.eveonline.com/resource/resources" class="western">Resources</a> and <a href="https://developers.eveonline.com/applications" class="western">Managing Applications</a>
 
-<a href="https://developers.eveonline.com/blog/article/swagger-codegen" class="western">The Swagger CodeGen</a> and <a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">Description of the SSO</a><a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">P</a><a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">rocess</a>
+<a href="https://developers.eveonline.com/blog/article/swagger-codegen" class="western">The Swagger CodeGen</a> and <a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">Description of the SSO Procedure</a>
 
 Important notice:
 
@@ -102,7 +102,7 @@ $ sudo apt-get install php php-curl php-sqlite3
 
 ### Windows (native)
 
-It is currently unknown to me what works. It will however likely need the cURL option `CURLOPT_SSL_VERIFYPEER` set to false, because the native binaries of PHP for Windows do not include any SSL certificates … I will update this part as soon as I know more.
+It is currently unknown to me what works. It will however likely need the cURL option `CURLOPT_SSL_VERIFYPEER` set to false, because the native binaries of PHP for Windows do not include any SSL certificates … I will update this part once I know more.
 
 ### Windows (Cygwin)
 
@@ -158,7 +158,7 @@ Available in <color='0xFF33FFFF'>1.0</color> security status solar systems or lo
 
 **What it does:** it creates a SimpleESI object to get data on item type 1230 and prints its description.
 
-The `get()`-method of the class SimpleESI is used to queue a request. The `exec()`-method executes queued requests and stores responses in variables, that were previously passed to the `get()`-method.
+The `get()`-method of the class SimpleESI is used to queue a request. The `exec()`-method executes queued requests and stores responses in variables that were previously passed to the `get()`-method.
 
 Before sending requests to the server does the `exec()`-method check its cache to see if it has executed the same request recently, and if so, gets it from its cache without sending a request to the server. This is done with respect to the ESI server’s expiration timers so no redundant requests are being send and to speed up program execution. Only when no match is found, or when it has expired, will the `exec()`-method send a request to the server to get a new response. It then also updates its cache.
 
@@ -421,7 +421,7 @@ The best 3 sell orders for PLEX in Domain:
 
 **What it does:** the SimpleESI object is used to set two global variables with the help of the `meta()`-method. It is then used to queue 4 requests for sell orders on PLEX, one for each region of interest, and to execute the requests. The last argument passed to the `get()`-method is the name of a function, which will be called at the moment a response arrives and once for each of the four requests. The callback function `orders_callback()` will then itself queue additional requests and for every station listed in the sell orders, if the station is not already known. These secondary requests themselves have a second callback function `station_callback()` registered with them. The secondary callback is used to queue even more requests, one for each system it does not yet know about. Once all requests have been executed does it print out the 3 best PLEX sell orders for each region of interest. At the end is the object used again to store system and station information so it can be retrieved again later.
 
-Requests queued with the `get()`-method from within callbacks do not require an explicit call to the `exec()`-method, because the requests are being queued while an execution is already running. The calls to the `get()`-method inside the callback functions further each get passed a numeric argument. This number is used to briefly extend the expiration time of a request artificially. The reason why this can be useful is because some resources of the ESI have unusual expiration times, or simply fall onto the downtime. So does the information on stations expire within only 5 minutes. Yet the stations themselves do not seem to change at all... It is because of the office rent prices contained within the information that their data expires so quickly. Yet for this application are the rent prices of no interest and therefore it makes sense to ignore the short expiration timers and to extend these artificially by +24 hours. The information on solar systems expires every 24 hours during downtime where the ESI server is unavailable. Extending the expiration timers artificially by +30 minutes helps in avoiding the downtime.
+Requests queued with the `get()`-method from within callbacks do not require an explicit call to the `exec()`-method, because the requests are being queued while an execution is already running. The calls to the `get()`-method inside the callback functions further each get passed a numeric argument. This number is used to briefly extend the expiration time of a request artificially. The reason why this can be useful is because some resources of the ESI have unusual expiration times, or simply fall onto the downtime. So does the information on stations expire within only 5 minutes. Yet the stations themselves do not seem to change at all... It is because of the office rent prices contained within the information that their data expires so quickly. Yet for this application are the rent prices of no interest and therefore it makes sense to ignore the short expiration timers and to extend these artificially by +24 hours. The information on solar systems expires every 24 hours during downtime where the ESI server is unavailable. Extending the expiration timers for such resources artificially by +30 minutes can help in avoiding the downtime.
 
 Callbacks allow to react to responses the moment these arrive, and before all requests have been answered and before execution ends. This speeds up applications by exploiting the ESI server’s ability to respond to requests out of order.
 
@@ -533,7 +533,7 @@ if (isset($_GET['code'])) {
     $code = $_GET['code'];
     setcookie('code', $code);
 } elseif (isset($_GET['signout']))
-      setcookie('code', '', 0);
+    setcookie('code', '', 0);
 elseif (isset($_COOKIE['code']))
     $code = $_COOKIE['code'];
 
@@ -592,7 +592,7 @@ $ cd examples/
 $ php -S localhost:9000
 PHP 7.2.4 Development Server started at Fri Apr 20 14:43:11 2018
 Listening on http://localhost:9000
-Document root is /home/sven/EVE/SimpleESI/work
+Document root is /home/sven/EVE/SimpleESI/examples
 Press Ctrl-C to quit.
 [Fri Apr 20 14:43:23 2018] 127.0.0.1:39826 [200]: /login.php
 ```

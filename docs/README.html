@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-20T20:04:23.401874554"/>
+	<meta name="changed" content="2018-04-20T20:33:56.892692090"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -90,7 +90,7 @@ and <a class="western" href="https://developers.eveonline.com/applications">Mana
 Applications</a></p>
 <p class="western" style="orphans: 2"><a class="western" href="https://developers.eveonline.com/blog/article/swagger-codegen">The
 Swagger CodeGen</a> and <a class="western" href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls">Description
-of the SSO </a><a class="western" href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls">P</a><a class="western" href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls">rocess</a></p>
+of the SSO Procedure</a></p>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
@@ -169,8 +169,8 @@ and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #d
 what works. It will however likely need the cURL option
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">CURLOPT_SSL_VERIFYPEER</span></font>
 set to false, because the native binaries of PHP for Windows do not
-include any SSL certificates … I will update this part as soon as I
-know more.</p>
+include any SSL certificates … I will update this part once I know
+more.</p>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
@@ -251,7 +251,7 @@ a SimpleESI object to get data on item type 1230 and prints its
 description.</p>
 <p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
 of the class SimpleESI is used to queue a request. The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
-executes queued requests and stores responses in variables, that were
+executes queued requests and stores responses in variables that were
 previously passed to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method.</p>
 <p class="western" style="orphans: 2">Before sending requests to the
 server does the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
@@ -597,8 +597,8 @@ this application are the rent prices of no interest and therefore it
 makes sense to ignore the short expiration timers and to extend these
 artificially by +24 hours. The information on solar systems expires
 every 24 hours during downtime where the ESI server is unavailable.
-Extending the expiration timers artificially by +30 minutes helps in
-avoiding the downtime.</p>
+Extending the expiration timers for such resources artificially by
++30 minutes can help in avoiding the downtime.</p>
 <p class="western" style="orphans: 2">Callbacks allow to react to
 responses the moment these arrive, and before all requests have been
 answered and before execution ends. This speeds up applications by
@@ -726,7 +726,7 @@ if (isset($_GET['code'])) {
     $code = $_GET['code'];
     setcookie('code', $code);
 } elseif (isset($_GET['signout']))
-      setcookie('code', '', 0);
+    setcookie('code', '', 0);
 elseif (isset($_COOKIE['code']))
     $code = $_COOKIE['code'];
 
@@ -785,7 +785,7 @@ echo '&lt;/table&gt;&lt;/body&gt;';
 $ php -S localhost:9000
 PHP 7.2.4 Development Server started at Fri Apr 20 14:43:11 2018
 Listening on http://localhost:9000
-Document root is /home/sven/EVE/SimpleESI/work
+Document root is /home/sven/EVE/SimpleESI/examples
 Press Ctrl-C to quit.
 [Fri Apr 20 14:43:23 2018] 127.0.0.1:39826 [200]: /login.php</pre><p class="western" style="orphans: 2">
 <br/>
