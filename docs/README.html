@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-20T21:20:16.886470572"/>
+	<meta name="changed" content="2018-04-20T21:24:29.856850932"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -865,9 +865,9 @@ means for managing multiple users simultaneously, as this would go
 beyond the intended scope of the method. Instead, when a full user
 management is needed then it has to be implemented by the application
 itself and it is also the responsibility of the application to keep
-sensitive data for all users safe.</p>
+sensitive data safe for all users.</p>
 <p class="western" style="orphans: 2">However, the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">auth()</span></font>-method
-does store the user id inside the array among other data, which
+does store the character id inside the array among other data, which
 subsequently is being used by SimpleESI to keep cached responses
 separate for different users. This happens transparently whenever
 authorized requests are queued and executed with the <font face="Bitstream Vera Sans Mono, monospace">get()</font>-

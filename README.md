@@ -617,8 +617,8 @@ Although the initial code is usable only once is it being given a secondary use 
 
 Clicking on the “Sign Out” link will call the script with an argument of `signout=true`, causing it to clear the cookie from the browser and so ending the session.
 
-Note: the example only demonstrates how one can use the `auth()`-method to create a single-user application. The `auth()`-method simply acquires the data needed to make authorized requests and helps in creating and refreshing an authorization. It does not provide the means for managing multiple users simultaneously, as this would go beyond the intended scope of the method. Instead, when a full user management is needed then it has to be implemented by the application itself and it is also the responsibility of the application to keep sensitive data for all users safe.
+Note: the example only demonstrates how one can use the `auth()`-method to create a single-user application. The `auth()`-method simply acquires the data needed to make authorized requests and helps in creating and refreshing an authorization. It does not provide the means for managing multiple users simultaneously, as this would go beyond the intended scope of the method. Instead, when a full user management is needed then it has to be implemented by the application itself and it is also the responsibility of the application to keep sensitive data safe for all users.
 
-However, the `auth()`-method does store the user id inside the array among other data, which subsequently is being used by SimpleESI to keep cached responses separate for different users. This happens transparently whenever authorized requests are queued and executed with the get()- and `exec()`-method.
+However, the `auth()`-method does store the character id inside the array among other data, which subsequently is being used by SimpleESI to keep cached responses separate for different users. This happens transparently whenever authorized requests are queued and executed with the get()- and `exec()`-method.
 
 
