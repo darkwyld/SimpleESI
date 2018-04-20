@@ -1,7 +1,7 @@
 SimpleESI
 =========
 
-### *Programming EVE's Swagger Interface (ESI)*
+### *Programming the EVE Swagger Interface (ESI)*
 
 ### *The Simple And Easy Way*
 
@@ -12,9 +12,9 @@ SimpleESI
 Introduction
 ------------
 
-**What is it?** SimpleESI is an Application Programming Interface (API) for programming third-party applications to the game EVE Online. It builds on the existing interface called the EVE’s Swagger Interface (ESI), but tries to provide a slim and yet “All In One” alternative to it. In comparison, the default API for PHP consists of 377 files with more than 227,000 lines of machine generated code, whereas SimpleESI consists of one single file with less than 600 lines of code (see also **Features** below).
+**What is it?** SimpleESI is an Application Programming Interface (API) for writing third-party applications to the game EVE Online. It builds on the existing interface called the EVE Swagger Interface (ESI), but tries to provide a slim and yet “All In One” alternative to it. In comparison, the default API for PHP consists of 377 files with more than 227,000 lines of machine generated code, whereas SimpleESI consists of one single file with less than 600 lines of code (see also **Features** below).
 
-**For whom is it?** SimpleESI is for everyone, from beginners in web design who don’t want to commit to the full API yet, the intermediate who is looking to gain an advantage in the game without spending too much time on programming, as well as for the professional who needs a compact API for implementing gadgets.
+**For whom is it?** SimpleESI is for everyone, from beginners in web design who don’t want to commit to the full API yet, to the intermediate who is looking to gain an advantage in the game without spending too much time on programming, as well as for the professional who needs a compact API for implementing gadgets.
 
 **Where can I learn more about it?** You will find a list of features as well as several code examples below. A reference manual will be provided at a later time.
 
@@ -24,17 +24,17 @@ To learn more about the game itself and as well its API please follow these link
 
 <a href="https://forums.eveonline.com/" class="western">Game Forum</a> and <a href="https://forums.eveonline.com/c/technology-research/third-party-developers" class="western">Game Forum on 3</a><a href="https://forums.eveonline.com/c/technology-research/third-party-developers" class="western"><sup>rd</sup></a><a href="https://forums.eveonline.com/c/technology-research/third-party-developers" class="western">Party Software Development</a>
 
-<a href="https://developers.eveonline.com/resource/license-agreement" class="western">Developer License Agreement</a>
-
-<a href="https://esi.tech.ccp.is/ui/" class="western">The EVE Swagger Interface</a>
+<a href="https://developers.eveonline.com/resource/license-agreement" class="western">Developer License Agreement</a> and <a href="https://esi.tech.ccp.is/ui/" class="western">The EVE Swagger Interface</a>
 
 <a href="https://developers.eveonline.com/blog" class="western">3</a><a href="https://developers.eveonline.com/blog" class="western"><sup>rd</sup></a><a href="https://developers.eveonline.com/blog" class="western">Party Developer Blog</a>, <a href="https://developers.eveonline.com/resource/resources" class="western">Resources</a> and <a href="https://developers.eveonline.com/applications" class="western">Managing Applications</a>
 
-<a href="https://developers.eveonline.com/blog/article/swagger-codegen" class="western">The Swagger CodeGen</a> and <a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">Description of the SSO process</a>
+<a href="https://developers.eveonline.com/blog/article/swagger-codegen" class="western">The Swagger CodeGen</a> and <a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">Description of the SSO</a><a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">P</a><a href="https://developers.eveonline.com/blog/article/sso-to-authenticated-calls" class="western">rocess</a>
 
 Important notice:
 
 © 2014 CCP hf. All rights reserved. "EVE", "EVE Online", "CCP", and all related logos and images are trademarks or registered trademarks of CCP hf.
+
+© 2018 SimpleESI, GPLv3 applies.
 
 ------------------------------------------------------------------------
 
@@ -84,7 +84,7 @@ Installation
 
 ### General
 
-Apart from fulfilling any platform-specific needs for PHP does one only need to download `SimpleESI.php` and can begin using it. Additionally can one download the examples and the documentation, too. To follow the examples (see below) is it best to <a href="https://github.com/sdack/SimpleESI/archive/master.zip" class="western">download the directory from GitHub as a ZIP file</a> and to extract it.
+Apart from fulfilling the platform-specific needs for PHP does one only need to download `SimpleESI.php` and can begin using it. Additionally can one download the examples and the documentation, too. To follow the examples (see below) is it best to <a href="https://github.com/sdack/SimpleESI/archive/master.zip" class="western">download the directory from GitHub as a ZIP file</a> and to extract it.
 
 Note: SimpleESI is free software. Please add a copy of the `LICENSE` file (i.e. as `LICENSE.SimpleESI`) when you include it with your own software so that it can remain free.
 
@@ -102,7 +102,7 @@ $ sudo apt-get install php php-curl php-sqlite3
 
 ### Windows (native)
 
-It is currently unknown to me what works. It will however likely need the cURL option `CURLOPT_SSL_VERIFYPEER` set to false, because the native binaries of PHP for Windows do not include any SSL certificates …
+It is currently unknown to me what works. It will however likely need the cURL option `CURLOPT_SSL_VERIFYPEER` set to false, because the native binaries of PHP for Windows do not include any SSL certificates … I will update this part as soon as I know more.
 
 ### Windows (Cygwin)
 
@@ -522,5 +522,103 @@ When php is run with `-S localhost:9000` does it start a small web server on the
 When opened with <a href="http://localhost:9000/examples/example-8.php?debug=1" class="uri" class="western">http://localhost:9000/examples/example-8.php?debug=1</a> does it include debugging information on the SimpleESI object. It shows the time and number of bytes received since creation, the debug level and a message for each event.
 
 <img src="docs/example-8b.png" width="560" height="415" />
+
+#### 9. Halt, who goes there?
+
+```php
+<?php
+require_once '../SimpleESI.php';
+
+if (isset($_GET['code'])) {
+    $code = $_GET['code'];
+    setcookie('code', $code);
+} elseif (isset($_GET['signout']))
+      setcookie('code', '', 0);
+elseif (isset($_COOKIE['code']))
+    $code = $_COOKIE['code'];
+
+echo <<<'EOT'
+<!DOCTYPE html><html lang="en"><head><style>
+table { background-color: #efefef; }
+td    { font-size: 70%; padding-left: 5px; padding-right: 10px; padding-top: 0px; padding-bottom: 0px; }
+</style></head><body>
+EOT;
+
+$esi = new SimpleESI('confidential');
+
+$Authorization = $esi->meta('LastAuthorization');
+if (empty($code) || empty($Authorization['code']) || $code !== $Authorization['code'])
+    $Authorization = [ 'client_id'     => '...',
+                       'client_secret' => '...',
+                       'redirect_uri'  => 'http://localhost:9000/login.php',
+                       'scopes'        => [ 'esi-characters.read_standings.v1' ] ];
+
+if ($esi->auth($Authorization, $code) === false) {
+    echo '<h3><p><a href="'.$Authorization['auth_uri'].'">Sign on</a></p></h3>';
+    echo '<h6><p>Note: this example uses cookies and requests your permission to access private data on your'
+        .' EVE Online account.</p><p>Once access has been granted through CCP\'s SSO sevice can it be refreshed by the'
+        .' application indefinitely and until it is manually revoked.</p><p>To revoke an application\'s access'
+        .' please go to:</p>'
+        .'<p><a href="https://community.eveonline.com/support/third-party-applications/">'
+        .'https://community.eveonline.com/support/third-party-applications/</a></p></h6></body>';
+    exit;
+}
+
+$esi->meta('LastAuthorization', $Authorization);
+echo '<h3><p><a href="'.$Authorization['redirect_uri'].'?signout=true">Sign out</a></p></h3>';
+
+$t = $Authorization['expires'] - time();
+printf('<p>Current token expires in %2d:%02d minutes.</p>'.PHP_EOL, $t / 60, $t % 60);
+
+$esi->get($Standings, "characters/{$Authorization['char_id']}/standings/", 0, $Authorization)
+    ->get($Factions, 'universe/factions/')
+    ->exec();
+$FactionIdToName = array_column($Factions, 'name', 'faction_id');
+$FactionStandings = [];
+foreach ($Standings as $st)
+    if ($st['from_type'] === 'faction')
+        $FactionStandings[$FactionIdToName[$st['from_id']]] = $st['standing'];
+arsort($FactionStandings, SORT_NUMERIC);
+
+echo '<p>Faction standings of '.$Authorization['char_name'].':</p><table style="background-color:#efefef">';
+foreach ($FactionStandings as $name => $standing)
+    printf('<tr><td>%s</td><td style="text-align:right">%.2f</td></tr>', $name, $standing);
+echo '</table></body>';
+?>
+```
+
+```
+$ cd examples/
+$ php -S localhost:9000
+PHP 7.2.4 Development Server started at Fri Apr 20 14:43:11 2018
+Listening on http://localhost:9000
+Document root is /home/sven/EVE/SimpleESI/work
+Press Ctrl-C to quit.
+[Fri Apr 20 14:43:23 2018] 127.0.0.1:39826 [200]: /login.php
+```
+
+**What it does:** it determines if an authorization was previously given, and if so tries to refresh it. If not does it prompt with a link to obtain a new authorization. On success does it print the faction standings of the character whose authorization was given as well as the duration of the current authorization period.
+
+For the example to work does one need to register it as an application at <a href="https://developers.eveonline.com/applications/create" class="uri" class="western">https://developers.eveonline.com/applications/create</a> with a redirection URI of `http://localhost:9000/login.php` and a scope of `esi-characters.read_standings.v1`, which is used for reading a character’s standings. Further does one need to insert the client ID and the client secret given out by CCP on registration as strings into the script (see where it has the `‘...’` strings).
+
+When the script is run for the first time does it not know of a previous authorization nor of any code and so the call to the `auth()`-method will fail, leading the script to prompt the user with a link. The link itself contains information about the request and will lead the user to CCP’s Single Sign-On service. The information contained in this link is provided by the `auth()`-method by inserting it into the array that was passed as argument.
+
+<img src="docs/login-a.png" width="371" height="181" />
+
+On following the link is the user prompted to login at CCP’s web site, to give authorization to the application and to choose for which character it shall be.
+
+<img src="docs/login-b.png" width="371" height="445" />
+
+On clicking the “Authorize” button will CCP’s web site redirect back to `http://localhost:9000/login.php` and provide a unique code to the script, which is passed on to the `auth()`-method and used to receive tokens from CCP that are needed in making authorized requests to the ESI server.
+
+<img src="docs/login-c.png" width="371" height="337" />
+
+Although the initial code is usable only once is it being given a secondary use by the script, which is that of a “session identifier”. The script stores the code inside the browser with a cookie, as well as on the server in its meta database, together with further information about the authorization. Each time the user accesses the script with a cookie does it compare the code stored inside the cookie with the code stored inside its database to determine if it still in session with the same user, in which case it will refresh the authorization with the help of the `auth()`-method and without sending the user back to the SSO service.
+
+Clicking on the “Sign Out” link will call the script with an argument of `signout=true`, causing it to clear the cookie from the browser and so ending the session.
+
+Note: the example only demonstrates how one can use the `auth()`-method to create a single-user application. The `auth()`-method simply acquires the data needed to make authorized requests and helps in creating and refreshing an authorization. It does not provide the means for managing multiple users simultaneously, as this would go beyond the intended scope of the method. Instead, when a full user management is needed then it has to be implemented by the application itself and it is also the responsibility of the application to keep sensitive data for all users safe.
+
+However, the `auth()`-method does store the user id inside the array among other data, which subsequently is being used by SimpleESI to keep cached responses separate for different users. This happens transparently whenever authorized requests are queued and executed with the get()- and `exec()`-method.
 
 
