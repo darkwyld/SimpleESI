@@ -65,7 +65,7 @@ trait dirdb {
         if ($this->caching) {
             $url = parse_url($rq);
             $dir = rtrim($this->db_cache_dir.$url['path'], '/');
-            $fn = $dir.rawurlencode($url['query'] ?? '?').'.'.$ci;
+            $fn = $dir.','.rawurlencode($url['query'] ?? '?').','.$ci;
             $hn = @fopen($fn, 'r');
             if ($hn && fstat($hn)[9] >= $ex) {
                 flock($hn, LOCK_SH);
@@ -84,7 +84,7 @@ trait dirdb {
         if ($this->caching) {
             $url = parse_url($rq);
             $dir = rtrim($this->db_cache_dir.$url['path'], '/');
-            $fn = $dir.rawurlencode($url['query'] ?? '?').'.'.$ci;
+            $fn = $dir.','.rawurlencode($url['query'] ?? '?').','.$ci;
             $dir = dirname($dir);
             if (!file_exists($dir) && !mkdir($dir, 0755, true))
                 $this->debug(-1, 'Could not create cache subdirectory');
