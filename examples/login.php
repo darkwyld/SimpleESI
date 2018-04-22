@@ -42,7 +42,7 @@ echo '<h3><p><a href="'.$Authorization['redirect_uri'].'?signout=true">Sign out<
 $t = $Authorization['expires'] - time();
 printf('<p>Current token expires in %2d:%02d minutes.</p>'.PHP_EOL, $t / 60, $t % 60);
 
-$esi->get($Standings, 'characters/'.$Authorization['char_id'].'/standings/', 0, $Authorization)
+$esi->get($Standings, 'characters/'.$Authorization['cid'].'/standings/', 0, $Authorization)
     ->get($Factions, 'universe/factions/')
     ->exec();
 $FactionIdToName = array_column($Factions, 'name', 'faction_id');
@@ -52,7 +52,7 @@ foreach ($Standings as $st)
         $FactionStandings[$FactionIdToName[$st['from_id']]] = $st['standing'];
 arsort($FactionStandings, SORT_NUMERIC);
 
-echo '<p>Faction standings of '.$Authorization['char_name'].':</p><table>';
+echo '<p>Faction standings of '.$Authorization['name'].':</p><table>';
 foreach ($FactionStandings as $name => $standing)
     printf('<tr><td>%s</td><td style="text-align:right">%.2f</td></tr>', $name, $standing);
 echo '</table></body>';

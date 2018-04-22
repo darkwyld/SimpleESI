@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-20T21:26:31.782457953"/>
+	<meta name="changed" content="2018-04-22T15:16:24.075950136"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -301,8 +301,13 @@ allows to queue multiple requests and can create them automatically
 when given an array and a pattern. The values of the passed array are
 being inserted at the position of the marker (<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">~</span></font>-sign).
 The returned data is stored as an array in the variable and the
-values of the array become the keys to the responses.</p>
-<p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+values of the array become the keys to the responses. The line:</p>
+<pre class="php-western">$esi-&gt;get($items, [9832, 33468, 12612], 'universe/types/~/')</pre><p class="western" style="orphans: 2">
+is equivalent to:</p>
+<pre class="php-western">$esi-&gt;get($items[9832], 'universe/types/9832/')
+$esi-&gt;get($items[33468], 'universe/types/33468/')
+$esi-&gt;get($items[12612], 'universe/types/12612/')</pre><p class="western" style="orphans: 2">
+The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
 will first attempt to answer the requests from its cache, but then
 send out any remaining requests to the ESI server in parallel. This
 allows the ESI server to respond to multiple requests at once,
@@ -763,7 +768,7 @@ echo '&lt;h3&gt;&lt;p&gt;&lt;a href=&quot;'.$Authorization['redirect_uri'].'?sig
 $t = $Authorization['expires'] - time();
 printf('&lt;p&gt;Current token expires in %2d:%02d minutes.&lt;/p&gt;'.PHP_EOL, $t / 60, $t % 60);
 
-$esi-&gt;get($Standings, 'characters/'.$Authorization['char_id'].'/standings/', 0, $Authorization)
+$esi-&gt;get($Standings, 'characters/'.$Authorization['cid'].'/standings/', 0, $Authorization)
     -&gt;get($Factions, 'universe/factions/')
     -&gt;exec();
 $FactionIdToName = array_column($Factions, 'name', 'faction_id');
@@ -773,7 +778,7 @@ foreach ($Standings as $st)
         $FactionStandings[$FactionIdToName[$st['from_id']]] = $st['standing'];
 arsort($FactionStandings, SORT_NUMERIC);
 
-echo '&lt;p&gt;Faction standings of '.$Authorization['char_name'].':&lt;/p&gt;&lt;table&gt;';
+echo '&lt;p&gt;Faction standings of '.$Authorization['name'].':&lt;/p&gt;&lt;table&gt;';
 foreach ($FactionStandings as $name =&gt; $standing)
     printf('&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td style=&quot;text-align:right&quot;&gt;%.2f&lt;/td&gt;&lt;/tr&gt;', $name, $standing);
 echo '&lt;/table&gt;&lt;/body&gt;';

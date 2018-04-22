@@ -191,7 +191,19 @@ There are currently 21356 players in EVE Online.
 
 **What it does:** the object is being used to get the game's current status as well as data on 3 item types. The ids for the items are being provided as an array together with a pattern from which it forms the requests. The requests are then executed. Once completed does it print the names and ids of the items, and last but not least, the number of players online.
 
-The `get()`-method allows to queue multiple requests and can create them automatically when given an array and a pattern. The values of the passed array are being inserted at the position of the marker (`~`-sign). The returned data is stored as an array in the variable and the values of the array become the keys to the responses.
+The `get()`-method allows to queue multiple requests and can create them automatically when given an array and a pattern. The values of the passed array are being inserted at the position of the marker (`~`-sign). The returned data is stored as an array in the variable and the values of the array become the keys to the responses. The line:
+
+```php
+$esi->get($items, [9832, 33468, 12612], 'universe/types/~/')
+```
+
+is equivalent to:
+
+```php
+$esi->get($items[9832], 'universe/types/9832/')
+$esi->get($items[33468], 'universe/types/33468/')
+$esi->get($items[12612], 'universe/types/12612/')
+```
 
 The `exec()`-method will first attempt to answer the requests from its cache, but then send out any remaining requests to the ESI server in parallel. This allows the ESI server to respond to multiple requests at once, allowing it to reply in any order it sees fit, which speeds up program execution.
 
@@ -570,7 +582,7 @@ echo '<h3><p><a href="'.$Authorization['redirect_uri'].'?signout=true">Sign out<
 $t = $Authorization['expires'] - time();
 printf('<p>Current token expires in %2d:%02d minutes.</p>'.PHP_EOL, $t / 60, $t % 60);
 
-$esi->get($Standings, 'characters/'.$Authorization['char_id'].'/standings/', 0, $Authorization)
+$esi->get($Standings, 'characters/'.$Authorization['cid'].'/standings/', 0, $Authorization)
     ->get($Factions, 'universe/factions/')
     ->exec();
 $FactionIdToName = array_column($Factions, 'name', 'faction_id');
@@ -580,7 +592,7 @@ foreach ($Standings as $st)
         $FactionStandings[$FactionIdToName[$st['from_id']]] = $st['standing'];
 arsort($FactionStandings, SORT_NUMERIC);
 
-echo '<p>Faction standings of '.$Authorization['char_name'].':</p><table>';
+echo '<p>Faction standings of '.$Authorization['name'].':</p><table>';
 foreach ($FactionStandings as $name => $standing)
     printf('<tr><td>%s</td><td style="text-align:right">%.2f</td></tr>', $name, $standing);
 echo '</table></body>';

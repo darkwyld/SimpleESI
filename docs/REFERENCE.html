@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
+	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
+	<meta name="changed" content="2018-04-21T19:06:49.822605563"/>
+	<style type="text/css">
+		@page { margin: 2cm }
+		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
+		p.western { font-size: 11pt }
+		p.cjk { font-size: 10pt; font-weight: normal }
+		h1 { margin-top: 1cm; line-height: 200%; text-align: center; page-break-before: auto }
+		h1.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 20pt }
+		h1.cjk { font-size: 10pt; font-weight: normal }
+		h1.ctl { font-size: 12pt; font-weight: normal }
+		h2 { margin-top: 0.8cm; margin-bottom: 0.4cm; line-height: 150%; text-align: center; page-break-before: auto }
+		h2.western { font-family: "Bitstream Vera Sans", sans-serif }
+		h2.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h2.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		h3 { margin-top: 0.6cm; margin-bottom: 0.3cm; line-height: 100%; page-break-before: auto; page-break-after: auto }
+		h3.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 16pt; font-style: normal }
+		h3.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h3.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		h4 { margin-top: 0.4cm; margin-bottom: 0.2cm; line-height: 150%; text-align: left; page-break-before: auto; page-break-after: auto }
+		h4.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 14pt; font-style: normal }
+		h4.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h4.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		pre { line-height: 150%; page-break-before: auto }
+		pre.western { font-family: "Bitstream Vera Sans Mono", monospace; font-size: 11pt }
+		pre.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		pre.ctl { font-family: "Tahoma"; font-size: 12pt }
+		pre.php-western { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #001f3f; font-family: "Bitstream Vera Sans Mono", monospace; font-size: 9pt; font-style: normal; font-weight: normal; line-height: 100%; background: #dfdfdf; page-break-after: avoid }
+		pre.php-cjk { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #001f3f; font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal; line-height: 100%; background: #dfdfdf; page-break-after: avoid }
+		pre.php-ctl { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #001f3f; font-family: "Tahoma"; font-size: 12pt; line-height: 100%; background: #dfdfdf; page-break-after: avoid }
+		pre.shell-western { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #000000; font-family: "Bitstream Vera Sans Mono", monospace; font-size: 9pt; line-height: 100%; background: #ffffef; page-break-after: auto }
+		pre.shell-cjk { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #000000; font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal; line-height: 100%; background: #ffffef; page-break-after: auto }
+		pre.shell-ctl { margin-left: 0.2cm; margin-right: 0.2cm; margin-top: 0.2cm; margin-bottom: 0.1cm; color: #000000; font-family: "Tahoma"; font-size: 12pt; line-height: 100%; background: #ffffef; page-break-after: auto }
+		h5 { margin-top: 0.2cm; margin-bottom: 0.1cm; line-height: 150%; page-break-before: auto }
+		h5.western { font-family: "Bitstream Vera Sans", sans-serif; font-size: 12pt; font-weight: normal }
+		h5.cjk { font-family: "Lucida Sans Unicode"; font-size: 10pt; font-weight: normal }
+		h5.ctl { font-family: "Tahoma"; font-size: 12pt; font-weight: normal }
+		a.cjk:link { so-language: zxx }
+		a.ctl:link { so-language: zxx }
+		a.western:visited { so-language: en-GB }
+	</style>
+</head>
+<body lang="en-GB" bgcolor="#efefef" dir="ltr">
+<h1 class="western">SimpleESI</h1>
+<h2 class="western">Reference Manual</h2>
+<hr/>
+
+<h3 class="western">Class Traits</h3>
+<p class="western" style="orphans: 2">The file <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">SimpleESI.php</span></font>
+contains several traits, which can be used for customization of the
+class SimpleESI. The main purpose however is to trim down the class
+even further than its default, should this become necessary. There
+are currently two groups of traits, one for the debug messages and
+one for the database accesses. To choose a different trait than the
+defaults does one need to create a child class, which extends
+SimpleESI. For example:</p>
+<pre class="php-western">class ESInodb extends SimpleESI { use nodb; }
+class ESInodbg extends SimpleESI { use nodebug; }
+class SlimESI extends SimpleESI { use nodebug, nodb; }</pre><h4 class="western">
+Debugging Traits</h4>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">nodebug</span></font></h5>
+<pre class="php-western">class MyESI extends SimpleESI { use nodebug; }</pre><p class="western" style="orphans: 2">
+Disables all debugging output and will not throw any exceptions
+either. Useful for a “don’t want to know and don’t care”-kind
+of application.</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug</span></font></h5>
+<pre class="php-western">class MyESI extends SimpleESI { use debug; }</pre><p class="western" style="orphans: 2">
+Enable minimal debugging support. Only errors (debug level 0) and
+fatal errors (debug level -1) will get printed and fatal errors will
+throw an exception.</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">fulldebug</span></font>
+<b>(default)</b></h5>
+<pre class="php-western">class MyESI extends SimpleESI { use fulldebug; }</pre><p class="western" style="orphans: 2">
+Provides full debugging support and throws exceptions on fatal
+errors. The amount of debug messages can be control with the property
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_level</span></font>,
+and the higher the value is (i.e. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">4</span></font>)
+the more information is printed. The output can be formatted as plain
+text or as colourized HTML text, which is control by the property
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_html</span></font>
+(<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">true</span></font>
+for HTML, <span style="background: #dfdfdf">false</span> for plain
+ASCII). For example:</p>
+<pre class="php-western">$esi-&gt;debug_level = 4;
+$esi-&gt;debug_html = true;</pre><p class="western" style="orphans: 2">
+The debug messages can be written into a file with the property
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_file</span></font>,
+in which case the messages also show date and day time information.
+For example:</p>
+<pre class="php-western">$esi-&gt;debug_level = 2;
+$esi-&gt;debug_file = “esi.log”;</pre><h5 class="western">
+List of debug messages and their level</h5>
+<pre class="shell-western">-1, 'Could not create cache directory'
+-1, 'Could not create cache subdirectory'
+-1, 'Could not create meta directory'
+-1, 'Could not create meta subdirectory'
+-1, 'Could not write/update cache file'
+-1, 'Could not write/update meta file'
+-1, 'Error limit reached: X'
+0, 'Authorization error: no character identification received.'
+0, 'Authorization error: no tokens received.'
+0, 'cURL error: X'
+0, 'Error response: X'
+0, 'No response: X'
+0, 'Unexpected cURL result: X'
+0, 'Unexpected response: X'
+1, 'Elapsed.'
+2, 'Error limit: X, window: Y'
+2, 'Retry (# X): Y'
+2, 'Throttling traffic.'
+3, 'Authorization tokens received.'
+3, 'Character identification received.'
+3, 'Received: X'
+3, 'Refreshing authorization.'
+3, 'Requesting authorization.'
+3, 'Requesting character identification.'
+3, 'Requesting pages X to Y of: Z'
+3, 'Requesting (POST): X'
+3, 'Requesting: X'
+4, 'Cached: X'
+4, 'cURL option X is not supported.'
+5, 'Header: X'</pre><h4 class="western">
+Database Traits</h4>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">nodb</span></font></h5>
+<p class="western"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font></h5>
+<p class="western"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">sqlite3db</span></font>
+<b>(default)</b></h5>
+<p class="western"><br/>
+
+</p>
+<hr/>
+
+<h3 class="western">Class Properties</h3>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">esi_uri</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">oauth_uri</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">marker</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">paging</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">retries</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_throttle</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_exit</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<hr/>
+
+<h3 class="western">Class Methods</h3>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__construct</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__destruct</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">single_get</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">pages_get</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">post</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">auth</span></font></h5>
+<p class="western" style="orphans: 2"><br/>
+
+</p>
+</body>
+</html>
