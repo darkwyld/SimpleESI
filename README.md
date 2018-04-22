@@ -92,7 +92,7 @@ Note: SimpleESI is free software. Please add a copy of the `LICENSE` file (i.e. 
 
 Any recent Linux distribution with PHP7.2, cURL7.58 and SQLite3.22 should work.
 
-<img src="docs/SimpleESI-LinuxDebian.png" width="666" height="312" />
+<img src="docs/SimpleESI-LinuxDebian.png" width="773" height="362" />
 
 The required packages for a Debian-based distribution are called `php`, `php-curl` and `php-sqlite3`:
 
@@ -108,7 +108,7 @@ It is currently unknown to me what works. It will however likely need the cURL o
 
 Using Cygwin 2.10 from <a href="http://www.cygwin.com/" class="uri" class="western">http://www.cygwin.com/</a> works and it supports Windows Vista, 7, 8 and 10. To install PHP does one need to select it during the installation process. Cygwin provides a UNIX/Linux-like environment under Windows and supports many popular open source packages.
 
-<img src="docs/SimpleESI-Cygwin.png" width="587" height="366" />
+<img src="docs/SimpleESI-Cygwin.png" width="682" height="425" />
 
 One will have to use the installer’s search function during the installation to find it. Easiest is to select the entire PHP tree … Once the installation has completed can one run Cygwin and use it like a regular UNIX/Linux shell.
 
@@ -116,7 +116,7 @@ One will have to use the installer’s search function during the installation t
 
 Debian under Windows 10 with the Windows Subsystem for Linux (WSL) works, too. However, the Debian distribution first requires an upgrade. Microsoft only provides an older version of Debian (Debian 9 / “Stretch”) and the included packages are already older than what is required. The Windows Subsystem for Linux allows Windows 10 to run native Linux software within Windows.
 
-<img src="docs/SimpleESI-Win10WSLDebian.png" width="640" height="293" />
+<img src="docs/SimpleESI-Win10WSLDebian.png" width="743" height="341" />
 
 To install WSL for Windows does one need to follow the steps described by Microsoft <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" class="uri" class="western">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a>. After entering a username and a password can one upgrade the distribution to Debian 10 / “Buster” as follows:
 
@@ -529,11 +529,11 @@ Press Ctrl-C to quit.
 
 When php is run with `-S localhost:9000` does it start a small web server on the local machine at port 9000 and the URL <a href="http://localhost:9000/examples/example-8.php" class="uri" class="western">http://localhost:9000/examples/example-8.php</a> will open the example and display its output in a browser.
 
-<img src="docs/example-8a.png" width="560" height="279" />
+<img src="docs/example-8a.png" width="650" height="324" />
 
 When opened with <a href="http://localhost:9000/examples/example-8.php?debug=1" class="uri" class="western">http://localhost:9000/examples/example-8.php?debug=1</a> does it include debugging information on the SimpleESI object. It shows the time and number of bytes received since creation, the debug level and a message for each event.
 
-<img src="docs/example-8b.png" width="560" height="415" />
+<img src="docs/example-8b.png" width="650" height="482" />
 
 #### 9. Halt, who goes there?
 
@@ -615,15 +615,15 @@ For the example to work does one need to register it as an application at <a hre
 
 When the script is run for the first time does it not know of a previous authorization nor of any code and so the call to the `auth()`-method will fail, leading the script to prompt the user with a link. The link itself contains information about the request and will lead the user to CCP’s Single Sign-On service. The information contained in this link is provided by the `auth()`-method by inserting it into the array that was passed as argument.
 
-<img src="docs/login-a.png" width="371" height="181" />
+<img src="docs/login-a.png" width="431" height="211" />
 
 On following the link is the user prompted to login at CCP’s web site, to give authorization to the application and to choose for which character it shall be.
 
-<img src="docs/login-b.png" width="371" height="445" />
+<img src="docs/login-b.png" width="431" height="517" />
 
 On clicking the “Authorize” button will CCP’s web site redirect back to `http://localhost:9000/login.php` and provide a unique code to the script, which is passed on to the `auth()`-method and used to receive tokens from CCP that are needed in making authorized requests to the ESI server.
 
-<img src="docs/login-c.png" width="371" height="337" />
+<img src="docs/login-c.png" width="431" height="392" />
 
 Although the initial code is usable only once is it being given a secondary use by the script, which is that of a “session identifier”. The script stores the code inside the browser with a cookie, as well as on the server in its meta database, together with further information about the authorization. Each time the user accesses the script with a cookie does it compare the code stored inside the cookie with the code stored inside its database to determine if it still in session with the same user, in which case it will refresh the authorization with the help of the `auth()`-method and without sending the user back to the SSO service.
 
