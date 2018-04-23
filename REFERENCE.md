@@ -8,7 +8,7 @@ Reference Manual
 
 ### 1. Class Traits
 
-The file `SimpleESI.php` contains several traits, which can be used for customization of the class SimpleESI. The main purpose however is to trim down the class even further than its default, should this become necessary. There are currently two groups of traits, one for the debug messages and one for the database accesses. To choose a different trait does one need to create a child class, which extends SimpleESI. For example:
+The file `SimpleESI.php` contains several traits, which can be used for customizing the SimpleESI class. The main purpose however is to trim down the class even further than its default, should this become necessary. There are currently two groups of traits, one for the debug messages and one for the database accesses. To choose a different trait does one need to create a child class, which extends SimpleESI. For example:
 
 ```php
 class ESInodb extends SimpleESI { use nodb; }
@@ -28,7 +28,7 @@ class MyESI extends SimpleESI { use nodebug; }
 
 The trait disables all debugging output and will not throw any exceptions either. It is useful for when one does not want to know or care about any of the messages.
 
-##### 1.1.2. `d``ebug`
+##### 1.1.2. `debug`
 
 *Provides no public variables or methods.*
 
@@ -36,7 +36,7 @@ The trait disables all debugging output and will not throw any exceptions either
 class MyESI extends SimpleESI { use debug; }
 ```
 
-It enable minimal debugging support. Only errors (debug level 0) and fatal errors (debug level -1) will be printed. Fatal errors will throw an exception.
+It enables minimal debugging support. Only errors (debug level 0) and fatal errors (debug level -1) will be printed. Fatal errors will throw an exception.
 
 ##### 1.1.3. `fulldebug` **(default)**
 
@@ -48,7 +48,7 @@ It enable minimal debugging support. Only errors (debug level 0) and fatal error
 class MyESI extends SimpleESI { use fulldebug; }
 ```
 
-Provides full debugging support and throws exceptions on fatal errors. The level of detail can be control with the property `debug_level`, and the higher the value is (i.e. `4`) the more information is printed. The output can be formatted as plain text or as colourized HTML text, which is control by the property `debug_html` (`true` for HTML, `false` for plain ASCII). For example:
+Provides full debugging support and throws exceptions on fatal errors. The level of detail can be control with the property `debug_level`, and the higher the value is (i.e. `4`) the more information is printed. The output can be formatted as plain text or as colourized HTML text, which is control by the property `debug_html`, where `true` stands for HTML output and `false` for plain ASCII. For example:
 
 ```php
 $esi->debug_level = 4;
@@ -109,7 +109,7 @@ $esi->debug_file = ‘esi.log’;
 class MyESI extends SimpleESI { use nodb; }
 ```
 
-Disables all uses of a database. No response caching is performed and no meta database is available. The trait is useful for when no database is available on the system, or for debugging and to test how an application performs without any caching or database access. Calls to the `meta()`-method will not result in an error, but is only provided as a stub. It does not perform any function.
+Disables all uses of a database. No response caching is performed and no meta database is being provided. The trait is useful for when no database is available on the system, or for debugging and to test how an application performs without any caching or database access. Calls to the `meta()`-method will not result in an error, but is only implemented as a stub. It does not perform any function.
 
 ##### 1.2.2. `dirdb`
 
@@ -225,7 +225,7 @@ The number of additional attempts to make when requests fail. The default is `3`
 $esi->error_throttle = 90;
 ```
 
-The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at 100, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to 100. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `error_throttle` will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to 0 and the larger the reported time window is.
+IThe number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
 
 ##### 2.7. `error_exit` (int)
 
