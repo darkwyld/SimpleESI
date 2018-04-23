@@ -141,7 +141,7 @@ $esi->meta(‘key’, $value);
 
 The content of `$value` is turned into a string by the PHP function `serialize()` before storing it. It allows to store different data types, including self-referencing arrays and class objects. For more information please see the PHP manual on `serialize()`/`unserialize()`.
 
-Note: it is possible to use the directory seperator `/` as a part of a key, which will place the corresponding file into a subdirectory. It also means both `..` and `.` work for changing directories as expected, and needs to be avoided when keys are meant to stay compatible to the `sqlite3db`-trait.
+Note: it is possible to use the directory seperator `/` as a part of a key, which will place the corresponding file into a subdirectory. It also means both `..` and `.` work for changing directories as expected, and need to be avoided when keys are meant to stay compatible to the `sqlite3db`-trait.
 
 ##### 1.2.3. `sqlite3db` **(default)**
 
@@ -225,7 +225,7 @@ The number of additional attempts to make when requests fail. The default is `3`
 $esi->error_throttle = 90;
 ```
 
-IThe number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
+The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
 
 ##### 2.7. `error_exit` (int)
 
