@@ -201,11 +201,11 @@ is equivalent to:
 
 ```php
 $esi->get($items[9832], 'universe/types/9832/')
-$esi->get($items[33468], 'universe/types/33468/')
-$esi->get($items[12612], 'universe/types/12612/')
+    ->get($items[33468], 'universe/types/33468/')
+    ->get($items[12612], 'universe/types/12612/')
 ```
 
-The `exec()`-method will first attempt to answer the requests from its cache, but then send out any remaining requests to the ESI server in parallel. This allows the ESI server to respond to multiple requests at once, allowing it to reply in any order it sees fit, which speeds up program execution.
+The `exec()`-method will first attempt to answer the requests from its cache, but then sends out any remaining requests to the ESI server in parallel. This allows the ESI server to respond to multiple requests at once, allowing it to reply in any order it sees fit, which speeds up program execution.
 
 #### 3. What is The Forge's id?
 

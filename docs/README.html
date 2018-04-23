@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-22T18:14:24.657398392"/>
+	<meta name="changed" content="2018-04-23T18:27:48.058873620"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -150,7 +150,7 @@ file (i.e. as <font face="Bitstream Vera Sans Mono, monospace"><span style="back
 when you include it with your own software so that it can remain
 free.</p>
 <h3 class="western">Linux (Debian)</h3>
-<p class="western" style="orphans: 2"><img src="SimpleESI-LinuxDebian.png" name="Image1" align="right" width="790" height="370" border="0"/>
+<p class="western" style="orphans: 2"><img src="SimpleESI-LinuxDebian.png" name="Image1" align="right" width="773" height="362" border="0"/>
 Any
 recent Linux distribution with PHP7.2, cURL7.58 and SQLite3.22 should
 work.<br clear="right"/>
@@ -175,7 +175,7 @@ more.</p>
 
 </p>
 <h3 class="western">Windows (Cygwin)</h3>
-<p class="western" style="orphans: 2"><img src="SimpleESI-Cygwin.png" name="Windows" align="right" width="743" height="464" border="0"/>
+<p class="western" style="orphans: 2"><img src="SimpleESI-Cygwin.png" name="Windows" align="right" width="727" height="454" border="0"/>
 Using
 Cygwin 2.10 from <a class="western" href="http://www.cygwin.com/">http://www.cygwin.com/</a>
 works and it supports Windows Vista, 7, 8 and 10. To install PHP does
@@ -193,7 +193,7 @@ shell.</p>
 
 </p>
 <h3 class="western">Windows 10 (WSL with Debian)</h3>
-<p class="western" style="orphans: 2"><img src="SimpleESI-Win10WSLDebian.png" name="Windows 10" align="right" width="810" height="371" border="0"/>
+<p class="western" style="orphans: 2"><img src="SimpleESI-Win10WSLDebian.png" name="Windows 10" align="right" width="793" height="363" border="0"/>
 Debian
 under Windows 10 with the Windows Subsystem for Linux (WSL) works,
 too. However, the Debian distribution first requires an upgrade.
@@ -305,11 +305,11 @@ values of the array become the keys to the responses. The line:</p>
 <pre class="php-western">$esi-&gt;get($items, [9832, 33468, 12612], 'universe/types/~/')</pre><p class="western" style="orphans: 2">
 is equivalent to:</p>
 <pre class="php-western">$esi-&gt;get($items[9832], 'universe/types/9832/')
-$esi-&gt;get($items[33468], 'universe/types/33468/')
-$esi-&gt;get($items[12612], 'universe/types/12612/')</pre><p class="western" style="orphans: 2">
+    -&gt;get($items[33468], 'universe/types/33468/')
+    -&gt;get($items[12612], 'universe/types/12612/')</pre><p class="western" style="orphans: 2">
 The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
 will first attempt to answer the requests from its cache, but then
-send out any remaining requests to the ESI server in parallel. This
+sends out any remaining requests to the ESI server in parallel. This
 allows the ESI server to respond to multiple requests at once,
 allowing it to reply in any order it sees fit, which speeds up
 program execution.</p>
@@ -703,7 +703,7 @@ same example as before, now embedded within HTML and extended <font face="Bitstr
 to include HTML tagging. It further checks if it’s URL contains a
 query argument with the name <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug</span></font>,
 in which case it enables debug support for the SimpleESI object.</p>
-<p class="western" style="orphans: 2"><img src="example-8a.png" name="example 8" align="right" width="709" height="353" border="0"/>
+<p class="western" style="orphans: 2"><img src="example-8a.png" name="example 8" align="right" width="694" height="346" border="0"/>
 When
 php is run with <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-S
 localhost:9000</span></font> does it start a small web server on the
@@ -715,7 +715,7 @@ will open the example and display its output in a browser.<br clear="right"/>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<p class="western" style="orphans: 2"><img src="example-8b.png" name="example 8 debug" align="right" width="709" height="525" border="0"/>
+<p class="western" style="orphans: 2"><img src="example-8b.png" name="example 8 debug" align="right" width="694" height="514" border="0"/>
 When
 opened with <a class="western" href="http://localhost:9000/examples/example-8.php?debug=1">http://localhost:9000/examples/example-8.php?debug=1</a>
 does it include debugging information on the SimpleESI object. It
@@ -812,7 +812,7 @@ need to insert the client ID and the client secret given out by CCP
 on registration as strings into the script (see where it has the
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">‘...’</span></font>
 strings).</p>
-<p class="western" style="orphans: 2"><img src="login-a.png" name="Image2" align="right" width="469" height="230" border="0"/>
+<p class="western" style="orphans: 2"><img src="login-a.png" name="Image2" align="right" width="459" height="225" border="0"/>
 When
 the script is run for the first time does it not know of a previous
 authorization nor of any code and so the call to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">auth()</span></font>-method
@@ -826,7 +826,7 @@ by inserting it into the array that was passed as argument.<br clear="right"/>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<p class="western" style="orphans: 2"><img src="login-b.png" name="Image3" align="right" width="469" height="563" border="0"/>
+<p class="western" style="orphans: 2"><img src="login-b.png" name="Image3" align="right" width="459" height="551" border="0"/>
 On
 following the link is the user prompted to login at CCP’s web site,
 to give authorization to the application and to choose for which
@@ -836,7 +836,7 @@ character it shall be.<br clear="right"/>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<p class="western" style="orphans: 2"><img src="login-c.png" name="Image4" align="right" width="469" height="427" border="0"/>
+<p class="western" style="orphans: 2"><img src="login-c.png" name="Image4" align="right" width="459" height="418" border="0"/>
 On
 clicking the “Authorize” button will CCP’s web site redirect
 back to <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">http://localhost:9000/login.php</span></font>
