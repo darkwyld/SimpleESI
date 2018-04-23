@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-21T19:06:49.822605563"/>
+	<meta name="changed" content="2018-04-23T17:43:36.752718267"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -51,34 +51,43 @@
 <h2 class="western">Reference Manual</h2>
 <hr/>
 
-<h3 class="western">Class Traits</h3>
+<h3 class="western">1. Class Traits</h3>
 <p class="western" style="orphans: 2">The file <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">SimpleESI.php</span></font>
 contains several traits, which can be used for customization of the
 class SimpleESI. The main purpose however is to trim down the class
 even further than its default, should this become necessary. There
 are currently two groups of traits, one for the debug messages and
-one for the database accesses. To choose a different trait than the
-defaults does one need to create a child class, which extends
-SimpleESI. For example:</p>
+one for the database accesses. To choose a different trait does one
+need to create a child class, which extends SimpleESI. For example:</p>
 <pre class="php-western">class ESInodb extends SimpleESI { use nodb; }
 class ESInodbg extends SimpleESI { use nodebug; }
 class SlimESI extends SimpleESI { use nodebug, nodb; }</pre><h4 class="western">
-Debugging Traits</h4>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">nodebug</span></font></h5>
+1.1. Debugging Traits</h4>
+<h5 class="western">1.1.1. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">nodebug</span></font></h5>
+<p class="western" style="orphans: 2"><i>Provides no public variables
+or methods.</i></p>
 <pre class="php-western">class MyESI extends SimpleESI { use nodebug; }</pre><p class="western" style="orphans: 2">
-Disables all debugging output and will not throw any exceptions
-either. Useful for a “don’t want to know and don’t care”-kind
-of application.</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug</span></font></h5>
+The trait disables all debugging output and will not throw any
+exceptions either. It is useful for when one does not want to know or
+care about any of the messages.</p>
+<h5 class="western">1.1.2. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug</span></font></h5>
+<p class="western" style="orphans: 2"><i>Provides no public variables
+or methods.</i></p>
 <pre class="php-western">class MyESI extends SimpleESI { use debug; }</pre><p class="western" style="orphans: 2">
-Enable minimal debugging support. Only errors (debug level 0) and
-fatal errors (debug level -1) will get printed and fatal errors will
+It enable minimal debugging support. Only errors (debug level 0) and
+fatal errors (debug level -1) will be printed. Fatal errors will
 throw an exception.</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">fulldebug</span></font>
+<h5 class="western">1.1.3. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">fulldebug</span></font>
 <b>(default)</b></h5>
+<p class="western" style="orphans: 2"><i>Public variables</i><i>:</i>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_level</span></font>
+(int), <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_html</span></font>
+(bool), <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_file</span></font>
+(string)</p>
+<p class="western" style="orphans: 2"><i>Provides no public methods.</i></p>
 <pre class="php-western">class MyESI extends SimpleESI { use fulldebug; }</pre><p class="western" style="orphans: 2">
 Provides full debugging support and throws exceptions on fatal
-errors. The amount of debug messages can be control with the property
+errors. The level of detail can be control with the property
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">debug_level</span></font>,
 and the higher the value is (i.e. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">4</span></font>)
 the more information is printed. The output can be formatted as plain
@@ -94,8 +103,8 @@ The debug messages can be written into a file with the property
 in which case the messages also show date and day time information.
 For example:</p>
 <pre class="php-western">$esi-&gt;debug_level = 2;
-$esi-&gt;debug_file = “esi.log”;</pre><h5 class="western">
-List of debug messages and their level</h5>
+$esi-&gt;debug_file = ‘esi.log’;</pre><h5 class="western">
+The following is a list of debug messages and their level:</h5>
 <pre class="shell-western">-1, 'Could not create cache directory'
 -1, 'Could not create cache subdirectory'
 -1, 'Could not create meta directory'
@@ -126,83 +135,193 @@ List of debug messages and their level</h5>
 4, 'Cached: X'
 4, 'cURL option X is not supported.'
 5, 'Header: X'</pre><h4 class="western">
-Database Traits</h4>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">nodb</span></font></h5>
-<p class="western"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font></h5>
-<p class="western"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">sqlite3db</span></font>
+1.2. Database Traits</h4>
+<h5 class="western">1.2.1. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">nodb</span></font></h5>
+<p class="western" style="orphans: 2"><i>Provides no public
+variables.</i></p>
+<p class="western" style="orphans: 2"><i>Public m</i><i>ethods:</i>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta</span></font></p>
+<pre class="php-western">class MyESI extends SimpleESI { use nodb; }</pre><p class="western" style="orphans: 2">
+Disables all uses of a database. No response caching is performed and
+no meta database is available. The trait is useful for when no
+database is available on the system, or for debugging and to test how
+an application performs without any caching or database access. Calls
+to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
+will not result in an error, but is only provided as a stub. It does
+not perform any function.</p>
+<h5 class="western">1.2.2. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font></h5>
+<p class="western" style="orphans: 2"><i>Public variables</i><i>:</i>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">caching</span></font>
+(bool)</p>
+<p class="western" style="orphans: 2"><i>Public m</i><i>ethods:</i>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta</span></font></p>
+<pre class="php-western">class MyESI extends SimpleESI { use dirdb; }</pre><p class="western" style="orphans: 2">
+The trait implements a database by using directories and files. The
+directory structure is similar to the ESI resource paths. The
+filenames contain query arguments and end with an identifier, which
+in case of authenticated requests is identical to the character id
+and meant to keep cached responses of authorized calls between
+different characters separate. A file’s modification time is used
+to store the expiration time of its resource and therefore is set to
+a time in the future. The cache can be controlled at runtime through
+the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">caching</span></font>,
+which allows an application to enable or disable it at will.</p>
+<pre class="php-western">$esi-&gt;caching = false;</pre><p class="western" style="orphans: 2">
+The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
+implements a “key/value”-database. When called with one argument,
+a key, does it query the database for the value associated with the
+key:</p>
+<pre class="php-western">$value = $esi-&gt;meta(‘key’);</pre><p class="western" style="orphans: 2">
+The key has to be a string and represents a file on the drive, whose
+content represents the value. The file’s content is interpreted by
+the PHP function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">unserialize()</span></font>
+and so can return any data type supported by it. When called with two
+arguments, a key and a value, does it assign the value to the key by
+storing the value in a file with the key as its name:</p>
+<pre class="php-western">$esi-&gt;meta(‘key’, $value);</pre><p class="western" style="orphans: 2">
+The content of <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$value</span></font>
+is turned into a string by the PHP function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">serialize()</span></font>
+before storing it. It allows to store different data types, including
+self-referencing arrays and class objects. For more information
+please see the PHP manual on <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">serialize()</span></font>/<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">unserialize()</span></font>.</p>
+<p class="western" style="orphans: 2">Note: it is possible to use the
+directory seperator <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">/</span></font>
+as a part of a key, which will place the corresponding file into a
+subdirectory. It also means both <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">..</span></font>
+and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">.</span></font>
+work for changing directories as expected, and needs to be avoided
+when keys are meant to stay compatible to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">sqlite3db</span></font>-trait.</p>
+<h5 class="western">1.2.3. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">sqlite3db</span></font>
 <b>(default)</b></h5>
-<p class="western"><br/>
-
-</p>
+<p class="western" style="orphans: 2"><i>Public variables</i><i>:</i>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">caching</span></font>
+(bool)</p>
+<p class="western" style="orphans: 2"><i>Public m</i><i>ethods:</i>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta</span></font></p>
+<pre class="php-western">class MyESI extends SimpleESI { use sqlite3db; }</pre><p class="western" style="orphans: 2">
+The trait implements a database by using SQLite3, which consists of
+two SQL tables, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">cache</span></font>
+and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta</span></font>,
+for caching responses and for providing a “key/value”-database.
+When authorized requests are being cached are these stored together
+with the character’s id to keep responses between different users
+separate. Caching can be controlled through the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">caching</span></font>,
+and by setting it to either <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">true</span></font>
+or <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">false</span></font>
+in order to enable and disable the mechanism at runtime.</p>
+<pre class="php-western">$esi-&gt;caching = false;</pre><p class="western" style="orphans: 2">
+The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
+implements a “key/value”-database analogue to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font>-trait
+above. When called with one argument, a key, does it query the
+database for the value associated with the key:</p>
+<pre class="php-western">$value = $esi-&gt;meta(‘key’);</pre><p class="western" style="orphans: 2">
+The key has to be a string and represents a column in the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta</span></font>
+table. The value is interpreted by the PHP function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">unserialize()</span></font>
+in the same way as it is done in the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font>-trait.
+When called with two arguments, a key and a value, does it assign the
+value to the key by storing both key and value in the SQL table:</p>
+<pre class="php-western">$esi-&gt;meta(‘key’, $value);</pre><p class="western" style="orphans: 2">
+The content of <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$value</span></font>
+is turned into a string by the PHP function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">serialise()</span></font>
+before storing it in the database.</p>
+<p class="western" style="orphans: 2">Note: keys should not contain
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">..</span></font>
+and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">.</span></font>
+when these are meant to be compatible with the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font>-trait.</p>
 <hr/>
 
-<h3 class="western">Class Properties</h3>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">esi_uri</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">oauth_uri</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">marker</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">paging</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">retries</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_throttle</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_exit</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
+<h3 class="western">2. Class Properties</h3>
+<h5 class="western">2.1. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">esi_uri</span></font>
+(string)</h5>
+<pre class="php-western">$esi-&gt;esi_uri = 'https://esi.tech.ccp.is/dev/’;</pre><p class="western" style="orphans: 2">
+The URI of the ESI server. Can be changed when necessary and must end
+with a <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">/</span></font>-character.
+The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">https://esi.tech.ccp.is/latest/</span></font>.</p>
+<h5 class="western">2.2. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">oauth_uri</span></font>
+(string)</h5>
+<pre class="php-western">$esi-&gt;oauth_uri = 'https://sisilogin.testeveonline.com/oauth/’;</pre><p class="western" style="orphans: 2">
+The URI of the SSO OAuth2 server. Can be changed when necessary and
+must end with a <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">/</span></font>-character.
+The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">https://login.eveonline.com/oauth/</span></font>.</p>
+<h5 class="western">2.3. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">marker</span></font>
+(string)</h5>
+<pre class="php-western">$esi-&gt;marker = ‘#’;</pre><p class="western" style="orphans: 2">
+The character, or string, used in a pattern to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method.
+The default is the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">~</span></font>-character.</p>
+<h5 class="western">2.4. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">paging</span></font>
+(bool)</h5>
+<pre class="php-western">$esi-&gt;paging = false;</pre><p class="western" style="orphans: 2">
+A toggle to disable and enable the behaviour of the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+when responses are segmented into pages. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">true</span></font>,
+causing the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method
+to request all pages automatically.</p>
+<h5 class="western">2.5. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">retries</span></font>
+(int)</h5>
+<pre class="php-western">$esi-&gt;retries = 5;</pre><p class="western" style="orphans: 2">
+The number of additional attempts to make when requests fail. The
+default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">3</span></font>.</p>
+<h5 class="western">2.6. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_throttle</span></font>
+(int)</h5>
+<pre class="php-western">$esi-&gt;error_throttle = 90;</pre><p class="western" style="orphans: 2">
+The number of errors remaining (according to the
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">X-ESI-Error-Limit-Remain:</span></font>-header)
+at which to begin throttling out-going traffic. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">80</span></font>.
+The ESI error limit is a number, starting at 100, which is returned
+by ESI for each request and represents a count-down after which an
+application is denied access (for a limited time). It is meant to
+control the traffic to the ESI server and to give each application a
+chance to back off in cases where there is a problem. The number is
+not necessarily an indication for an application error. A count-down
+can occur for various reasons. The error count is valid for a limited
+time after which it is reset to 100. SimpleESI uses a non-linear
+function to implement a dynamic behaviour. When the reported error
+limit drops to or below the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_throttle</span></font>
+will it pause briefly for a few milliseconds before sending out a new
+request. This pause will grow longer the closer the count-down gets
+to 0 and the larger the reported time window is.</p>
+<h5 class="western">2.7. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_exit</span></font>
+(int)</h5>
+<pre class="php-western">$esi-&gt;error_exit = -1;</pre><p class="western" style="orphans: 2">
+The number of errors remaining at which to raise an exception in the
+application. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">20</span></font>.
+If the exception is not caught will it exit the application. It is
+meant to prevent the count-down from reaching <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">0</span></font>,
+at which the ESI server will reject further requests. Setting this
+value below <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">0</span></font>
+will turn this behaviour off and offers a good chance for your
+application to be noticed at CCP.</p>
 <hr/>
 
-<h3 class="western">Class Methods</h3>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__construct</span></font></h5>
+<h3 class="western">3. Class Methods</h3>
+<h5 class="western">3.1. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__construct</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__destruct</span></font></h5>
+<h5 class="western">3.2. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__destruct</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get</span></font></h5>
+<h5 class="western">3.3. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">single_get</span></font></h5>
+<h5 class="western">3.4. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">single_get</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">pages_get</span></font></h5>
+<h5 class="western">3.5. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">pages_get</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">post</span></font></h5>
+<h5 class="western">3.6. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">post</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec</span></font></h5>
+<h5 class="western">3.7. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">auth</span></font></h5>
+<h5 class="western">3.8. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">auth</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
