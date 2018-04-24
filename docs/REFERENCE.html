@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-24T22:44:48.386959502"/>
+	<meta name="changed" content="2018-04-24T23:18:01.069856139"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -287,7 +287,7 @@ retries</span></font></h5>
 attempts to make when requests fail. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">3</span></font>.</p>
 <pre class="php-western">$esi-&gt;retries = 5;</pre><h5 class="western">
 2.6. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_throttle</span></font></h5>
+error_throttle</span></font></h5>
 <p class="western" style="orphans: 2">The number of errors remaining
 (according to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">X-ESI-Error-Limit-Remain:</span></font>-header)
 at which to begin throttling out-going traffic. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">80</span></font>.
@@ -308,7 +308,7 @@ gets to <font face="Bitstream Vera Sans Mono, monospace"><span style="background
 and the larger the remaining time window is.</p>
 <pre class="php-western">$esi-&gt;error_throttle = 90;</pre><h5 class="western">
 2.7. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">error_exit</span></font></h5>
+error_exit</span></font></h5>
 <p class="western" style="orphans: 2">The number of errors remaining
 at which to raise an exception in the application. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">20</span></font>.
 If the exception is not caught will it exit the application. It is

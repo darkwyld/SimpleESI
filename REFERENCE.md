@@ -225,7 +225,7 @@ The number of additional attempts to make when requests fail. The default is `3`
 $esi->retries = 5;
 ```
 
-##### 2.6. `(int) ``error_throttle`
+##### 2.6. `(int) error_throttle`
 
 The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `->error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
 
@@ -233,7 +233,7 @@ The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-hea
 $esi->error_throttle = 90;
 ```
 
-##### 2.7. `(int) ``error_exit`
+##### 2.7. `(int) error_exit`
 
 The number of errors remaining at which to raise an exception in the application. The default is `20`. If the exception is not caught will it exit the application. It is meant to prevent the count-down from reaching `0`, at which the ESI server will reject further requests. Setting this value below `0` will turn this behaviour off and offers a good chance for your application to be noticed at CCP.
 
