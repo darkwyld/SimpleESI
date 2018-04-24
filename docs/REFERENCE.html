@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-24T23:22:24.762983469"/>
+	<meta name="changed" content="2018-04-24T23:24:54.978040073"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -372,7 +372,7 @@ will be used to create multiple requests by substituting these each
 with the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">~</span></font>-character
 in the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-pattern.
 The responses are assigned as an array, where each value of the
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$v</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">alues</span></font>-array
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$values</span></font>-array
 becomes the key to the corresponding response. For example:</p>
 <pre class="php-western">$esi-&gt;get($var, [123, 456, 789], 'universe/types/~/');</pre><p class="western" style="orphans: 2">
 This is equivalent to:</p>
@@ -397,7 +397,7 @@ $esi-&gt;get($var2['fr'], 'universe/types/1230/?language=fr')
     -&gt;get($var2['ru'], 'universe/types/1230/?language=ru');
 $esi-&gt;get($var3, 'search/?categories=region&amp;strict=1&amp;search=The%20Forge');
 $esi-&gt;get($var4['The Forge'], 'search/?categories=region&amp;strict=1&amp;search=The Forge') // bad
-    -&gt;get($var4['Domain'],    'search/?categories=region&amp;strict=1&amp;search=Domain');</pre><p class="western" style="orphans: 2; page-break-before: auto; page-break-after: auto">
+    -&gt;get($var4['Domain'], 'search/?categories=region&amp;strict=1&amp;search=Domain');</pre><p class="western" style="orphans: 2; page-break-before: auto; page-break-after: auto">
 When an integer <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$expires</span></font>
 is being passed after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-string,
 or -pattern, or after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$query</span></font>-array

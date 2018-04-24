@@ -283,7 +283,7 @@ The `get()`-method takes a variable number of arguments, and depending on the ty
 $esi->get($var, 'universe/types/1230/');
 ```
 
-When instead of a string an array `$values` is being passed, then a third argument will be taken as the `$request`-pattern and the values of the array `$values` will be used to create multiple requests by substituting these each with the `~`-character in the `$request`-pattern. The responses are assigned as an array, where each value of the `$v``alues`-array becomes the key to the corresponding response. For example:
+When instead of a string an array `$values` is being passed, then a third argument will be taken as the `$request`-pattern and the values of the array `$values` will be used to create multiple requests by substituting these each with the `~`-character in the `$request`-pattern. The responses are assigned as an array, where each value of the `$values`-array becomes the key to the corresponding response. For example:
 
 ```php
 $esi->get($var, [123, 456, 789], 'universe/types/~/');
@@ -314,7 +314,7 @@ $esi->get($var2['fr'], 'universe/types/1230/?language=fr')
     ->get($var2['ru'], 'universe/types/1230/?language=ru');
 $esi->get($var3, 'search/?categories=region&strict=1&search=The%20Forge');
 $esi->get($var4['The Forge'], 'search/?categories=region&strict=1&search=The Forge') // bad
-    ->get($var4['Domain'],    'search/?categories=region&strict=1&search=Domain');
+    ->get($var4['Domain'], 'search/?categories=region&strict=1&search=Domain');
 ```
 
 When an integer `$expires` is being passed after the `$request`-string, or -pattern, or after the `$query`-array then it is used as a time in seconds by which to offset a resource's expiration time. A positive value extends an expiration time temporarily, while a negative value shortens it. The value only affects the cache lookup, but does not alter the actual expiration time of the resource. For example:
