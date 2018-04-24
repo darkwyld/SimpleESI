@@ -341,14 +341,14 @@ $esi->get($var2, [123, 456, 789], 'universe/types/~/', function($esi, $rq) { /* 
 $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $auth, 'callback2');
 ```
 
-3.4. `(void) ``single_get``(<``(``mixed``)`` ``&$variable``>, <``(``string``) $request``>, [``(``int``) $expires``], [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
+##### 3.4. `(void) single_get(<(mixed) &$variable>, <(string) $request>, [(int) $expires], [(int) $charid], [(string) $authheader], [(callable) $callback])`
 
-##### 3.5. `(void) ``pages_get``(<``(``mixed``) &$variable``>, <``(``string``) $request``>, <``(``int``) $startpage``>, <``(``int``) $endpage``>, <``(``int``)`` ``$expires``>, [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
+##### 3.5. `(void) pages_get(<(mixed) &$variable>, <(string) $request>, <(int) $startpage>, <(int) $endpage>, <(int) $expires>, [(int) $charid], [(string) $authheader], [(callable) $callback])`
 
-##### 3.6. `(``object``) ``post``(<``(``mixed``) &$variable``>, <``(``string``) $request``>, <``(``mixed``) $data``>, [``(``array``) $authorization``], [``(``callable``) $callback``])`
+##### 3.6. `(object) post(<(mixed) &$variable>, <(string) $request>, <(mixed) $data>, [(array) $authorization], [(callable) $callback])`
 
-##### 3.7. `(object) ``exec``()`
+##### 3.7. `(object) exec()`
 
-##### 3.8. `(bool) ``auth``(<``(``array``) &$authorization``>, [``(``string``) $code``])`
+##### 3.8. `(bool) auth(<(array) &$authorization>, [(string) $code])`
 
 
