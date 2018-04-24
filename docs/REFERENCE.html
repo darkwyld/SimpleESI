@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-24T22:30:51.896128560"/>
+	<meta name="changed" content="2018-04-24T22:44:48.386959502"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -95,21 +95,18 @@ support. Only errors (debug level 0) and fatal errors (debug level
 $esi = new MyESI;</pre><h5 class="western">
 1.1.3. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">fulldebug</span></font>
 <b>(default)</b></h5>
-<p class="western" style="orphans: 2"><i>Public variables</i><i>:</i>
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
-d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug_level</span></font>,
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(bool)
-d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug_html</span></font>,
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(string)
-d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug_file</span></font></p>
+<p class="western" style="orphans: 2"><i>Public variables:</i> <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+debug_level</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(bool)
+debug_html</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(string)
+debug_file</span></font></p>
 <p class="western" style="orphans: 2"><i>Provides no public methods.</i></p>
 <p class="western" style="orphans: 2">Provides full debugging support
 and throws exceptions on fatal errors. The level of detail can be
-control with the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug_level</span></font>,
+control with the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-&gt;debug_level</span></font>,
 and the higher the value is (i.e. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">4</span></font>)
 the more information is printed. The output can be formatted as plain
 text or as colourized HTML text, which is control by the variable
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug_html</span></font>,
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-&gt;debug_html</span></font>,
 where <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">true</span></font>
 stands for HTML output and <span style="background: #dfdfdf">false</span>
 for plain ASCII. For example:</p>
@@ -117,7 +114,7 @@ for plain ASCII. For example:</p>
 $esi-&gt;debug_level = 4;
 $esi-&gt;debug_html = true;</pre><p class="western" style="orphans: 2">
 The debug messages can be written into a file with the variable
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;d</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ebug_file</span></font>,
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-&gt;debug_file</span></font>,
 in which case the messages also show date and day time information.
 For example:</p>
 <pre class="php-western">$esi-&gt;debug_level = 2;
@@ -159,10 +156,7 @@ The following is a list of debug messages and their level:</h5>
 variables.</i></p>
 <p class="western" style="orphans: 2"><i>Public m</i><i>ethods:</i>
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(null)
-m</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">et</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">a(&lt;</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">string</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$key</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;,
-[</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">mixed</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$value</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">])</span></font></p>
+meta(&lt;(string) $key&gt;, [(mixed) $value])</span></font></p>
 <p class="western" style="orphans: 2">Disables all uses of a
 database. No response caching is performed and no meta database is
 being provided. The trait is useful for when no database is available
@@ -176,13 +170,10 @@ $esi = new MyESI;</pre><h5 class="western">
 1.2.2. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">dirdb</span></font></h5>
 <p class="western" style="orphans: 2"><i>Public variables</i><i>:</i>
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(bool)
-c</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">aching</span></font></p>
+caching</span></font></p>
 <p class="western" style="orphans: 2"><i>Public m</i><i>ethods:</i>
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(mixed)
-m</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">et</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">a(&lt;</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">string</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$key</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;,
-[</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">mixed</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$value</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">])</span></font></p>
+meta(&lt;(string) $key&gt;, [(mixed) $value])</span></font></p>
 <p class="western" style="orphans: 2">The trait implements a database
 by using directories and files. The directory structure is similar to
 the ESI resource paths. The filenames contain query arguments and end
@@ -191,7 +182,7 @@ identical to the character id and meant to keep cached responses of
 authorized calls between different characters separate. A file's
 modification time is used to store the expiration time of its
 resource and therefore is set to a time in the future. The cache can
-be controlled at runtime through the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;c</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">aching</span></font>,
+be controlled at runtime through the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-&gt;caching</span></font>,
 which allows an application to enable or disable it at will. Caching
 is enabled by default.</p>
 <pre class="php-western">class MyESI extends SimpleESI { use dirdb; }
@@ -225,20 +216,17 @@ when keys are meant to stay compatible to the <font face="Bitstream Vera Sans Mo
 <b>(default)</b></h5>
 <p class="western" style="orphans: 2"><i>Public variables</i><i>:</i>
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(bool)
-c</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">aching</span></font></p>
+caching</span></font></p>
 <p class="western" style="orphans: 2"><i>Public m</i><i>ethods:</i>
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(mixed)
-m</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">et</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">a(&lt;</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">string</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$key</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;,
-[</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">mixed</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)
-$value</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">])</span></font></p>
+meta(&lt;(string) $key&gt;, [(mixed) $value])</span></font></p>
 <p class="western" style="orphans: 2">The trait implements a database
 by using SQLite3, which consists of two SQL tables, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">cache</span></font>
 and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta</span></font>,
 for caching responses and for providing a “key/value”-database.
 When authorized requests are being cached are these stored together
 with the character's id to keep responses between different users
-separate. Caching can be controlled through the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;c</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">aching</span></font>,
+separate. Caching can be controlled through the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-&gt;caching</span></font>,
 and by setting it to either <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">true</span></font>
 or <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">false</span></font>
 in order to enable and disable the mechanism at runtime. Caching is
@@ -313,7 +301,7 @@ A count-down can occur for various reasons. The error count is valid
 for a limited time after which it is reset to <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">100</span></font>.
 SimpleESI uses a non-linear function to implement a dynamic
 behaviour. When the reported error limit drops to or below the
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;e</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">rror_throttle</span></font>
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">-&gt;error_throttle</span></font>
 value will it pause briefly for a few milliseconds before sending out
 a new request. This pause will grow longer the closer the count-down
 gets to <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">0</span></font>
@@ -334,13 +322,10 @@ application to be noticed at CCP.</p>
 
 <h3 class="western">3. Class Methods</h3>
 <h5 class="western">3.1. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(object)
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__construct</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">([</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">string</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)
-$name</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">],
-[</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">string</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)
-$useragent</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">])</span></font></h5>
+__construct([(string) $name], [(string) $useragent])</span></font></h5>
 <p class="western" style="orphans: 2">The constructor can take up to
-two arguments. The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$n</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ame</span></font>-argument
-can be used to name the database, and the second argument <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$u</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">seragent</span></font>
+two arguments. The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$name</span></font>-argument
+can be used to name the database, and the second argument <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$useragent</span></font>
 can be used to set the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">X-User-Agent:</span></font>-header.
 The default database name is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'esi'</span></font>,
 which in case of the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">sqlite3db</span></font>-trait
@@ -352,16 +337,13 @@ Examples are:</p>
 $esi2 = new SimpleESI('esi2');
 $myesi = new SimpleESI('myesi', 'My App 1.0');</pre><h5 class="western">
 3.2. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(void)
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">__destruct</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">()</span></font></h5>
+__destruct()</span></font></h5>
 <p class="western" style="orphans: 2">The destructor prints a level 1
 debug message to give information about the life span of the object.
 For example:</p>
 <pre class="shell-western">[SimpleESI] 000.009s 0b (1) Elapsed.</pre><h5 class="western">
 3.3. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(object)
-</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(&lt;</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">mixed</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)
-&amp;$variable</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;,
-&lt;...</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">mixed</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">)
-$arguments</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">&gt;)</span></font></h5>
+get(&lt;(mixed) &amp;$variable&gt;, &lt;...(mixed) $arguments&gt;)</span></font></h5>
 <p class="western" style="orphans: 2">Alternative notation:</p>
 <pre class="php-western">(object) get(&lt;(mixed) &amp;$variable&gt;,
              [(array) $values],
@@ -373,22 +355,22 @@ $arguments</span></font><font face="Bitstream Vera Sans Mono, monospace"><span s
 The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
 takes a variable number of arguments, and depending on the type of
 arguments will it queue one or more requests. The first argument,
-here named <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$v</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">ariable</span></font>,
+here named <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$variable</span></font>,
 needs to be a variable and cannot be a value or an expression. A
 reference to the variable is stored along with any requests and used
 in assigning the response(s) to the variable during an execution by
 the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method.
 When the second argument to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
-is a string then it is taken as the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$r</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">equest</span></font>-string
+is a string then it is taken as the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-string
 and a single request will be queued. For example:</p>
 <pre class="php-western">$esi-&gt;get($var, 'universe/types/1230/');</pre><p class="western" style="orphans: 2">
-When instead of a string an array <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$v</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">alues</span></font>
+When instead of a string an array <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$values</span></font>
 is being passed, then a third argument will be taken as the
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-pattern
-and the values of the array <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$v</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">alues</span></font>
+and the values of the array <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$values</span></font>
 will be used to create multiple requests by substituting these each
 with the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">~</span></font>-character
-in the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$r</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">equest</span></font>-pattern.
+in the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-pattern.
 The responses are assigned as an array, where each value of the
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$v</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">alues</span></font>-array
 becomes the key to the corresponding response. For example:</p>
@@ -397,13 +379,13 @@ This is equivalent to:</p>
 <pre class="php-western">$esi-&gt;get($var[123], 'universe/types/123/')
     -&gt;get($var[456], 'universe/types/456/')
     -&gt;get($var[789], 'universe/types/789/');</pre><p class="western" style="orphans: 2; page-break-before: auto; page-break-after: auto">
-When an associative array is being passed after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$r</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">equest</span></font>-string
+When an associative array is being passed after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-string
 or -pattern, then it is used to form and append a query string to the
-request(s). The elements of the associative <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$q</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">uery</span></font>-array
+request(s). The elements of the associative <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$query</span></font>-array
 will be URL-encoded according to RFC3986. In the case of a request
 pattern will the query string be appended to the pattern and before
 the pattern substitution takes place. Note, the elements of the
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$v</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">alue</span></font>-array
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$value</span></font>-array
 will not be URL-encoded in a pattern substitution. For example:</p>
 <pre class="php-western">$esi-&gt;get($var1, 'universe/types/1230/', ['language' =&gt; 'de']);
 $esi-&gt;get($var2, ['fr', 'ru'], 'universe/types/1230/', ['language' =&gt; '~']);
@@ -416,9 +398,9 @@ $esi-&gt;get($var2['fr'], 'universe/types/1230/?language=fr')
 $esi-&gt;get($var3, 'search/?categories=region&amp;strict=1&amp;search=The%20Forge');
 $esi-&gt;get($var4['The Forge'], 'search/?categories=region&amp;strict=1&amp;search=The Forge') // bad
     -&gt;get($var4['Domain'],    'search/?categories=region&amp;strict=1&amp;search=Domain');</pre><p class="western" style="orphans: 2; page-break-before: auto; page-break-after: auto">
-When an integer <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$e</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">xpires</span></font>
-is being passed after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$r</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">equest</span></font>-string,
-or -pattern, or after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$q</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">uery</span></font>-array
+When an integer <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$expires</span></font>
+is being passed after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-string,
+or -pattern, or after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$query</span></font>-array
 then it is used as a time in seconds by which to offset a resource's
 expiration time. A positive value extends an expiration time
 temporarily, while a negative value shortens it. The value only
@@ -427,8 +409,8 @@ time of the resource. For example:</p>
 <pre class="php-western">$esi-&gt;get($var1, 'universe/types/1230/', 60*60);
 $esi-&gt;get($var2, [123, 456, 789], 'universe/types/~/', 60*60);
 $esi-&gt;get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' =&gt; '~'], 60*60);</pre><p class="western" style="orphans: 2">
-When the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$e</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">xpires</span></font>
-argument is being followed by an array, here named <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$a</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">uthorize</span></font>,
+When the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$expires</span></font>
+argument is being followed by an array, here named <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$authorize</span></font>,
 then this array is taken as a request's authorization data. The array
 is expect to contain two keys, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'header'</span></font>
 and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'cid'</span></font>,
@@ -439,8 +421,8 @@ For example:</p>
 <pre class="php-western">$esi-&gt;get($var1, 'universe/types/1230/', 0, $authorization);
 $esi-&gt;get($var2, [123, 456, 789], 'universe/types/~/', 0, $authorization);
 $esi-&gt;get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' =&gt; '~'], 60*60, $authorization);</pre><p class="western" style="orphans: 2">
-When a last argument <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$c</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">allback</span></font>
-is being passed, and after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$r</span></font><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">equest</span></font>-string
+When a last argument <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$callback</span></font>
+is being passed, and after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-string
 or -pattern, which is neither of the type int or of the type array,
 then it is taken as the name of a function or a callable closure that
 is to be executed the moment a response is received. For example:</p>
