@@ -6,9 +6,20 @@ Reference Manual
 
 ------------------------------------------------------------------------
 
+This manual describes the class SimpleESI and is divided in several sections. The first section describes the traits that can be used together with the class and that are being provided by the file `SimpleESI.php`. The second section describes the member variables and the last section describes the member methods of the class SimpleESI.
+
+The notation marks data types with `()`, mandatory arguments are marked with `&lt;&gt;` and optional arguments are marked with `[]`. For example:
+
+```php
+(type) variable
+(type) method(<(type) $mandatory>, [(type) $optional])
+```
+
+------------------------------------------------------------------------
+
 ### 1. Class Traits
 
-The file `SimpleESI.php` contains several traits, which can be used for customizing the SimpleESI class. The main purpose however is to trim down the class even further than its default, should this become necessary. There are currently two groups of traits, one for the debug messages and one for the database accesses. To choose a different trait does one need to create a child class, which extends SimpleESI. For example:
+The file `SimpleESI.php` contains several traits, which can be used for customizing the SimpleESI class. The main purpose however is to trim down the class further than its default, should this become necessary. There are currently two groups of traits, one for the debug messages and one for the database accesses. To choose a different trait does one need to create a child class, which extends SimpleESI. For example:
 
 ```php
 class ESInodb extends SimpleESI { use nodb; }
@@ -22,44 +33,43 @@ class SlimESI extends SimpleESI { use nodebug, nodb; }
 
 *Provides no public variables or methods.*
 
+The trait disables all debugging output and will not throw any exceptions. It is useful for when one does not want to know or care about any of the messages.
+
 ```php
 class MyESI extends SimpleESI { use nodebug; }
+$esi = new MyESI;
 ```
-
-The trait disables all debugging output and will not throw any exceptions either. It is useful for when one does not want to know or care about any of the messages.
 
 ##### 1.1.2. `debug`
 
 *Provides no public variables or methods.*
 
+It enables minimal debugging support. Only errors (debug level 0) and fatal errors (debug level -1) will be printed. Fatal errors will throw an exception.
+
 ```php
 class MyESI extends SimpleESI { use debug; }
+$esi = new MyESI;
 ```
-
-It enables minimal debugging support. Only errors (debug level 0) and fatal errors (debug level -1) will be printed. Fatal errors will throw an exception.
 
 ##### 1.1.3. `fulldebug` **(default)**
 
-*Public variables:* `debug_level` (int), `debug_html` (bool), `debug_file` (string)
+*Public variables:* `(int) d``ebug_level`, `(bool) d``ebug_html`, `(string) d``ebug_file`
 
 *Provides no public methods.*
 
-```php
-class MyESI extends SimpleESI { use fulldebug; }
-```
-
-Provides full debugging support and throws exceptions on fatal errors. The level of detail can be control with the property `debug_level`, and the higher the value is (i.e. `4`) the more information is printed. The output can be formatted as plain text or as colourized HTML text, which is control by the property `debug_html`, where `true` stands for HTML output and `false` for plain ASCII. For example:
+Provides full debugging support and throws exceptions on fatal errors. The level of detail can be control with the variable `-``&gt;d``ebug_level`, and the higher the value is (i.e. `4`) the more information is printed. The output can be formatted as plain text or as colourized HTML text, which is control by the variable `-``&gt;d``ebug_html`, where `true` stands for HTML output and `false` for plain ASCII. For example:
 
 ```php
+$esi = new SimpleESI;
 $esi->debug_level = 4;
 $esi->debug_html = true;
 ```
 
-The debug messages can be written into a file with the property `debug_file`, in which case the messages also show date and day time information. For example:
+The debug messages can be written into a file with the variable `-``&gt;d``ebug_file`, in which case the messages also show date and day time information. For example:
 
 ```php
 $esi->debug_level = 2;
-$esi->debug_file = ‘esi.log’;
+$esi->debug_file = 'esi.log';
 ```
 
 ##### The following is a list of debug messages and their level:
@@ -103,40 +113,39 @@ $esi->debug_file = ‘esi.log’;
 
 *Provides no public variables.*
 
-*Public methods:* `meta`
+*Public methods:* `(null) m``et``a(&lt;``(``string``)`` ``$key``&gt;, [``(``mixed``)`` ``$value``])`
+
+Disables all uses of a database. No response caching is performed and no meta database is being provided. The trait is useful for when no database is available on the system, for a read-only filesystem, or for debugging and to test how an application performs without any caching or database access. Calls to the `meta()`-method will not result in an error, but is only implemented as a stub. It does not perform any function.
 
 ```php
 class MyESI extends SimpleESI { use nodb; }
+$esi = new MyESI;
 ```
-
-Disables all uses of a database. No response caching is performed and no meta database is being provided. The trait is useful for when no database is available on the system, or for debugging and to test how an application performs without any caching or database access. Calls to the `meta()`-method will not result in an error, but is only implemented as a stub. It does not perform any function.
 
 ##### 1.2.2. `dirdb`
 
-*Public variables:* `caching` (bool)
+*Public variables:* `(bool) c``aching`
 
-*Public methods:* `meta`
+*Public methods:* `(mixed) m``et``a(&lt;``(``string``)`` ``$key``&gt;, [``(``mixed``)`` ``$value``])`
+
+The trait implements a database by using directories and files. The directory structure is similar to the ESI resource paths. The filenames contain query arguments and end with an identifier, which in case of authenticated requests is identical to the character id and meant to keep cached responses of authorized calls between different characters separate. A file's modification time is used to store the expiration time of its resource and therefore is set to a time in the future. The cache can be controlled at runtime through the variable `-``&gt;c``aching`, which allows an application to enable or disable it at will. Caching is enabled by default.
 
 ```php
 class MyESI extends SimpleESI { use dirdb; }
-```
-
-The trait implements a database by using directories and files. The directory structure is similar to the ESI resource paths. The filenames contain query arguments and end with an identifier, which in case of authenticated requests is identical to the character id and meant to keep cached responses of authorized calls between different characters separate. A file’s modification time is used to store the expiration time of its resource and therefore is set to a time in the future. The cache can be controlled at runtime through the variable `caching`, which allows an application to enable or disable it at will.
-
-```php
+$esi = new MyESI;
 $esi->caching = false;
 ```
 
 The `meta()`-method implements a “key/value”-database. When called with one argument, a key, does it query the database for the value associated with the key:
 
 ```php
-$value = $esi->meta(‘key’);
+$value = $esi->meta('key');
 ```
 
-The key has to be a string and represents a file on the drive, whose content represents the value. The file’s content is interpreted by the PHP function `unserialize()` and so can return any data type supported by it. When called with two arguments, a key and a value, does it assign the value to the key by storing the value in a file with the key as its name:
+The key has to be a string and represents a file on the drive, whose content represents the value. The file's content is interpreted by the PHP function `unserialize()` and so can return any data type supported by it. When called with two arguments, a key and a value, does it assign the value to the key by storing the value in a file with the key as its name:
 
 ```php
-$esi->meta(‘key’, $value);
+$esi->meta('key', $value);
 ```
 
 The content of `$value` is turned into a string by the PHP function `serialize()` before storing it. It allows to store different data types, including self-referencing arrays and class objects. For more information please see the PHP manual on `serialize()`/`unserialize()`.
@@ -145,30 +154,27 @@ Note: it is possible to use the directory seperator `/` as a part of a key, whic
 
 ##### 1.2.3. `sqlite3db` **(default)**
 
-*Public variables:* `caching` (bool)
+*Public variables:* `(bool) c``aching`
 
-*Public methods:* `meta`
+*Public methods:* `(mixed) m``et``a(&lt;``(``string``)`` ``$key``&gt;, [``(``mixed``) $value``])`
 
-```php
-class MyESI extends SimpleESI { use sqlite3db; }
-```
-
-The trait implements a database by using SQLite3, which consists of two SQL tables, `cache` and `meta`, for caching responses and for providing a “key/value”-database. When authorized requests are being cached are these stored together with the character’s id to keep responses between different users separate. Caching can be controlled through the variable `caching`, and by setting it to either `true` or `false` in order to enable and disable the mechanism at runtime.
+The trait implements a database by using SQLite3, which consists of two SQL tables, `cache` and `meta`, for caching responses and for providing a “key/value”-database. When authorized requests are being cached are these stored together with the character's id to keep responses between different users separate. Caching can be controlled through the variable `-``&gt;c``aching`, and by setting it to either `true` or `false` in order to enable and disable the mechanism at runtime. Caching is enabled by default.
 
 ```php
+$esi = new SimpleESI;
 $esi->caching = false;
 ```
 
 The `meta()`-method implements a “key/value”-database analogue to the `dirdb`-trait above. When called with one argument, a key, does it query the database for the value associated with the key:
 
 ```php
-$value = $esi->meta(‘key’);
+$value = $esi->meta('key');
 ```
 
 The key has to be a string and represents a column in the `meta` table. The value is interpreted by the PHP function `unserialize()` in the same way as it is done in the `dirdb`-trait. When called with two arguments, a key and a value, does it assign the value to the key by storing both key and value in the SQL table:
 
 ```php
-$esi->meta(‘key’, $value);
+$esi->meta('key', $value);
 ```
 
 The content of `$value` is turned into a string by the PHP function `serialise()` before storing it in the database.
@@ -177,82 +183,172 @@ Note: keys should not contain `..` and `.` when these are meant to be compatible
 
 ------------------------------------------------------------------------
 
-### 2. Class Properties
+### 2. Class Variables
 
-##### 2.1. `esi_uri` (string)
-
-```php
-$esi->esi_uri = 'https://esi.tech.ccp.is/dev/’;
-```
+##### 2.1. `(string) esi_uri`
 
 The URI of the ESI server. Can be changed when necessary and must end with a `/`-character. The default is `https://esi.tech.ccp.is/latest/`.
 
-##### 2.2. `oauth_uri` (string)
-
 ```php
-$esi->oauth_uri = 'https://sisilogin.testeveonline.com/oauth/’;
+$esi->esi_uri = 'https://esi.tech.ccp.is/dev/';
 ```
+
+##### 2.2. `(string) oauth_uri`
 
 The URI of the SSO OAuth2 server. Can be changed when necessary and must end with a `/`-character. The default is `https://login.eveonline.com/oauth/`.
 
-##### 2.3. `marker` (string)
-
 ```php
-$esi->marker = ‘#’;
+$esi->oauth_uri = 'https://sisilogin.testeveonline.com/oauth/';
 ```
+
+##### 2.3. `(string) marker`
 
 The character, or string, used in a pattern to the `get()`-method. The default is the `~`-character.
 
-##### 2.4. `paging` (bool)
+```php
+$esi->marker = '#';
+```
+
+##### 2.4. `(bool) paging`
+
+A toggle to disable and enable the behaviour of the `exec()`-method when responses are segmented into pages. The default is `true`, causing the `exec()`-method to request all pages automatically.
 
 ```php
 $esi->paging = false;
 ```
 
-A toggle to disable and enable the behaviour of the `exec()`-method when responses are segmented into pages. The default is `true`, causing the `exec()`-method to request all pages automatically.
+##### 2.5. `(int) retries`
 
-##### 2.5. `retries` (int)
+The number of additional attempts to make when requests fail. The default is `3`.
 
 ```php
 $esi->retries = 5;
 ```
 
-The number of additional attempts to make when requests fail. The default is `3`.
+##### 2.6. `(int) ``error_throttle`
 
-##### 2.6. `error_throttle` (int)
+The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `-``&gt;e``rror_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
 
 ```php
 $esi->error_throttle = 90;
 ```
 
-The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
+##### 2.7. `(int) ``error_exit`
 
-##### 2.7. `error_exit` (int)
+The number of errors remaining at which to raise an exception in the application. The default is `20`. If the exception is not caught will it exit the application. It is meant to prevent the count-down from reaching `0`, at which the ESI server will reject further requests. Setting this value below `0` will turn this behaviour off and offers a good chance for your application to be noticed at CCP.
 
 ```php
 $esi->error_exit = -1;
 ```
 
-The number of errors remaining at which to raise an exception in the application. The default is `20`. If the exception is not caught will it exit the application. It is meant to prevent the count-down from reaching `0`, at which the ESI server will reject further requests. Setting this value below `0` will turn this behaviour off and offers a good chance for your application to be noticed at CCP.
-
 ------------------------------------------------------------------------
 
 ### 3. Class Methods
 
-##### 3.1. `__construct`
+##### 3.1. `(object) ``__construct``([``(``string``) $name``], [``(``string``) $useragent``])`
 
-##### 3.2. `__destruct`
+The constructor can take up to two arguments. The `$n``ame`-argument can be used to name the database, and the second argument `$u``seragent` can be used to set the `X-User-Agent:`-header. The default database name is `'esi'`, which in case of the `sqlite3db`-trait names the database file `'esi.sq3'`, and in case of the `dirdb`-trait names the top-level directory `'esi.dir'`. Examples are:
 
-##### 3.3. `get`
+```php
+$esi = new SimpleESI;
+$esi2 = new SimpleESI('esi2');
+$myesi = new SimpleESI('myesi', 'My App 1.0');
+```
 
-##### 3.4. `single_get`
+##### 3.2. `(void) ``__destruct``()`
 
-##### 3.5. `pages_get`
+The destructor prints a level 1 debug message to give information about the life span of the object. For example:
 
-##### 3.6. `post`
+```
+[SimpleESI] 000.009s 0b (1) Elapsed.
+```
 
-##### 3.7. `exec`
+##### 3.3. `(object) ``get``(&lt;``(``mixed``) &$variable``&gt;, &lt;...``(``mixed``) $arguments``&gt;)`
 
-##### 3.8. `auth`
+Alternative notation:
+
+```php
+(object) get(<(mixed) &$variable>,
+             [(array) $values],
+             <(string) $request>,
+             [(array) $query],
+             [(int) $expires],
+             [(array) $authorize],
+             [(callable) $callback])
+```
+
+The `get()`-method takes a variable number of arguments, and depending on the type of arguments will it queue one or more requests. The first argument, here named `$v``ariable`, needs to be a variable and cannot be a value or an expression. A reference to the variable is stored along with any requests and used in assigning the response(s) to the variable during an execution by the `exec()`-method. When the second argument to the `get()`-method is a string then it is taken as the `$r``equest`-string and a single request will be queued. For example:
+
+```php
+$esi->get($var, 'universe/types/1230/');
+```
+
+When instead of a string an array `$v``alues` is being passed, then a third argument will be taken as the `$request`-pattern and the values of the array `$v``alues` will be used to create multiple requests by substituting these each with the `~`-character in the `$r``equest`-pattern. The responses are assigned as an array, where each value of the `$v``alues`-array becomes the key to the corresponding response. For example:
+
+```php
+$esi->get($var, [123, 456, 789], 'universe/types/~/');
+```
+
+This is equivalent to:
+
+```php
+$esi->get($var[123], 'universe/types/123/')
+    ->get($var[456], 'universe/types/456/')
+    ->get($var[789], 'universe/types/789/');
+```
+
+When an associative array is being passed after the `$r``equest`-string or -pattern, then it is used to form and append a query string to the request(s). The elements of the associative `$q``uery`-array will be URL-encoded according to RFC3986. In the case of a request pattern will the query string be appended to the pattern and before the pattern substitution takes place. Note, the elements of the `$v``alue`-array will not be URL-encoded in a pattern substitution. For example:
+
+```php
+$esi->get($var1, 'universe/types/1230/', ['language' => 'de']);
+$esi->get($var2, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~']);
+$esi->get($var3, 'search/?categories=region&strict=1&', ['search' => 'The Forge']);
+$esi->get($var4, ['The Forge', 'Domain'], 'search/?categories=region&strict=1&', ['search' => '~']); // bad
+```
+
+This is equivalent to:
+
+```php
+$esi->get($var1, 'universe/types/1230/?language=de');
+$esi->get($var2['fr'], 'universe/types/1230/?language=fr')
+    ->get($var2['ru'], 'universe/types/1230/?language=ru');
+$esi->get($var3, 'search/?categories=region&strict=1&search=The%20Forge');
+$esi->get($var4['The Forge'], 'search/?categories=region&strict=1&search=The Forge') // bad
+    ->get($var4['Domain'],    'search/?categories=region&strict=1&search=Domain');
+```
+
+When an integer `$e``xpires` is being passed after the `$r``equest`-string, or -pattern, or after the `$q``uery`-array then it is used as a time in seconds by which to offset a resource's expiration time. A positive value extends an expiration time temporarily, while a negative value shortens it. The value only affects the cache lookup, but does not alter the actual expiration time of the resource. For example:
+
+```php
+$esi->get($var1, 'universe/types/1230/', 60*60);
+$esi->get($var2, [123, 456, 789], 'universe/types/~/', 60*60);
+$esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60);
+```
+
+When the `$e``xpires` argument is being followed by an array, here named `$a``uthorize`, then this array is taken as a request's authorization data. The array is expect to contain two keys, `'header'` and `'cid'`, which contain the authorization header to be used in a request as well as the character id to be used in the cache lookup. Such an array is usually obtained by the `auth()`-method. For example:
+
+```php
+$esi->get($var1, 'universe/types/1230/', 0, $authorization);
+$esi->get($var2, [123, 456, 789], 'universe/types/~/', 0, $authorization);
+$esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $authorization);
+```
+
+When a last argument `$c``allback` is being passed, and after the `$r``equest`-string or -pattern, which is neither of the type int or of the type array, then it is taken as the name of a function or a callable closure that is to be executed the moment a response is received. For example:
+
+```php
+$esi->get($var1, 'universe/types/1230/', 'callback1');
+$esi->get($var2, [123, 456, 789], 'universe/types/~/', function($esi, $rq) { /* function body */ });
+$esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $auth, 'callback2');
+```
+
+3.4. `(void) ``single_get``(&lt;``(``mixed``)`` ``&$variable``&gt;, &lt;``(``string``) $request``&gt;, [``(``int``) $expires``], [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
+
+##### 3.5. `(void) ``pages_get``(&lt;``(``mixed``) &$variable``&gt;, &lt;``(``string``) $request``&gt;, &lt;``(``int``) $startpage``&gt;, &lt;``(``int``) $endpage``&gt;, &lt;``(``int``)`` ``$expires``&gt;, [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
+
+##### 3.6. `(``object``) ``post``(&lt;``(``mixed``) &$variable``&gt;, &lt;``(``string``) $request``&gt;, &lt;``(``mixed``) $data``&gt;, [``(``array``) $authorization``], [``(``callable``) $callback``])`
+
+##### 3.7. `(object) ``exec``()`
+
+##### 3.8. `(bool) ``auth``(&lt;``(``array``) &$authorization``&gt;, [``(``string``) $code``])`
 
 
