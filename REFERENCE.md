@@ -8,7 +8,7 @@ Reference Manual
 
 This manual describes the class SimpleESI and is divided in several sections. The first section describes the traits that can be used together with the class and that are being provided by the file `SimpleESI.php`. The second section describes the member variables and the last section describes the member methods of the class SimpleESI.
 
-The notation marks data types with `()`, mandatory arguments are marked with `&lt;&gt;` and optional arguments are marked with `[]`. For example:
+The notation marks data types with `()`, mandatory arguments are marked with `<>` and optional arguments are marked with `[]`. For example:
 
 ```php
 (type) variable
@@ -57,7 +57,7 @@ $esi = new MyESI;
 
 *Provides no public methods.*
 
-Provides full debugging support and throws exceptions on fatal errors. The level of detail can be control with the variable `-&gt;debug_level`, and the higher the value is (i.e. `4`) the more information is printed. The output can be formatted as plain text or as colourized HTML text, which is control by the variable `-&gt;debug_html`, where `true` stands for HTML output and `false` for plain ASCII. For example:
+Provides full debugging support and throws exceptions on fatal errors. The level of detail can be control with the variable `->debug_level`, and the higher the value is (i.e. `4`) the more information is printed. The output can be formatted as plain text or as colourized HTML text, which is control by the variable `->debug_html`, where `true` stands for HTML output and `false` for plain ASCII. For example:
 
 ```php
 $esi = new SimpleESI;
@@ -65,7 +65,7 @@ $esi->debug_level = 4;
 $esi->debug_html = true;
 ```
 
-The debug messages can be written into a file with the variable `-&gt;debug_file`, in which case the messages also show date and day time information. For example:
+The debug messages can be written into a file with the variable `->debug_file`, in which case the messages also show date and day time information. For example:
 
 ```php
 $esi->debug_level = 2;
@@ -113,7 +113,7 @@ $esi->debug_file = 'esi.log';
 
 *Provides no public variables.*
 
-*Public methods:* `(null) meta(&lt;(string) $key&gt;, [(mixed) $value])`
+*Public methods:* `(null) meta(<(string) $key>, [(mixed) $value])`
 
 Disables all uses of a database. No response caching is performed and no meta database is being provided. The trait is useful for when no database is available on the system, for a read-only filesystem, or for debugging and to test how an application performs without any caching or database access. Calls to the `meta()`-method will not result in an error, but is only implemented as a stub. It does not perform any function.
 
@@ -126,9 +126,9 @@ $esi = new MyESI;
 
 *Public variables:* `(bool) caching`
 
-*Public methods:* `(mixed) meta(&lt;(string) $key&gt;, [(mixed) $value])`
+*Public methods:* `(mixed) meta(<(string) $key>, [(mixed) $value])`
 
-The trait implements a database by using directories and files. The directory structure is similar to the ESI resource paths. The filenames contain query arguments and end with an identifier, which in case of authenticated requests is identical to the character id and meant to keep cached responses of authorized calls between different characters separate. A file's modification time is used to store the expiration time of its resource and therefore is set to a time in the future. The cache can be controlled at runtime through the variable `-&gt;caching`, which allows an application to enable or disable it at will. Caching is enabled by default.
+The trait implements a database by using directories and files. The directory structure is similar to the ESI resource paths. The filenames contain query arguments and end with an identifier, which in case of authenticated requests is identical to the character id and meant to keep cached responses of authorized calls between different characters separate. A file's modification time is used to store the expiration time of its resource and therefore is set to a time in the future. The cache can be controlled at runtime through the variable `->caching`, which allows an application to enable or disable it at will. Caching is enabled by default.
 
 ```php
 class MyESI extends SimpleESI { use dirdb; }
@@ -156,9 +156,9 @@ Note: it is possible to use the directory seperator `/` as a part of a key, whic
 
 *Public variables:* `(bool) caching`
 
-*Public methods:* `(mixed) meta(&lt;(string) $key&gt;, [(mixed) $value])`
+*Public methods:* `(mixed) meta(<(string) $key>, [(mixed) $value])`
 
-The trait implements a database by using SQLite3, which consists of two SQL tables, `cache` and `meta`, for caching responses and for providing a “key/value”-database. When authorized requests are being cached are these stored together with the character's id to keep responses between different users separate. Caching can be controlled through the variable `-&gt;caching`, and by setting it to either `true` or `false` in order to enable and disable the mechanism at runtime. Caching is enabled by default.
+The trait implements a database by using SQLite3, which consists of two SQL tables, `cache` and `meta`, for caching responses and for providing a “key/value”-database. When authorized requests are being cached are these stored together with the character's id to keep responses between different users separate. Caching can be controlled through the variable `->caching`, and by setting it to either `true` or `false` in order to enable and disable the mechanism at runtime. Caching is enabled by default.
 
 ```php
 $esi = new SimpleESI;
@@ -227,7 +227,7 @@ $esi->retries = 5;
 
 ##### 2.6. `(int) ``error_throttle`
 
-The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `-&gt;error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
+The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `->error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
 
 ```php
 $esi->error_throttle = 90;
@@ -263,7 +263,7 @@ The destructor prints a level 1 debug message to give information about the life
 [SimpleESI] 000.009s 0b (1) Elapsed.
 ```
 
-##### 3.3. `(object) get(&lt;(mixed) &$variable&gt;, &lt;...(mixed) $arguments&gt;)`
+##### 3.3. `(object) get(<(mixed) &$variable>, <...(mixed) $arguments>)`
 
 Alternative notation:
 
@@ -341,14 +341,14 @@ $esi->get($var2, [123, 456, 789], 'universe/types/~/', function($esi, $rq) { /* 
 $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $auth, 'callback2');
 ```
 
-3.4. `(void) ``single_get``(&lt;``(``mixed``)`` ``&$variable``&gt;, &lt;``(``string``) $request``&gt;, [``(``int``) $expires``], [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
+3.4. `(void) ``single_get``(<``(``mixed``)`` ``&$variable``>, <``(``string``) $request``>, [``(``int``) $expires``], [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
 
-##### 3.5. `(void) ``pages_get``(&lt;``(``mixed``) &$variable``&gt;, &lt;``(``string``) $request``&gt;, &lt;``(``int``) $startpage``&gt;, &lt;``(``int``) $endpage``&gt;, &lt;``(``int``)`` ``$expires``&gt;, [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
+##### 3.5. `(void) ``pages_get``(<``(``mixed``) &$variable``>, <``(``string``) $request``>, <``(``int``) $startpage``>, <``(``int``) $endpage``>, <``(``int``)`` ``$expires``>, [``(``int``) $charid``], [``(``string``) $authheader``], [``(``callable``) $callback``])`
 
-##### 3.6. `(``object``) ``post``(&lt;``(``mixed``) &$variable``&gt;, &lt;``(``string``) $request``&gt;, &lt;``(``mixed``) $data``&gt;, [``(``array``) $authorization``], [``(``callable``) $callback``])`
+##### 3.6. `(``object``) ``post``(<``(``mixed``) &$variable``>, <``(``string``) $request``>, <``(``mixed``) $data``>, [``(``array``) $authorization``], [``(``callable``) $callback``])`
 
 ##### 3.7. `(object) ``exec``()`
 
-##### 3.8. `(bool) ``auth``(&lt;``(``array``) &$authorization``&gt;, [``(``string``) $code``])`
+##### 3.8. `(bool) ``auth``(<``(``array``) &$authorization``>, [``(``string``) $code``])`
 
 
