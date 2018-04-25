@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-25T17:13:00.388628539"/>
+	<meta name="changed" content="2018-04-25T17:16:50.277161393"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -450,14 +450,16 @@ is the “Last Modified”-time in seconds since 1970. <font face="Bitstream Ver
 is a reference to the variable that holds the response. In case of
 multiple responses and paged responses is it a reference to the array
 element itself. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;pn</span></font>
-is the total number of pages of segmented responses, or null when
-unsegmented. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;pi</span></font>
+is the total number of pages of segmented responses, or <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">null</span></font>
+when unsegmented. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;pi</span></font>
 is the page index of a response when it was requested automatically,
-starting at offset 1 for page 2, and otherwise is it null. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;ah</span></font>
-is the authorization header used in a request, or null for
-unauthorized requests. i.e.: <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'Authorization:
+starting at offset <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">1</span></font>
+for page 2, and otherwise is it <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">null</span></font>.
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;ah</span></font>
+is the authorization header used in a request, or <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">null</span></font>
+for unauthorized requests. i.e.: <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'Authorization:
 Bearer ...'</span></font>. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;rt</span></font>
-is the number of retries made to receive the request.</p>
+is the number of retries made in receiving the response.</p>
 <p class="western" style="orphans: 2">A callback can either be the
 name of a function:</p>
 <pre class="php-western"><span style="font-style: normal">$Veldspar = null;</span>
