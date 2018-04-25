@@ -234,7 +234,7 @@ $esi->error_exit = -1;
 
 ### 3. Class Methods
 
-##### 3.1. `(object) __construct([(string) $name], [(string) $useragent])`
+##### 3.1. `__construct([(string) $name], [(string) $useragent])`
 
 The constructor can take up to two arguments. The `$name`-argument can be used to name the database, and the second argument `$useragent` can be used to set the `X-User-Agent:`-header. The default database name is `'esi'`, which in case of the `sqlite3db`-trait names the database file `'esi.sq3'`, and in case of the `dirdb`-trait names the top-level directory `'esi.dir'`. Examples are:
 
@@ -244,7 +244,7 @@ $esi2 = new SimpleESI('esi2');
 $myesi = new SimpleESI('myesi', 'My App 1.0');
 ```
 
-##### 3.2. `(void) __destruct()`
+##### 3.2. `__destruct()`
 
 The destructor prints a level 1 debug message to give information about the life span of the object. For example:
 
