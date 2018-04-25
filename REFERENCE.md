@@ -40,18 +40,7 @@ class MyESI extends SimpleESI { use nodebug; }
 $esi = new MyESI;
 ```
 
-##### 1.1.2. `debug`
-
-*Provides no public variables or methods.*
-
-It enables minimal debugging support. Only errors (debug level 0) and fatal errors (debug level -1) will be printed. Fatal errors will throw an exception.
-
-```php
-class MyESI extends SimpleESI { use debug; }
-$esi = new MyESI;
-```
-
-##### 1.1.3. `fulldebug` **(default)**
+##### 1.1.2. `debug` **(default)**
 
 *Public variables:* `(int) debug_level`, `(bool) debug_html`, `(string) debug_file`
 
@@ -273,7 +262,7 @@ Alternative notation:
              <(string) $request>,
              [(array) $query],
              [(int) $expires],
-             [(array) $authorize],
+             [(array) $authorization],
              [(callable) $callback])
 ```
 
@@ -297,13 +286,13 @@ $esi->get($var[123], 'universe/types/123/')
     ->get($var[789], 'universe/types/789/');
 ```
 
-When an associative array is being passed after the `$request`-string or -pattern, then it is used to form and append a query string to the request(s). The elements of the associative `$query`-array will be URL-encoded according to RFC3986. In the case of a request pattern will the query string be appended to the pattern and before the pattern substitution takes place. Note, the elements of the `$value`-array will not be URL-encoded in a pattern substitution. For example:
+When an associative array is being passed after the `$request`-string or -pattern, then it is used to form and append a query string to the request(s). The elements of the associative `$query`-array are URL-encoded according to RFC3986, and in the case of a pattern substitution is the query string be appended to the pattern and the values of the `$value`-array are URL-encoded before a substitution is being made. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', ['language' => 'de']);
 $esi->get($var2, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~']);
 $esi->get($var3, 'search/?categories=region&strict=1&', ['search' => 'The Forge']);
-$esi->get($var4, ['The Forge', 'Domain'], 'search/?categories=region&strict=1&', ['search' => '~']); // bad
+$esi->get($var4, ['Domain', 'Sinq Laison'], 'search/?categories=region&strict=1&', ['search' => '~']);
 ```
 
 This is equivalent to:
@@ -313,11 +302,11 @@ $esi->get($var1, 'universe/types/1230/?language=de');
 $esi->get($var2['fr'], 'universe/types/1230/?language=fr')
     ->get($var2['ru'], 'universe/types/1230/?language=ru');
 $esi->get($var3, 'search/?categories=region&strict=1&search=The%20Forge');
-$esi->get($var4['The Forge'], 'search/?categories=region&strict=1&search=The Forge') // bad
-    ->get($var4['Domain'], 'search/?categories=region&strict=1&search=Domain');
+$esi->get($var4['Domain'], 'search/?categories=region&strict=1&search=Domain')
+    ->get($var4['Sinq Laison'], 'search/?categories=region&strict=1&search=Sinq%20Laison');
 ```
 
-When an integer `$expires` is being passed after the `$request`-string, or -pattern, or after the `$query`-array then it is used as a time in seconds by which to offset a resource's expiration time. A positive value extends an expiration time temporarily, while a negative value shortens it. The value only affects the cache lookup, but does not alter the actual expiration time of the resource. For example:
+When an integer `$expires` is being passed after the `$request`-string, or -pattern, or after the `$query`-array then it is used as a time in seconds by which to offset a resource's expiration time. A positive value extends an expiration time temporarily, while a negative value shortens it. The value only affects the cache lookup, but it does not alter the actual expiration time of a resource. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', 60*60);
@@ -325,7 +314,7 @@ $esi->get($var2, [123, 456, 789], 'universe/types/~/', 60*60);
 $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60);
 ```
 
-When the `$expires` argument is being followed by an array, here named `$authorize`, then this array is taken as a request's authorization data. The array is expect to contain two keys, `'header'` and `'cid'`, which contain the authorization header to be used in a request as well as the character id to be used in the cache lookup. Such an array is usually obtained by the `auth()`-method. For example:
+When the `$expires` argument is being followed by an array, here named `$authoriz``ation`, then this array is taken as a request's authorization data. Authorization data is usually obtained by the `auth()`-method. The array is expected to contain two keys, `'header'` and `'cid'`, which hold the authorization header to be used in the request, as well as the character id to be used in the cache lookup. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', 0, $authorization);
@@ -340,6 +329,56 @@ $esi->get($var1, 'universe/types/1230/', 'callback1');
 $esi->get($var2, [123, 456, 789], 'universe/types/~/', function($esi, $rq) { /* function body */ });
 $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $auth, 'callback2');
 ```
+
+##### Callback Functions
+
+Callback functions get two arguments. The first argument is the executing SimpleESI object and the second is an object containing a request's data:
+
+```php
+(void) function callback($esi, $rq) { /* function body */ };
+```
+
+<span style="font-style: normal">The `<span style="font-style: normal">`$esi``<span style="font-style: normal">-object can be used to queue further requests `<span style="font-style: normal">during an execution. T`<span style="font-style: normal">he `<span style="font-style: normal">`$rq``<span style="font-style: normal">-`<span style="font-style: normal">object` holds the<span style="font-style: normal"> information about a request and its response. `<span style="font-style: normal">When a request was queued with the `<span style="font-style: normal">`get()``<span style="font-style: normal">-method then`<span style="font-style: normal"> `<span style="font-style: normal">this object`<span style="font-style: normal"> `<span style="font-style: normal">has `<span style="font-style: normal">got `<span style="font-style: normal">the following `<span style="font-style: normal">member `<span style="font-style: normal">variable`<span style="font-style: normal">s`<span style="font-style: normal">:`
+
+```php
+[ 'rq' => (string),
+  'ci' => (int),
+  'ex' => (int),
+  'lm' => (int),
+  'vl' => (reference),
+  'pn' => (int),
+  'pi' => (int),
+  'ah' => (string),
+  'cb' => (callable),
+  'rt' => (int) ]
+```
+
+`$rq->rq`<span style="font-style: normal"> is the request string including query arguments. `<span style="font-style: normal">I`<span style="font-style: normal">.e.: `<span style="font-style: normal">`'universe/types/1230/'``. `$rq->ci`<span style="font-style: normal"> is the cache id used in separating cache responses for different users. For unauthorized requests is this value `<span style="font-style: normal">`0``<span style="font-style: normal"> and for authorized request is `<span style="font-style: normal">it `<span style="font-style: normal">the character's id. ``$rq->ex`<span style="font-style: normal"> is the expiration time in seconds since 1970. ``$rq->lm`<span style="font-style: normal"> is the “Last Modified”-time in seconds since 1970. ``$rq->vl`<span style="font-style: normal"> is a reference to the variable `<span style="font-style: normal">that holds the response. In case of multiple responses and paged responses is it a reference to the array element itself. ``$rq->pn`<span style="font-style: normal"> is the total number of pages of segmented responses, or `<span style="font-style: normal">`null``<span style="font-style: normal"> when unsegmented. ``$rq->pi`<span style="font-style: normal"> is the page index of a response when it was `<span style="font-style: normal">requested`<span style="font-style: normal"> automatically, starting at offset `<span style="font-style: normal">`1``<span style="font-style: normal"> for page 2`<span style="font-style: normal">, and otherwise i`<span style="font-style: normal">s`<span style="font-style: normal"> i`<span style="font-style: normal">t`<span style="font-style: normal"> `<span style="font-style: normal">`null``<span style="font-style: normal">. ``$rq->ah`<span style="font-style: normal"> is the authorization header used in `<span style="font-style: normal">a`<span style="font-style: normal"> request, or `<span style="font-style: normal">`null``<span style="font-style: normal"> for unauthorized requests. i.e.: ``'Authorization: Bearer ...'`. `$rq->rt`<span style="font-style: normal"> is the number of retries made to receive the request. `<span style="font-style: normal">A c`<span style="font-style: normal">allback can `<span style="font-style: normal">either be the name of a function`<span style="font-style: normal">:`
+
+```php
+$Veldspar = null;
+
+$esi->get($var, 'universe/types/1230/', 'callback')->exec();
+
+function callback($esi, $rq) {
+   global $Veldspar;
+   $Veldspar = $rq->vl['description'];
+   echo 'Last Modified: '.date('r', $rq->lm).PHP_EOL;
+}
+```
+
+… or a nameless function, also known as a closure:
+
+```php
+$Veldspar = null;
+
+$esi->get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {
+    $Veldspar = $rq->vl['description'];
+    echo 'Last Modified: '.date('r', $rq->lm).PHP_EOL;
+})->exec();
+```
+
+##### Paged Responses
 
 ##### 3.4. `(void) single_get(<(mixed) &$variable>, <(string) $request>, [(int) $expires], [(int) $charid], [(string) $authheader], [(callable) $callback])`
 

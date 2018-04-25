@@ -12,11 +12,11 @@ SimpleESI
 Introduction
 ------------
 
-**What is it?** SimpleESI is an Application Programming Interface (API) for writing third-party applications to the game EVE Online. It builds on the existing interface called the EVE Swagger Interface (ESI), but tries to provide a slim and yet “All In One” alternative to it. In comparison, the default API for PHP consists of 377 files with more than 227,000 lines of machine generated code, whereas SimpleESI consists of one single file with less than 600 lines of code (see also **Features** below).
+**What is it?** SimpleESI is an Application Programming Interface (API) for writing third-party applications to the game EVE Online. It builds on the existing interface called the EVE Swagger Interface (ESI), but tries to provide a slim and yet “All In One” alternative to it. In comparison, the default API for PHP consists of 377 files with more than 227,000 lines of machine-generated code, whereas SimpleESI consists of one single file with less than 600 lines of code (see also **Features** below).
 
 **For whom is it?** SimpleESI is for everyone, from beginners in web design who don’t want to commit to the full API yet, to the intermediate who is looking to gain an advantage in the game without spending too much time on programming, as well as for the professional who needs a compact API for implementing gadgets.
 
-**Where can I learn more about it?** You will find a list of features as well as several code examples below. A reference manual will be provided at a later time.
+**Where can I learn more about it?** You will find a list of features as well as several code examples below. A reference manual is in production and will be provided soon.
 
 To learn more about the game itself and as well its API please follow these links:
 

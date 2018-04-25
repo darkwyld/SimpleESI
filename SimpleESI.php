@@ -5,19 +5,6 @@ trait nodebug {
     protected function debug($lv, ...$msg) {}
 }
 trait debug {
-    protected function debug_init() {}
-    protected function debug_trnsfr($bt) {}
-    protected function debug($lv, ...$msg) {
-        if ($lv <= 0) {
-            $str = '['.__CLASS__.'] '.implode('', $msg);
-            if ($lv < 0)
-                throw new \Exception($str);
-            else
-                echo $str.PHP_EOL;
-        }
-    }
-}
-trait fulldebug {
     public $debug_level = 0, $debug_html, $debug_file;
     protected $debug_t0 = 0, $debug_trnsfr = 0;
     protected function debug_init() { $this->debug_t0 = microtime(true); }
@@ -194,7 +181,7 @@ trait sqlite3db {
 }
 
 class SimpleESI {
-    use fulldebug, sqlite3db;
+    use debug, sqlite3db;
 
     public $esi_uri = 'https://esi.tech.ccp.is/latest/';
     public $oauth_uri = 'https://login.eveonline.com/oauth/';
@@ -327,68 +314,73 @@ class SimpleESI {
     public function get(&$vl, ...$args) {
         $rq = current($args);
         if (is_string($rq)) {
-            $cb = next($args);
-            if (is_array($cb)) {
+            $a = next($args);
+            if (is_array($a) && empty($a['client_secret'])) {
                 if ($rq[-1] === '/')
                     $rq .= '?';
                 elseif ($rq[-1] !== '&')
                     $rq .= '&';
-                $rq .= http_build_query($cb, '', '&', PHP_QUERY_RFC3986);
-                $cb = next($args);
+                $rq .= http_build_query($a, '', '&', PHP_QUERY_RFC3986);
+                $a = next($args);
             }
-            if (is_int($cb)) {
-                $ex = time() - $cb;
-                $cb = next($args);
+            if (is_int($a)) {
+                $ex = time() - $a;
+                $a = next($args);
             } else
                 $ex = time();
-            if (is_array($cb)) {
-                $ci = $cb['cid'];
-                $ah = $cb['header'];
-                $cb = next($args);
+            if (is_array($a)) {
+                $ci = $a['cid'];
+                $ah = $a['header'];
+                $a = next($args);
             } else {
                 $ci = 0;
                 $ah = null;
             }
-            $this->single_get($vl, $rq, $ex, $ci, $ah, $cb);
+            $this->single_get($vl, $rq, $ex, $ci, $ah, $a);
         } else {
-            $rr = next($args);
-            if (is_string($rr)) {
-                $cb = next($args);
-                if (is_array($cb)) {
-                    if ($rr[-1] === '/')
-                        $rr .= '?';
-                    elseif ($rr[-1] !== '&')
-                        $rr .= '&';
-                    $rr .= http_build_query($cb, '', '&', PHP_QUERY_RFC3986);
-                    $cb = next($args);
+            $rp = next($args);
+            if (is_string($rp)) {
+                $a = next($args);
+                if (is_array($a) && empty($a['client_secret'])) {
+                    if ($rp[-1] === '/')
+                        $rp .= '?';
+                    elseif ($rp[-1] !== '&')
+                        $rp .= '&';
+                    $rp .= http_build_query($a, '', '&', PHP_QUERY_RFC3986);
+                    list($s1, $s2) = explode($this->marker, $rp, 2);
+                    $rp = [];
+                    foreach ($rq as $r)
+                        $rp[] = $s1.rawurlencode($r).$s2;
+                    $a = next($args);
+                } else {
+                    list($s1, $s2) = explode($this->marker, $rp, 2);
+                    $rp = explode($this->marker, $s1.implode($s2.$this->marker.$s1, $rq).$s2);
                 }
-                list($s1, $s2) = explode($this->marker, $rr, 2);
-                $rr = explode($this->marker, $s1.implode($s2.$this->marker.$s1, $rq).$s2);
             } else {
-                $cb = next($args);
-                if (is_array($cb)) {
-                    $qr = '?'.http_build_query($cb, '', '&', PHP_QUERY_RFC3986);
-                    foreach ($rr as &$r)
+                $a = next($args);
+                if (is_array($a) && empty($a['client_secret'])) {
+                    $qr = '?'.http_build_query($a, '', '&', PHP_QUERY_RFC3986);
+                    foreach ($rp as &$r)
                         $r .= $qr;
-                    $cb = next($args);
+                    $a = next($args);
                 }
             }
-            if (is_int($cb)) {
-                $ex = time() - $cb;
-                $cb = next($args);
+            if (is_int($a)) {
+                $ex = time() - $a;
+                $a = next($args);
             } else
                 $ex = time();
-            if (is_array($cb)) {
-                $ci = $cb['cid'];
-                $ah = $cb['header'];
-                $cb = next($args);
+            if (is_array($a)) {
+                $ci = $a['cid'];
+                $ah = $a['header'];
+                $a = next($args);
             } else {
                 $ci = 0;
                 $ah = null;
             }
             foreach ($rq as $r) {
-                $this->single_get($vl[$r], current($rr), $ex, $ci, $ah, $cb);
-                next($rr);
+                $this->single_get($vl[$r], current($rp), $ex, $ci, $ah, $a);
+                next($rp);
             }
         }
         return $this;
