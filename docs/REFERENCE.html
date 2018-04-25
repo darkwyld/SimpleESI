@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-25T16:46:42.254160976"/>
+	<meta name="changed" content="2018-04-25T16:58:42.429897124"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -424,26 +424,28 @@ arguments. The first argument is the executing SimpleESI object and
 the second is an object containing a request's data:</p>
 <pre class="php-western">(void) function callback($esi, $rq) { /* function body */ };</pre><p class="western" style="orphans: 2">
 <span style="font-style: normal">The </span><font face="Bitstream Vera Sans Mono, monospace"><span style="font-style: normal"><span style="background: #dfdfdf">$esi</span></span></font><span style="font-style: normal">-object
-can be used to queue further requests </span><span style="font-style: normal">during
-an execution. T</span><span style="font-style: normal">he </span><font face="Bitstream Vera Sans Mono, monospace"><span style="font-style: normal"><span style="background: #dfdfdf">$rq</span></span></font><span style="font-style: normal">-</span><span style="font-style: normal">object</span>
+can be used to queue </span><span style="font-style: normal">new</span><span style="font-style: normal">
+requests </span><span style="font-style: normal">during an execution.
+T</span><span style="font-style: normal">he </span><font face="Bitstream Vera Sans Mono, monospace"><span style="font-style: normal"><span style="background: #dfdfdf">$rq</span></span></font><span style="font-style: normal">-</span><span style="font-style: normal">object</span>
 holds the<span style="font-style: normal"> information about a
 request and its response. </span><span style="font-style: normal">When
 a request was queued with the </span><font face="Bitstream Vera Sans Mono, monospace"><span style="font-style: normal"><span style="background: #dfdfdf">get()</span></span></font><span style="font-style: normal">-method
 then</span><span style="font-style: normal"> </span><span style="font-style: normal">this
 object</span><span style="font-style: normal"> </span><span style="font-style: normal">has
 </span><span style="font-style: normal">got </span><span style="font-style: normal">the
-following </span><span style="font-style: normal">member </span><span style="font-style: normal">variable</span><span style="font-style: normal">s</span><span style="font-style: normal">:</span></p>
-<pre class="php-western">[ 'rq' =&gt; (string),
-  'ci' =&gt; (int),
-  'ex' =&gt; (int),
-  'lm' =&gt; (int),
-  'vl' =&gt; (reference),
-  'pn' =&gt; (int),
-  'pi' =&gt; (int),
-  'ah' =&gt; (string),
-  'cb' =&gt; (callable),
-  'rt' =&gt; (int) ]</pre><p class="western" style="orphans: 2">
-<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;rq</span></font><span style="font-style: normal">
+following </span><span style="font-style: normal">member </span><span style="font-style: normal">variable</span><span style="font-style: normal">s</span><span style="font-style: normal">:
+</span><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(string)
+rq</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+ci</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+ex</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+lm</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(reference)
+vl</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+pn</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+pi</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(string)
+ah</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(callable)
+cb</span></font>, <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
+rt</span></font></p>
+<p class="western" style="orphans: 2"><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;rq</span></font><span style="font-style: normal">
 is the request string including query arguments. </span><span style="font-style: normal">I</span><span style="font-style: normal">.e.:
 </span><font face="Bitstream Vera Sans Mono, monospace"><span style="font-style: normal"><span style="background: #dfdfdf">'universe/types/1230/'</span></span></font>.
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;ci</span></font><span style="font-style: normal">
@@ -468,7 +470,8 @@ is the authorization header used in </span><span style="font-style: normal">a</s
 request, or </span><font face="Bitstream Vera Sans Mono, monospace"><span style="font-style: normal"><span style="background: #dfdfdf">null</span></span></font><span style="font-style: normal">
 for unauthorized requests. i.e.: </span><font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'Authorization:
 Bearer ...'</span></font>. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$rq-&gt;rt</span></font><span style="font-style: normal">
-is the number of retries made to receive the request. </span><span style="font-style: normal">A
+is the number of retries made to receive the request.</span></p>
+<p class="western" style="orphans: 2"><span style="font-style: normal">A
 c</span><span style="font-style: normal">allback can </span><span style="font-style: normal">either
 be the name of a function</span><span style="font-style: normal">:</span></p>
 <pre class="php-western"><span style="font-style: normal">$Veldspar = null;</span>
