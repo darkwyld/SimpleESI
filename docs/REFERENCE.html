@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1.0 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-25T17:16:50.277161393"/>
+	<meta name="changed" content="2018-04-25T17:21:13.057657842"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -414,7 +414,7 @@ When a last argument <font face="Bitstream Vera Sans Mono, monospace"><span styl
 is being passed, and after the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$request</span></font>-string
 or -pattern, which is neither of the type int or of the type array,
 then it is taken as the name of a function or a callable closure that
-is to be executed the moment a response is received. For example:</p>
+is to be executed the moment a response arrives. For example:</p>
 <pre class="php-western">$esi-&gt;get($var1, 'universe/types/1230/', 'callback1');
 $esi-&gt;get($var2, [123, 456, 789], 'universe/types/~/', function($esi, $rq) { /* function body */ });
 $esi-&gt;get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' =&gt; '~'], 60*60, $auth, 'callback2');</pre><h5 class="western">
@@ -462,22 +462,22 @@ Bearer ...'</span></font>. <font face="Bitstream Vera Sans Mono, monospace"><spa
 is the number of retries made in receiving the response.</p>
 <p class="western" style="orphans: 2">A callback can either be the
 name of a function:</p>
-<pre class="php-western"><span style="font-style: normal">$Veldspar = null;</span>
+<pre class="php-western" style="font-style: normal">$Veldspar = null;
 
-<span style="font-style: normal">$esi-&gt;get($var, 'universe/types/1230/', 'callback')-&gt;exec();</span>
+$esi-&gt;get($var, 'universe/types/1230/', 'callback')-&gt;exec();
 
-<span style="font-style: normal">function callback($esi, $rq) {</span>
-   <span style="font-style: normal">global $Veldspar;</span>
+function callback($esi, $rq) {
+   global $Veldspar;
    <span style="font-style: normal">$Veldspar = $rq-&gt;vl</span><span style="font-style: normal">['description']</span><span style="font-style: normal">;</span>
-   <span style="font-style: normal">echo 'Last Modified: '.date('r', $rq-&gt;lm).PHP_EOL;</span>
-<span style="font-style: normal">}</span></pre><p class="western" style="orphans: 2">
+   echo 'Last Modified: '.date('r', $rq-&gt;lm).PHP_EOL;
+}</pre><p class="western" style="orphans: 2">
 … or a nameless function, also known as a closure:</p>
-<pre class="php-western"><span style="font-style: normal">$Veldspar = null;</span>
+<pre class="php-western" style="font-style: normal">$Veldspar = null;
 
-<span style="font-style: normal">$esi-&gt;get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {</span>
+$esi-&gt;get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {
     <span style="font-style: normal">$Veldspar = $rq-&gt;vl</span><span style="font-style: normal">['description']</span><span style="font-style: normal">;</span>
-    <span style="font-style: normal">echo 'Last Modified: '.date('r', $rq-&gt;lm).PHP_EOL;</span>
-<span style="font-style: normal">})-&gt;exec();</span></pre><h5 class="western">
+    echo 'Last Modified: '.date('r', $rq-&gt;lm).PHP_EOL;
+})-&gt;exec();</pre><h5 class="western">
 Paged Responses</h5>
 <p class="western"><br/>
 

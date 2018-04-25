@@ -322,7 +322,7 @@ $esi->get($var2, [123, 456, 789], 'universe/types/~/', 0, $authorization);
 $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $authorization);
 ```
 
-When a last argument `$callback` is being passed, and after the `$request`-string or -pattern, which is neither of the type int or of the type array, then it is taken as the name of a function or a callable closure that is to be executed the moment a response is received. For example:
+When a last argument `$callback` is being passed, and after the `$request`-string or -pattern, which is neither of the type int or of the type array, then it is taken as the name of a function or a callable closure that is to be executed the moment a response arrives. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', 'callback1');
