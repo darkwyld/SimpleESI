@@ -80,7 +80,7 @@ $esi->debug_file = 'esi.log';
 0, 'Unexpected response: X'
 1, 'Elapsed.'
 2, 'Error limit: X, window: Y'
-2, 'Retry (# X): Y'
+2, 'Retry #X: Y'
 2, 'Throttling traffic.'
 3, 'Authorization tokens received.'
 3, 'Character identification received.'
@@ -92,7 +92,6 @@ $esi->debug_file = 'esi.log';
 3, 'Requesting (POST): X'
 3, 'Requesting: X'
 4, 'Cached: X'
-4, 'cURL option X is not supported.'
 5, 'Header: X'
 ```
 
@@ -168,7 +167,7 @@ $esi->meta('key', $value);
 
 The content of `$value` is turned into a string by the PHP function `serialise()` before storing it in the database.
 
-Note: keys should not contain `..` and `.` when these are meant to be compatible with the `dirdb`-trait.
+Note: keys should not contain `/../` and `/./` when these are meant to be compatible with the `dirdb`-trait.
 
 ------------------------------------------------------------------------
 
@@ -176,7 +175,7 @@ Note: keys should not contain `..` and `.` when these are meant to be compatible
 
 ##### 2.1. `(string) esi_uri`
 
-The URI of the ESI server. Can be changed when necessary and must end with a `/`-character. The default is `https://esi.evetech.net/latest/`.
+The URI of the ESI server. It can be changed when necessary and must end with a `/`-character. The default is `https://esi.evetech.net/latest/`.
 
 ```php
 $esi->esi_uri = 'https://esi.evetech.net/dev/';
@@ -184,7 +183,7 @@ $esi->esi_uri = 'https://esi.evetech.net/dev/';
 
 ##### 2.2. `(string) oauth_uri`
 
-The URI of the SSO OAuth2 server. Can be changed when necessary and must end with a `/`-character. The default is `https://login.eveonline.com/oauth/`.
+The URI of the SSO OAuth2 server. It can be changed when necessary and must end with a `/`-character. The default is `https://login.eveonline.com/oauth/`.
 
 ```php
 $esi->oauth_uri = 'https://sisilogin.testeveonline.com/oauth/';
@@ -195,16 +194,20 @@ $esi->oauth_uri = 'https://sisilogin.testeveonline.com/oauth/';
 The character, or string, used in a pattern to the `get()`-method. The default is the `~`-character.
 
 ```php
-$esi->marker = '#';
+$esi->marker = 'XXX';
 ```
+
+Note: for a marker string to be usable in an associative array as a part of a query argument (see below) does it need to remain unchanged by the RFC3986-encoding. This is the case for the `~`-character, but characters such as `\#`, `\*` or `$` do get percent-encoded and are not usable in such a case.
 
 ##### 2.4. `(bool) paging`
 
-A toggle to disable and enable the behaviour of the `exec()`-method when responses are segmented into pages. The default is `true`, causing the `exec()`-method to request all pages automatically.
+A toggle to change the behaviour of the `exec()`-method with regards to paged responses. The default is `true`, causing the `exec()`-method to request all additional pages automatically and to store them as an array. When set to false are no additional requests created and the response is stored as is.
 
 ```php
 $esi->paging = false;
 ```
+
+Note: requests that specify a page in their query arguments do not trigger paging, and can be used to request a single page while paging is enabled.
 
 ##### 2.5. `(int) retries`
 
@@ -216,7 +219,7 @@ $esi->retries = 6;
 
 ##### 2.6. `(int) error_throttle`
 
-The number of errors remaining (according to the `X-ESI-Error-Limit-Remain:`-header) at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `->error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
+The number of errors remaining, according to the `X-ESI-Error-Limit-Remain:`-header, at which to begin throttling out-going traffic. The default is `80`. The ESI error limit is a number, starting at `100`, which is returned by ESI for each request and represents a count-down after which an application is denied access (for a limited time). It is meant to control the traffic to the ESI server and to give each application a chance to back off in cases where there is a problem. The number is not necessarily an indication for an application error. A count-down can occur for various reasons. The error count is valid for a limited time after which it is reset to `100`. SimpleESI uses a non-linear function to implement a dynamic behaviour. When the reported error limit drops to or below the `->error_throttle` value will it pause briefly for a few milliseconds before sending out a new request. This pause will grow longer the closer the count-down gets to `0` and the larger the remaining time window is.
 
 ```php
 $esi->error_throttle = 90;
@@ -224,7 +227,7 @@ $esi->error_throttle = 90;
 
 ##### 2.7. `(int) error_exit`
 
-The number of errors remaining at which to raise an exception in the application. The default is `20`. If the exception is not caught will it exit the application. It is meant to prevent the count-down from reaching `0`, at which the ESI server will reject further requests. Setting this value below `0` will turn this behaviour off and offers a good chance for your application to be noticed at CCP.
+The number of errors remaining at which to raise an exception in the application. The default is `20`. If the exception is not caught will it exit the application. It is meant to prevent the count-down from reaching `0`, at which the ESI server will reject further requests. Setting the value below `0` will turn this behaviour off and may offer a good chance for your application to be noticed at CCP.
 
 ```php
 $esi->error_exit = -1;
@@ -266,13 +269,13 @@ Alternative notation:
              [(callable) $callback])
 ```
 
-The `get()`-method takes a variable number of arguments, and depending on the type of arguments will it queue one or more requests. The first argument, here named `$variable`, needs to be a variable and cannot be a value or an expression. A reference to the variable is stored along with any requests and used in assigning the response(s) to the variable during an execution by the `exec()`-method. When the second argument to the `get()`-method is a string then it is taken as the `$request`-string and a single request will be queued. For example:
+The `get()`-method takes a variable number of arguments, and depending on the type of arguments will it queue one or more requests. The first argument, here named `$variable`, needs to be a variable and cannot be a value or an expression. A reference to the variable is stored along with any requests and is used in assigning the response(s) to the variable during an execution by the `exec()`-method. When the second argument to the `get()`-method is a string then it is taken as the `$request`-string and a single request will be queued. For example:
 
 ```php
 $esi->get($var, 'universe/types/1230/');
 ```
 
-When instead of a string an array `$values` is being passed, then a third argument will be taken as the `$request`-pattern and the values of the array `$values` will be used to create multiple requests by substituting these each with the `~`-character in the `$request`-pattern. The responses are assigned as an array, where each value of the `$values`-array becomes the key to the corresponding response. For example:
+When instead of a string an array `$values` is being passed, then a third argument will be taken as the `$request`-pattern and the values of the array `$values` will be used to create multiple requests by substituting these each with the `~`-character in the `$request`-pattern. The responses are stored as an array, where the values of the `$values`-array become the keys to the corresponding responses. For example:
 
 ```php
 $esi->get($var, [123, 456, 789], 'universe/types/~/');
@@ -286,7 +289,7 @@ $esi->get($var[123], 'universe/types/123/')
     ->get($var[789], 'universe/types/789/');
 ```
 
-When an associative array is being passed after the `$request`-string or -pattern, then it is used to form and append a query string to the request(s). The elements of the associative `$query`-array are URL-encoded according to RFC3986, and in the case of a pattern substitution is the query string be appended to the pattern and the values of the `$value`-array are URL-encoded before a substitution is being made. For example:
+When an associative array is being passed after the `$request`-string or -pattern, then it is used to form and append a query string to the request(s). The elements of the associative `$query`-array are URL-encoded according to RFC3986, and in the case of a pattern substitution is the query string appended to the pattern and the values of the `$values`-array are URL-encoded before a substitution is being made. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', ['language' => 'de']);
@@ -306,7 +309,7 @@ $esi->get($var4['Domain'], 'search/?categories=region&strict=1&search=Domain')
     ->get($var4['Sinq Laison'], 'search/?categories=region&strict=1&search=Sinq%20Laison');
 ```
 
-When an integer `$expires` is being passed after the `$request`-string, or -pattern, or after the `$query`-array then it is used as a time in seconds by which to offset a resource's expiration time. A positive value extends an expiration time temporarily, while a negative value shortens it. The value only affects the cache lookup, but it does not alter the actual expiration time of a resource. For example:
+When an integer `$expires` is being passed after this, then it is used as a time in seconds by which to offset a resource's expiration time. A positive value extends an expiration time temporarily, while a negative value shortens it. The value only affects the cache lookup, but it does not alter the actual expiration time of a resource. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', 60*60);
@@ -322,7 +325,7 @@ $esi->get($var2, [123, 456, 789], 'universe/types/~/', 0, $authorization);
 $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*60, $authorization);
 ```
 
-When a last argument `$callback` is being passed, and after the `$request`-string or -pattern, which is neither of the type int or of the type array, then it is taken as the name of a function or a callable closure that is to be executed the moment a response arrives. For example:
+When a last argument `$callback` is being passed, which is neither of the type int or of the type array, then it is taken as the name of a function or a callable closure that is to be executed at the moment a response arrives. For example:
 
 ```php
 $esi->get($var1, 'universe/types/1230/', 'callback1');
@@ -332,20 +335,33 @@ $esi->get($var3, ['fr', 'ru'], 'universe/types/1230/', ['language' => '~'], 60*6
 
 ##### Callback Functions
 
-Callback functions get two arguments. The first argument is the executing SimpleESI object and the second is an object containing a request's data:
+Callback functions receive two arguments when called. The first argument is the executing SimpleESI object and the second is an object containing a request's data:
 
 ```php
 (void) function callback($esi, $rq) { /* function body */ };
 ```
 
-The `$esi`-object can be used to queue new requests during an execution. The `$rq`-object holds the information about a request and its response. When a request was queued with the `get()`-method then this object has got the following member variables: `(string) rq`, `(int) ci`, `(int) ex`, `(int) lm`, `(reference) vl`, `(int) pn`, `(int) pi`, `(string) ah`, `(callable) cb`, `(int) rt`
+The `$esi`-object can be used to queue new requests during an execution. The `$rq`-object holds the information about a request and its response. When a request was queued with the `get()`-method then this object has got the following member variables:
 
-`$rq->rq` is the request string including query arguments. I.e.: `'universe/types/1230/'`. `$rq->ci` is the cache id used in separating cache responses for different users. For unauthorized requests is this value `0` and for authorized request is it the character's id. `$rq->ex` is the expiration time in seconds since 1970. `$rq->lm` is the “Last Modified”-time in seconds since 1970. `$rq->vl` is a reference to the variable that holds the response. In case of multiple responses and paged responses is it a reference to the array element itself. `$rq->pn` is the total number of pages of segmented responses, or `null` when unsegmented. `$rq->pi` is the page index of a response when it was requested automatically, starting at offset `1` for page 2, and otherwise is it `null`. `$rq->ah` is the authorization header used in a request, or `null` for unauthorized requests. i.e.: `'Authorization: Bearer ...'`. `$rq->rt` is the number of retries made in receiving the response.
+```php
+(string) rq
+(int) ci
+(int) ex
+(int) lm
+(reference) vl
+(int) pn
+(int) pi
+(string) ah
+(callable) cb
+(int) rt
+```
+
+`$rq->rq` is the request string including any query arguments. I.e.: `'universe/types/1230/'`. `$rq->ci` is the cache id used in separating cache responses for different users. For unauthorized requests is this value `0` and for authorized request is it the character's id. `$rq->ex` is the expiration time in seconds since 1970. `$rq->lm` is the “Last Modified”-time in seconds since 1970. `$rq->vl` is a reference to the variable that holds the response. In case of multiple responses and paged responses is it a reference to the array element itself. `$rq->pn` is the total number of pages for segmented responses, or `null` when unsegmented. `$rq->pi` is the page index of a response when it was requested automatically, starting at offset `2` for page 2, and otherwise is it `null`. `$rq->ah` is the authorization header used in a request, or `null` for unauthorized requests. i.e.: `'Authorization: Bearer ...'`. `$rq->rt` is the number of retries made in receiving the response.
 
 A callback can either be the name of a function:
 
 ```php
-$Veldspar = null;
+$Veldspar = 'no description';
 
 $esi->get($var, 'universe/types/1230/', 'callback')->exec();
 
@@ -359,7 +375,7 @@ function callback($esi, $rq) {
 or a nameless function, also known as a closure:
 
 ```php
-$Veldspar = null;
+$Veldspar = 'no description';
 
 $esi->get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {
     $Veldspar = $rq->vl['description'];
@@ -368,6 +384,8 @@ $esi->get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {
 ```
 
 ##### Paged Responses
+
+...
 
 ##### 3.4. `(void) single_get(<(mixed) &$variable>, <(string) $request>, [(int) $expires], [(int) $charid], [(string) $authheader], [(callable) $callback])`
 
