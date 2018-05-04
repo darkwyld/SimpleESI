@@ -287,8 +287,6 @@ The Forge's id is 10000002.
 
 **What it does:** it creates a SimpleESI object to see if it holds an array in its meta database for mapping region names to id's. If it cannot find one then it uses the object to create it by first requesting the list of region id's, then requesting the data on all regions based on their id's in a second execution, and then uses the PHP function `array_column()` to map the id's of every region to its name. It then stores the associative array in the meta database so it can find it again next time. Finally, it prints the id of The Forge.
 
-The `meta()`-method functions as a simple “key/value”-database, which is stored alongside with the cache. It allows an application to reduce the number of its ESI requests to an essential minimum. By storing static data such as the names of regions in a local database can one save time and speed up execution. When passed a single argument does the `meta()`-method work as a query. With two arguments does it work as an assignment (“key = value”).
-
 The example creates more than a hundred requests with only these lines:
 
 ```php
@@ -299,6 +297,8 @@ The example creates more than a hundred requests with only these lines:
 ```
 
 The resource `'universe/regions/'` contains an array with the id's of all regions, which is first downloaded and stored inside the variable `$RegionIds`. It is then used directly thereafter together with a pattern in a second call to the `get()`-method in order to create one hundred requests – one for every region – and to download more information on each region, such as their names.
+
+The `meta()`-method functions as a simple “key/value”-database, which is stored alongside with the cache. It allows an application to reduce the number of its ESI requests to an essential minimum. By storing static data such as the names of regions in a local database can one save time and speed up execution. When passed a single argument does the `meta()`-method work as a query. With two arguments does it work as an assignment (“key = value”).
 
 Note: all requests to the ESI server take time. The fastest request is the one, which does not need to be made!
 
