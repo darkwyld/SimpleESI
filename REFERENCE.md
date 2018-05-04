@@ -176,10 +176,10 @@ Note: keys should not contain `..` and `.` when these are meant to be compatible
 
 ##### 2.1. `(string) esi_uri`
 
-The URI of the ESI server. Can be changed when necessary and must end with a `/`-character. The default is `https://esi.tech.ccp.is/latest/`.
+The URI of the ESI server. Can be changed when necessary and must end with a `/`-character. The default is `https://esi.evetech.net/latest/`.
 
 ```php
-$esi->esi_uri = 'https://esi.tech.ccp.is/dev/';
+$esi->esi_uri = 'https://esi.evetech.net/dev/';
 ```
 
 ##### 2.2. `(string) oauth_uri`

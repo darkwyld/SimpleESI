@@ -25,7 +25,7 @@ trait debug {
                 printf('['.__CLASS__.'] %07.3fs %db (%d) %s'.PHP_EOL, $dt, $this->debug_trnsfr, $lv, $str);
         }
         if ($lv < 0)
-            throw new \Exception('['.__CLASS__.'] Fatal error occured. Please see debug messages.');
+            throw new \Exception('['.__CLASS__.'] A fatal error occured. Please see the debug messages.');
     }
 }
 
@@ -183,7 +183,7 @@ trait sqlite3db {
 class SimpleESI {
     use debug, sqlite3db;
 
-    public $esi_uri = 'https://esi.tech.ccp.is/latest/';
+    public $esi_uri = 'https://esi.evetech.net/latest/';
     public $oauth_uri = 'https://login.eveonline.com/oauth/';
     public $marker = '~';
     public $paging = true;
@@ -191,37 +191,51 @@ class SimpleESI {
     public $error_throttle = 80, $error_exit = 20;
 
     protected $get_arr, $post_arr, $idle = true;
-    protected $curl_mh, $curl_opt_get_arr, $curl_opt_post_arr, $curl_arr;
+    protected $curl_mh, $curl_arr, $rqst_get_opt_arr, $rqst_post_opt_arr;
     protected $error_window = 60, $error_usleep;
+    protected $auth_get_opt_arr, $auth_post_opt_arr;
 
     public function __construct($fn = 'esi', $us = null) {
         $this->debug_init();
         $this->db_init($fn);
         $this->curl_mh = curl_multi_init();
         curl_multi_setopt($this->curl_mh, CURLMOPT_PIPELINING, CURLPIPE_HTTP1 | CURLPIPE_MULTIPLEX);
-        $this->curl_opt_get_arr = [ CURLOPT_RETURNTRANSFER => true,
+        $this->rqst_get_opt_arr = [ CURLOPT_RETURNTRANSFER => true,
                                     CURLOPT_HTTPHEADER     => [ null /*reserved*/, 'Accept: application/json' ],
                                     CURLOPT_HEADERFUNCTION => __CLASS__.'::process_header',
                                     CURLOPT_PIPEWAIT       => true,
                                     CURLOPT_BUFFERSIZE     => 256 << 10,
                                     CURLOPT_TIMEOUT        => 300,
-                                    CURLOPT_HTTPAUTH       => CURLAUTH_ANY,
-                                    CURLOPT_TCP_NODELAY    => true ];
+                                    CURLOPT_HTTPAUTH       => CURLAUTH_ANY ];
         if (isset($us))
-            $this->curl_opt_get_arr[CURLOPT_HTTPHEADER][] = 'X-User-Agent: '.$us;
+            $this->rqst_get_opt_arr[CURLOPT_HTTPHEADER][] = 'X-User-Agent: '.$us;
 
+        $this->auth_get_opt_arr = [ CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_HTTPHEADER     => [ null /*reserved*/, 'Accept: application/json' ],
+                                    CURLOPT_TIMEOUT        => 30,
+                                    CURLOPT_HTTPAUTH       => CURLAUTH_ANYSAFE,
+                                    CURLOPT_SSL_VERIFYPEER => true,
+                                    CURLOPT_SSL_VERIFYHOST => 2 ];
         $hn = curl_init($this->esi_uri);
         foreach ([ CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_2_0,
                    CURLOPT_TCP_FASTOPEN   => true,
-                   CURLOPT_SSL_FALSESTART => true ] as $op => $vl)
-            if (curl_setopt($hn, $op, $vl) === true)
-                $this->curl_opt_get_arr[$op] = $vl;
-            else
-                $this->debug(4, 'cURL option '.$op.' is not supported.');
+                   CURLOPT_SSL_FALSESTART => true,
+                   CURLOPT_TCP_NODELAY    => true ] as $op => $vl) {
+            if (curl_setopt($hn, $op, $vl) === true) {
+                if (!isset($this->rqst_get_opt_arr[$op]))
+                    $this->rqst_get_opt_arr[$op] = $vl;
+                if (!isset($this->auth_get_opt_arr[$op]))
+                    $this->auth_get_opt_arr[$op] = $vl;
+            }
+        }
         curl_close($hn);
-        $this->curl_opt_post_arr = $this->curl_opt_get_arr;
-        $this->curl_opt_post_arr[CURLOPT_POST]         = true;
-        $this->curl_opt_post_arr[CURLOPT_HTTPHEADER][] = 'Content-Type: application/json';
+        $this->rqst_post_opt_arr = $this->rqst_get_opt_arr;
+        $this->auth_post_opt_arr = $this->auth_get_opt_arr;
+        $this->rqst_post_opt_arr[CURLOPT_POST] = true;
+        $this->auth_post_opt_arr[CURLOPT_POST] = true;
+        $this->rqst_post_opt_arr[CURLOPT_HTTPHEADER][] = 'Content-Type: application/json';
+        $this->auth_post_opt_arr[CURLOPT_HTTPHEADER][] = 'Content-Type: application/json';
     }
 
     public function __destruct() {
@@ -260,11 +274,9 @@ class SimpleESI {
         $cd = $this->query_cache($rq->rq, $rq->ci, $rq->ex);
         if (isset($cd)) {
             list($rq->ex, $rq->pn, $rq->lm) = $cd;
-            if (isset($rq->pn) && empty($rq->pi)) {
-                if ($rq->pn > 1 && isset($this->paging))
-                    $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->ci, $rq->ah, $rq->cb);
-                $rq->vl = &$rq->vl[0];
-            }
+            if (isset($rq->pn, $this->paging) && empty($rq->pi) &&
+                $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->ci, $rq->ah, $rq->cb))
+                $rq->vl = &$rq->vl[1];
             $rq->vl = json_decode($cd[3], true);
             if ($rq->cb)
                 ($rq->cb)($this, $rq);
@@ -276,8 +288,8 @@ class SimpleESI {
         }
         $this->debug(3, 'Requesting: ', $rq->rq);
         $hn = curl_init($this->esi_uri.$rq->rq);
-        $this->curl_opt_get_arr[CURLOPT_HTTPHEADER][0] = $rq->ah;
-        curl_setopt_array($hn, $this->curl_opt_get_arr);
+        $this->rqst_get_opt_arr[CURLOPT_HTTPHEADER][0] = $rq->ah;
+        curl_setopt_array($hn, $this->rqst_get_opt_arr);
         curl_multi_add_handle($this->curl_mh, $hn);
         $this->curl_arr[(int) $hn] = $rq;
     }
@@ -297,18 +309,21 @@ class SimpleESI {
         if (isset($url['query']))
             parse_str($url['query'], $qr);
         if (isset($qr['page']))
-            return;
-        $this->debug(3, 'Requesting pages ', $p0, ' to ', $p1, ' of: ', $rq);
-        for ($i = $p0; $i <= $p1; ++$i) {
-            $qr['page'] = $i;
-            $rr = $rq.http_build_query($qr);
-            if (isset($this->get_arr[$rr]))
-                continue;
-            $this->get_arr[$rr] = (object) [ 'rq' => $rr, 'ci' => $ci, 'ex' => $ex, 'lm' =>   0, 'vl' => &$vl[$i - 1],
-                                             'pn' => $p1, 'pi' =>  $i, 'ah' => $ah, 'cb' => $cb, 'rt' => 0 ];
-            if (empty($this->idle))
-                $this->queue_get($this->get_arr[$rr]);
+            return false;
+        if ($p0 <= $p1) {
+            $this->debug(3, 'Requesting page #', $p0, ' to #', $p1, ' of: ', $rq);
+            do {
+                $qr['page'] = $p0;
+                $rr = $rq.http_build_query($qr);
+                if (isset($this->get_arr[$rr]))
+                    continue;
+                $this->get_arr[$rr] = (object) [ 'rq' => $rr, 'ci' => $ci, 'ex' => $ex, 'lm' =>   0, 'vl' => &$vl[$p0],
+                                                 'pn' => $p1, 'pi' => $p0, 'ah' => $ah, 'cb' => $cb, 'rt' => 0 ];
+                if (empty($this->idle))
+                    $this->queue_get($this->get_arr[$rr]); 
+            } while (++$p0 <= $p1);
         }
+        return true;
     }
 
     public function get(&$vl, ...$args) {
@@ -393,9 +408,9 @@ class SimpleESI {
         }
         $this->debug(3, 'Requesting (POST): ', $rq->rq);
         $hn = curl_init($this->esi_uri.$rq->rq);
-        $this->curl_opt_post_arr[CURLOPT_POSTFIELDS] = $rq->pd;
-        $this->curl_opt_post_arr[CURLOPT_HTTPHEADER][0] = $rq->ah;
-        curl_setopt_array($hn, $this->curl_opt_post_arr);
+        $this->rqst_post_opt_arr[CURLOPT_POSTFIELDS] = $rq->pd;
+        $this->rqst_post_opt_arr[CURLOPT_HTTPHEADER][0] = $rq->ah;
+        curl_setopt_array($hn, $this->rqst_post_opt_arr);
         curl_multi_add_handle($this->curl_mh, $hn);
         $this->curl_arr[(int) $hn] = $rq;
     }
@@ -437,11 +452,9 @@ class SimpleESI {
                                 if (empty($vl['error'])) {
                                     if (empty($rq->pd)) {
                                         $this->update_cache($rq->rq, $rq->ci, $rq->ex, $rq->pn, $rq->lm, $str);
-                                        if (isset($rq->pn) && empty($rq->pi)) {
-                                            if ($rq->pn > 1 && isset($this->paging))
-                                                $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->ci, $rq->ah, $rq->cb);
-                                            $rq->vl = &$rq->vl[0];
-                                        }
+                                        if (isset($rq->pn, $this->paging) && empty($rq->pi) &&
+                                            $this->pages_get($rq->vl, $rq->rq, 2, $rq->pn, $rq->ex, $rq->ci, $rq->ah, $rq->cb))
+                                            $rq->vl = &$rq->vl[1];
                                     }
                                     $rq->rt = 0;
                                     $rq->vl = $vl;
@@ -500,25 +513,10 @@ class SimpleESI {
             return false;
         }
         $hn = curl_init($this->oauth_uri.'token');
-        curl_setopt_array($hn, [
-            CURLOPT_HTTP_VERSION     => CURL_HTTP_VERSION_1_1,
-            CURLOPT_RETURNTRANSFER   => true,
-            CURLOPT_HTTPHEADER       => [ 'Accept: application/json',
-                                          'Authorization: Basic '.base64_encode($at['client_id'].':'.
-                                                                                $at['client_secret']),
-                                          'Content-Type: application/json' ],
-            CURLHEADER_SEPARATE      => true,
-            CURLOPT_POST             => true,
-            CURLOPT_POSTFIELDS       => $gr,
-            CURLOPT_TIMEOUT          => 30,
-            CURLOPT_HTTPAUTH         => CURLAUTH_ANYSAFE,
-            CURLOPT_SSL_VERIFYPEER   => true,
-            CURLOPT_SSL_VERIFYHOST   => 2,
-            CURLOPT_FORBID_REUSE     => false,
-            CURLOPT_TCP_NODELAY      => true
-        ]);
-        curl_setopt($hn, CURLOPT_TCP_FASTOPEN, true);
-        curl_setopt($hn, CURLOPT_SSL_FALSESTART, true);
+        $this->auth_post_opt_arr[CURLOPT_HTTPHEADER][0] = 'Authorization: Basic '.base64_encode($at['client_id'].':'.
+                                                                                                $at['client_secret']);
+        $this->auth_post_opt_arr[CURLOPT_POSTFIELDS] = $gr;
+        curl_setopt_array($hn, $this->auth_post_opt_arr);
         $tk = json_decode(curl_exec($hn), true);
         curl_close($hn);
         if (isset($tk['access_token'])) {
@@ -530,19 +528,8 @@ class SimpleESI {
                 return true;
             $this->debug(3, 'Requesting character identification.');
             $hn = curl_init($this->oauth_uri.'verify');
-            curl_setopt_array($hn, [ CURLOPT_HTTP_VERSION     => CURL_HTTP_VERSION_1_1,
-                                     CURLOPT_RETURNTRANSFER   => true,
-                                     CURLOPT_HTTPHEADER       => [ 'Accept: application/json', $at['header'] ],
-                                     CURLHEADER_SEPARATE      => true,
-                                     CURLOPT_TIMEOUT          => 30,
-                                     CURLOPT_HTTPAUTH         => CURLAUTH_ANYSAFE,
-                                     CURLOPT_SSL_VERIFYPEER   => true,
-                                     CURLOPT_SSL_VERIFYHOST   => 2,
-                                     CURLOPT_FRESH_CONNECT    => false,
-                                     CURLOPT_TCP_NODELAY      => true
-            ]);
-            curl_setopt($hn, CURLOPT_TCP_FASTOPEN, true);
-            curl_setopt($hn, CURLOPT_SSL_FALSESTART, true);
+            $this->auth_get_opt_arr[CURLOPT_HTTPHEADER][0] = $at['header'];
+            curl_setopt_array($hn, $this->auth_get_opt_arr);
             $ch = json_decode(curl_exec($hn), true);
             curl_close($hn);
             if (is_array($ch)) {
