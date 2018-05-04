@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.4.1 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-05-04T12:56:26.415326594"/>
+	<meta name="changed" content="2018-05-04T13:46:06.718785662"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -291,10 +291,10 @@ There are currently 21356 players in EVE Online.</pre><p class="western" style="
 </p>
 <p class="western" style="orphans: 2"><b>What it does:</b> the object
 is being used to get the game's current status as well as data on 3
-item types. The ids for the items are being provided as an array
+item types. The id's for the items are being provided as an array
 together with a pattern from which it forms the requests. The
 requests are then executed. Once completed does it print the names
-and ids of the items, and last but not least, the number of players
+and id's of the items, and last but not least, the number of players
 online.</p>
 <p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
 allows to queue multiple requests and can create them automatically
@@ -400,11 +400,11 @@ The Forge's id is 10000002.</pre><p class="western" style="orphans: 2">
 </p>
 <p class="western" style="orphans: 2"><b>What it does:</b> it creates
 a SimpleESI object to see if it holds an array in its meta database
-for mapping region names to ids. If it cannot find one then it uses
-the object to create it by first requesting the list of region ids,
-then requesting the data on all regions based on their ids in a
+for mapping region names to id's. If it cannot find one then it uses
+the object to create it by first requesting the list of region id's,
+then requesting the data on all regions based on their id's in a
 second execution, and then uses the PHP function <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">array_column()</span></font>
-to map the ids of every region to its name. It then stores the
+to map the id's of every region to its name. It then stores the
 associative array in the meta database so it can find it again next
 time. Finally, it prints the id of The Forge.</p>
 <p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
@@ -416,6 +416,19 @@ time and speed up execution. When passed a single argument does the
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
 work as a query. With two arguments does it work as an assignment
 (“key = value”).</p>
+<p class="western" style="orphans: 2">The example creates more than a
+hundred requests with only these lines:</p>
+<pre class="php-western">    $esi-&gt;get($RegionIds, 'universe/regions/')
+        -&gt;exec()
+        -&gt;get($Regions, $RegionIds, 'universe/regions/~/')
+        -&gt;exec();</pre><p class="western" style="orphans: 2">
+The resource <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'universe/regions/'</span></font>
+contains an array with the id's of all regions, which is first
+downloaded and stored inside the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$RegionIds</span></font>.
+It is then used directly thereafter together with a pattern in a
+second call to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+in order to create one hundred requests – one for every region –
+and to download more information on each region, such as their names.</p>
 <p class="western" style="orphans: 2"><u>Note:</u> all requests to
 the ESI server take time. The fastest request is the one, which does
 not need to be made!</p>
@@ -473,7 +486,7 @@ Number of item types found on Tranquility: 34029
 
 </p>
 <p class="western" style="orphans: 2"><b>What it does:</b> the object
-is used to get the list of all type ids from Tranquility and
+is used to get the list of all type id's from Tranquility and
 Singularity. It prints the number of item types found for each
 server, computes their difference and shows which items can only be
 found on the test server, and which are missing.</p>

@@ -188,7 +188,7 @@ Void S has got an id of 12612.
 There are currently 21356 players in EVE Online.
 ```
 
-**What it does:** the object is being used to get the game's current status as well as data on 3 item types. The ids for the items are being provided as an array together with a pattern from which it forms the requests. The requests are then executed. Once completed does it print the names and ids of the items, and last but not least, the number of players online.
+**What it does:** the object is being used to get the game's current status as well as data on 3 item types. The id's for the items are being provided as an array together with a pattern from which it forms the requests. The requests are then executed. Once completed does it print the names and id's of the items, and last but not least, the number of players online.
 
 The `get()`-method allows to queue multiple requests and can create them automatically when given an array and a pattern. The values of the passed array are being inserted at the position of the marker (`~`-sign). The returned data is stored as an array in the variable and the values of the array become the keys to the responses. The line:
 
@@ -285,9 +285,20 @@ $ php -f examples/example-5.php
 The Forge's id is 10000002.
 ```
 
-**What it does:** it creates a SimpleESI object to see if it holds an array in its meta database for mapping region names to ids. If it cannot find one then it uses the object to create it by first requesting the list of region ids, then requesting the data on all regions based on their ids in a second execution, and then uses the PHP function `array_column()` to map the ids of every region to its name. It then stores the associative array in the meta database so it can find it again next time. Finally, it prints the id of The Forge.
+**What it does:** it creates a SimpleESI object to see if it holds an array in its meta database for mapping region names to id's. If it cannot find one then it uses the object to create it by first requesting the list of region id's, then requesting the data on all regions based on their id's in a second execution, and then uses the PHP function `array_column()` to map the id's of every region to its name. It then stores the associative array in the meta database so it can find it again next time. Finally, it prints the id of The Forge.
 
 The `meta()`-method functions as a simple “key/value”-database, which is stored alongside with the cache. It allows an application to reduce the number of its ESI requests to an essential minimum. By storing static data such as the names of regions in a local database can one save time and speed up execution. When passed a single argument does the `meta()`-method work as a query. With two arguments does it work as an assignment (“key = value”).
+
+The example creates more than a hundred requests with only these lines:
+
+```php
+    $esi->get($RegionIds, 'universe/regions/')
+        ->exec()
+        ->get($Regions, $RegionIds, 'universe/regions/~/')
+        ->exec();
+```
+
+The resource `'universe/regions/'` contains an array with the id's of all regions, which is first downloaded and stored inside the variable `$RegionIds`. It is then used directly thereafter together with a pattern in a second call to the `get()`-method in order to create one hundred requests – one for every region – and to download more information on each region, such as their names.
 
 Note: all requests to the ESI server take time. The fastest request is the one, which does not need to be made!
 
@@ -345,7 +356,7 @@ Number of item types found on Tranquility: 34029
       #47884 - 'Outpost Conversion Rig 4'
 ```
 
-**What it does:** the object is used to get the list of all type ids from Tranquility and Singularity. It prints the number of item types found for each server, computes their difference and shows which items can only be found on the test server, and which are missing.
+**What it does:** the object is used to get the list of all type id's from Tranquility and Singularity. It prints the number of item types found for each server, computes their difference and shows which items can only be found on the test server, and which are missing.
 
 Due to their large size are the lists only available as sets of pages – books. This technique allows the ESI server to respond to every application in a fair manner without one, single application blocking it. It also requires applications to send a request for every page before the data can be processed in its entirety.
 
