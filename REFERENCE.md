@@ -211,7 +211,7 @@ $esi->paging = false;
 The number of additional attempts to make when requests fail. The default is `3`.
 
 ```php
-$esi->retries = 5;
+$esi->retries = 6;
 ```
 
 ##### 2.6. `(int) error_throttle`
@@ -356,7 +356,7 @@ function callback($esi, $rq) {
 }
 ```
 
-… or a nameless function, also known as a closure:
+or a nameless function, also known as a closure:
 
 ```php
 $Veldspar = null;
@@ -371,12 +371,10 @@ $esi->get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {
 
 ##### 3.4. `(void) single_get(<(mixed) &$variable>, <(string) $request>, [(int) $expires], [(int) $charid], [(string) $authheader], [(callable) $callback])`
 
-##### 3.5. `(void) pages_get(<(mixed) &$variable>, <(string) $request>, <(int) $startpage>, <(int) $endpage>, <(int) $expires>, [(int) $charid], [(string) $authheader], [(callable) $callback])`
+##### 3.5. `(object) post(<(mixed) &$variable>, <(string) $request>, <(mixed) $data>, [(array) $authorization], [(callable) $callback])`
 
-##### 3.6. `(object) post(<(mixed) &$variable>, <(string) $request>, <(mixed) $data>, [(array) $authorization], [(callable) $callback])`
+##### 3.6. `(object) exec()`
 
-##### 3.7. `(object) exec()`
-
-##### 3.8. `(bool) auth(<(array) &$authorization>, [(string) $code])`
+##### 3.7. `(bool) auth(<(array) &$authorization>, [(string) $code])`
 
 

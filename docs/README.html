@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.4.1 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-04-25T20:46:37.291379625"/>
+	<meta name="changed" content="2018-05-04T12:56:26.415326594"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -588,8 +588,8 @@ retrieved again later.</p>
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
 from within callbacks do not require an explicit call to the
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">exec()</span></font>-method,
-because the requests are being queued while an execution is already
-running. The calls to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+because an execution is already running. The calls to the
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
 inside the callback functions further each get passed a numeric
 argument. This number is used to briefly extend the expiration time
 of a request artificially. The reason why this can be useful is
@@ -609,6 +609,24 @@ responses the moment these arrive, and before all requests have been
 answered and before execution ends. This speeds up applications by
 exploiting the ESI server’s ability to respond to requests out of
 order.</p>
+<p class="western" style="orphans: 2">Using the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
+to set global variables at the beginning of a script and to save
+their content at the end allows to create persistent variables, which
+will keep their content beyond the scope of the script. The lines at
+the end of the example:</p>
+<pre class="php-western">$esi-&gt;meta('GLOBALS', [ 'Stations' =&gt; $Stations,
+                        'Systems'  =&gt; $Systems ]);</pre><p class="western" style="orphans: 2">
+store the contents of the two variables <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$Stations</span></font>
+and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$Systems</span></font>
+together with their names in an associative array under a key named
+<font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'GLOBALS'</span></font>.
+When the example is run and executes</p>
+<pre class="php-western">$GLOBALS += $esi-&gt;meta('GLOBALS') ?: [];</pre><p class="western" style="orphans: 2">
+will it append the associative array directly to the special PHP
+variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$GLOBALS</span></font>,
+causing PHP to set the two global variables <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$Stations</span></font>
+and <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$Systems</span></font>
+to their previously saved content.</p>
 <p class="western" style="orphans: 2"><u>Note:</u> due to the current
 structure of the ESI does this example only list prices found at NPC
 stations and does not include sell orders at player-owned stations.</p>

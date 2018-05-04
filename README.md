@@ -432,9 +432,24 @@ The best 3 sell orders for PLEX in Domain:
 
 **What it does:** the SimpleESI object is used to set two global variables with the help of the `meta()`-method. It is then used to queue 4 requests for sell orders on PLEX, one for each region of interest, and to execute the requests. The last argument passed to the `get()`-method is the name of a function, which will be called at the moment a response arrives and once for each of the four requests. The callback function `orders_callback()` will then itself queue additional requests and for every station listed in the sell orders, if the station is not already known. These secondary requests themselves have a second callback function `station_callback()` registered with them. The secondary callback is used to queue even more requests, one for each system it does not yet know about. Once all requests have been executed does it print out the 3 best PLEX sell orders for each region of interest. At the end is the object used again to store system and station information so it can be retrieved again later.
 
-Requests queued with the `get()`-method from within callbacks do not require an explicit call to the `exec()`-method, because the requests are being queued while an execution is already running. The calls to the `get()`-method inside the callback functions further each get passed a numeric argument. This number is used to briefly extend the expiration time of a request artificially. The reason why this can be useful is because some resources of the ESI have unusual expiration times, or simply fall onto the downtime. So does the information on stations expire within only 5 minutes. Yet the stations themselves do not seem to change at all... It is because of the office rent prices contained within the information that their data expires so quickly. Yet for this application are the rent prices of no interest and therefore it makes sense to ignore the short expiration timers and to extend these artificially by +24 hours. The information on solar systems expires every 24 hours during downtime where the ESI server is unavailable. Extending the expiration timers for such resources artificially by +30 minutes can help in avoiding the downtime.
+Requests queued with the `get()`-method from within callbacks do not require an explicit call to the `exec()`-method, because an execution is already running. The calls to the `get()`-method inside the callback functions further each get passed a numeric argument. This number is used to briefly extend the expiration time of a request artificially. The reason why this can be useful is because some resources of the ESI have unusual expiration times, or simply fall onto the downtime. So does the information on stations expire within only 5 minutes. Yet the stations themselves do not seem to change at all... It is because of the office rent prices contained within the information that their data expires so quickly. Yet for this application are the rent prices of no interest and therefore it makes sense to ignore the short expiration timers and to extend these artificially by +24 hours. The information on solar systems expires every 24 hours during downtime where the ESI server is unavailable. Extending the expiration timers for such resources artificially by +30 minutes can help in avoiding the downtime.
 
 Callbacks allow to react to responses the moment these arrive, and before all requests have been answered and before execution ends. This speeds up applications by exploiting the ESI server’s ability to respond to requests out of order.
+
+Using the `meta()`-method to set global variables at the beginning of a script and to save their content at the end allows to create persistent variables, which will keep their content beyond the scope of the script. The lines at the end of the example:
+
+```php
+$esi->meta('GLOBALS', [ 'Stations' => $Stations,
+                        'Systems'  => $Systems ]);
+```
+
+store the contents of the two variables `$Stations` and `$Systems` together with their names in an associative array under a key named `'GLOBALS'`. When the example is run and executes
+
+```php
+$GLOBALS += $esi->meta('GLOBALS') ?: [];
+```
+
+will it append the associative array directly to the special PHP variable `$GLOBALS`, causing PHP to set the two global variables `$Stations` and `$Systems` to their previously saved content.
 
 Note: due to the current structure of the ESI does this example only list prices found at NPC stations and does not include sell orders at player-owned stations.
 

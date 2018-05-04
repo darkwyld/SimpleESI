@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.4.1 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-05-03T15:02:30.145249080"/>
+	<meta name="changed" content="2018-05-04T12:58:51.878424755"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -277,7 +277,7 @@ to request all pages automatically.</p>
 retries</span></font></h5>
 <p class="western" style="orphans: 2">The number of additional
 attempts to make when requests fail. The default is <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">3</span></font>.</p>
-<pre class="php-western">$esi-&gt;retries = 5;</pre><h5 class="western">
+<pre class="php-western">$esi-&gt;retries = 6;</pre><h5 class="western">
 2.6. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(int)
 error_throttle</span></font></h5>
 <p class="western" style="orphans: 2">The number of errors remaining
@@ -471,7 +471,7 @@ function callback($esi, $rq) {
    <span style="font-style: normal">$Veldspar = $rq-&gt;vl</span><span style="font-style: normal">['description']</span><span style="font-style: normal">;</span>
    echo 'Last Modified: '.date('r', $rq-&gt;lm).PHP_EOL;
 }</pre><p class="western" style="orphans: 2">
-… or a nameless function, also known as a closure:</p>
+or a nameless function, also known as a closure:</p>
 <pre class="php-western" style="font-style: normal">$Veldspar = null;
 
 $esi-&gt;get($var, 'universe/types/1230/', function($esi, $rq) use ($Veldspar) {
@@ -489,27 +489,19 @@ single_get(&lt;(mixed) &amp;$variable&gt;, &lt;(string) $request&gt;,
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western">3.5. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(void)
-pages_get(&lt;(mixed) &amp;$variable&gt;, &lt;(string) $request&gt;,
-&lt;(int) $startpage&gt;, &lt;(int) $endpage&gt;, &lt;(int)
-$expires&gt;, [(int) $charid], [(string) $authheader], [(callable)
-$callback])</span></font></h5>
-<p class="western" style="orphans: 2"><br/>
-
-</p>
-<h5 class="western">3.6. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(object)
+<h5 class="western">3.5. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(object)
 post(&lt;(mixed) &amp;$variable&gt;, &lt;(string) $request&gt;,
 &lt;(mixed) $data&gt;, [(array) $authorization], [(callable)
 $callback])</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western">3.7. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(object)
+<h5 class="western">3.6. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(object)
 exec()</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
 </p>
-<h5 class="western">3.8. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(bool)
+<h5 class="western">3.7. <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">(bool)
 auth(&lt;(array) &amp;$authorization&gt;, [(string) $code])</span></font></h5>
 <p class="western" style="orphans: 2"><br/>
 
