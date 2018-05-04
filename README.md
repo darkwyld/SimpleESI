@@ -296,11 +296,9 @@ The example creates more than a hundred requests with only these lines:
         ->exec();
 ```
 
-The resource `'universe/regions/'` contains an array with the id's of all regions, which is first downloaded and stored inside the variable `$RegionIds`. It is then used directly thereafter together with a pattern in a second call to the `get()`-method in order to create one hundred requests – one for every region – and to download more information on each region, such as their names.
+The resource `'universe/regions/'` contains an array with the id's of all regions, which is first downloaded and stored inside the variable `$RegionIds`. It is then used directly thereafter with a pattern in a second call to the `get()`-method in order to create one hundred requests – one for every region – and to download more information on each region, such as their names.
 
-The `meta()`-method functions as a simple “key/value”-database, which is stored alongside with the cache. It allows an application to reduce the number of its ESI requests to an essential minimum. By storing static data such as the names of regions in a local database can one save time and speed up execution. When passed a single argument does the `meta()`-method work as a query. With two arguments does it work as an assignment (“key = value”).
-
-Note: all requests to the ESI server take time. The fastest request is the one, which does not need to be made!
+The `meta()`-method functions as a simple “key/value”-database, which is stored alongside with the cache. When passed a single argument does the `meta()`-method work as a query. With two arguments does it work as an assignment (“key = value”). It allows an application to reduce the number of its ESI requests to an essential minimum by storing static data, such as the names of regions, in a local database.
 
 #### 6. All things new and gone.
 

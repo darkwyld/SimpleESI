@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 6.0.4.1 (Linux)"/>
 	<meta name="created" content="2018-04-16T21:23:38.583343612"/>
-	<meta name="changed" content="2018-05-04T13:48:28.557959864"/>
+	<meta name="changed" content="2018-05-04T14:01:44.818926603"/>
 	<style type="text/css">
 		@page { margin: 2cm }
 		p { margin-top: 0.1cm; margin-bottom: 0cm; line-height: 150%; orphans: 2; page-break-before: auto }
@@ -416,22 +416,18 @@ hundred requests with only these lines:</p>
 The resource <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">'universe/regions/'</span></font>
 contains an array with the id's of all regions, which is first
 downloaded and stored inside the variable <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">$RegionIds</span></font>.
-It is then used directly thereafter together with a pattern in a
-second call to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
+It is then used directly thereafter with a pattern in a second call
+to the <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">get()</span></font>-method
 in order to create one hundred requests – one for every region –
 and to download more information on each region, such as their names.</p>
 <p class="western" style="orphans: 2">The <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
 functions as a simple “key/value”-database, which is stored
-alongside with the cache. It allows an application to reduce the
-number of its ESI requests to an essential minimum. By storing static
-data such as the names of regions in a local database can one save
-time and speed up execution. When passed a single argument does the
+alongside with the cache. When passed a single argument does the
 <font face="Bitstream Vera Sans Mono, monospace"><span style="background: #dfdfdf">meta()</span></font>-method
 work as a query. With two arguments does it work as an assignment
-(“key = value”).</p>
-<p class="western" style="orphans: 2"><u>Note:</u> all requests to
-the ESI server take time. The fastest request is the one, which does
-not need to be made!</p>
+(“key = value”). It allows an application to reduce the number of
+its ESI requests to an essential minimum by storing static data, such
+as the names of regions, in a local database.</p>
 <h4 class="western">6. All things new and gone.</h4>
 <pre class="php-western">&lt;?php
 require_once 'SimpleESI.php';
