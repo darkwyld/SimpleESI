@@ -468,7 +468,7 @@ class SimpleESI {
                         } else
                             $this->debug(0, 'Unexpected cURL result: ', $rq->rq, ' - ', curl_strerror($in['result']));
                         if (++$rq->rt <= $this->retries) {
-                            $this->debug(2, 'Retry (#', $rq->rt, '): ', $rq->rq);
+                            $this->debug(2, 'Retry #', $rq->rt, ': ', $rq->rq);
                             if (isset($rq->pd))
                                 $this->queue_post($rq);
                             else

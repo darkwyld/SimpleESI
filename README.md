@@ -285,7 +285,7 @@ $ php -f examples/example-5.php
 The Forge's id is 10000002.
 ```
 
-**What it does:** it creates a SimpleESI object to see if it holds an array in its meta database for mapping region names to id's. If it cannot find one then it uses the object to create it by first requesting the list of region id's, then requesting the data on all regions based on their id's in a second execution, and then uses the PHP function `array_column()` to map the id's of every region to its name. It then stores the associative array in the meta database so it can find it again next time. Finally, it prints the id of The Forge.
+**What it does:** it creates a SimpleESI object to see if it holds an array in its meta database for mapping region names to id's. If it cannot find one then it uses the object to create one by first requesting the list of region id's, then requesting the data on all regions based on their id's in a second execution, and then uses the PHP function `array_column()` to map the id's of every region to its name. It then stores the associative array in the meta database so it can find it again next time. Finally, it prints the id of The Forge.
 
 The example creates more than a hundred requests with only these lines:
 
@@ -445,14 +445,14 @@ Requests queued with the `get()`-method from within callbacks do not require an 
 
 Callbacks allow to react to responses the moment these arrive, and before all requests have been answered and before execution ends. This speeds up applications by exploiting the ESI server’s ability to respond to requests out of order.
 
-Using the `meta()`-method to set global variables at the beginning of a script and to save their content at the end allows to create persistent variables, which will keep their content beyond the scope of the script. The lines at the end of the example:
+Using the `meta()`-method, to set global variables at the beginning of a script and to save their content at the end, allows to create persistent variables, which will keep their content beyond the scope of a script. The lines at the end of the example:
 
 ```php
 $esi->meta('GLOBALS', [ 'Stations' => $Stations,
                         'Systems'  => $Systems ]);
 ```
 
-store the contents of the two variables `$Stations` and `$Systems` together with their names in an associative array under a key named `'GLOBALS'`. When the example is run and executes
+store the contents of the two variables `$Stations` and `$Systems` together with their names in an associative array under a key named `'GLOBALS'`. When the example is run again and it executes:
 
 ```php
 $GLOBALS += $esi->meta('GLOBALS') ?: [];
@@ -460,7 +460,7 @@ $GLOBALS += $esi->meta('GLOBALS') ?: [];
 
 will it append the associative array directly to the special PHP variable `$GLOBALS`, causing PHP to set the two global variables `$Stations` and `$Systems` to their previously saved content.
 
-Note: due to the current structure of the ESI does this example only list prices found at NPC stations and does not include sell orders at player-owned stations.
+Note: due to the current structure of the ESI does this example only list prices found at NPC stations and does not include sell orders at player-owned structures.
 
 #### 8. Onto the Web!
 
@@ -548,9 +548,9 @@ Press Ctrl-C to quit.
 [Fri Apr 13 21:39:08 2018] 127.0.0.1:56846 [200]: /examples/example-8.php
 ```
 
-**What it does:** it is the same example as before, now embedded within HTML and extended `echo`- & `printf`-statements to include HTML tagging. It further checks if it’s URL contains a query argument with the name `debug`, in which case it enables debug support for the SimpleESI object.
+**What it does:** it is the same example as before, now embedded within HTML and extended `echo`- & `printf`-statements to include HTML tagging. It further checks if it’s URL contains a query argument by the name `debug`, in which case it enables debug support for the SimpleESI object.
 
-When php is run with `-S localhost:9000` does it start a small web server on the local machine at port 9000 and the URL <a href="http://localhost:9000/examples/example-8.php" class="uri" class="western">http://localhost:9000/examples/example-8.php</a> will open the example and display its output in a browser.
+When PHP is run with `-S localhost:9000` does it start a small web server on the local machine at port 9000 and the URL <a href="http://localhost:9000/examples/example-8.php" class="uri" class="western">http://localhost:9000/examples/example-8.php</a> will open the example and display its output in a browser.
 
 <img src="docs/example-8a.png">
 
@@ -634,13 +634,13 @@ Press Ctrl-C to quit.
 
 **What it does:** it determines if an authorization was previously given, and if so tries to refresh it. If not does it prompt with a link to obtain a new authorization. On success does it print the faction standings of the character whose authorization was given as well as the duration of the current authorization period.
 
-For the example to work does one need to register it as an application at <a href="https://developers.eveonline.com/applications/create" class="uri" class="western">https://developers.eveonline.com/applications/create</a> with a redirection URI of `http://localhost:9000/login.php` and a scope of `esi-characters.read_standings.v1`, which is used for reading a character’s standings. Further does one need to insert the client ID and the client secret given out by CCP on registration as strings into the script (see where it has the `‘...’` strings).
+For the example to work does one need to register it as an application at <a href="https://developers.eveonline.com/applications/create" class="uri" class="western">https://developers.eveonline.com/applications/create</a> with a redirection URI of `http://localhost:9000/login.php` and a scope of `esi-characters.read_standings.v1`, which is used for reading a character’s standings. Further does one need to insert the client ID and the client secret, given out by CCP on registration, as strings into the script (see where it has the `‘...’` strings).
 
 When the script is run for the first time does it not know of a previous authorization nor of any code and so the call to the `auth()`-method will fail, leading the script to prompt the user with a link. The link itself contains information about the request and will lead the user to CCP’s Single Sign-On service. The information contained in this link is provided by the `auth()`-method by inserting it into the array that was passed as argument.
 
 <img src="docs/login-a.png">
 
-On following the link is the user prompted to login at CCP’s web site, to give authorization to the application and to choose for which character it shall be.
+On following the link is the user prompted to login at CCP’s web site, to give authorization to the application and to choose for which character the authorization shall be.
 
 <img src="docs/login-b.png">
 
@@ -648,7 +648,7 @@ On clicking the “Authorize” button will CCP’s web site redirect back to `h
 
 <img src="docs/login-c.png">
 
-Although the initial code is usable only once is it being given a secondary use by the script, which is that of a “session identifier”. The script stores the code inside the browser with a cookie, as well as on the server in its meta database, together with further information about the authorization. Each time the user accesses the script with a cookie does it compare the code stored inside the cookie with the code stored inside its database to determine if it still in session with the same user, in which case it will refresh the authorization with the help of the `auth()`-method and without sending the user back to the SSO service.
+Although the initial code is usable only once is it being given a secondary use by the script, which is that of a “session identifier”. The script stores the code inside the browser with a cookie, as well as on the server in its meta database, together with further information about the authorization. Each time a user accesses the script with a cookie does it compare the code stored inside the cookie with the code stored inside its database to determine if it is still in session with the same user as before, in which case it will refresh the authorization with the `auth()`-method and without sending the user back to the SSO service.
 
 Clicking on the “Sign Out” link will call the script with an argument of `signout=true`, causing it to clear the cookie from the browser and so ending the session.
 
