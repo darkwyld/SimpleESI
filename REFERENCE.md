@@ -197,7 +197,7 @@ The character, or string, used in a pattern to the `get()`-method. The default i
 $esi->marker = 'XXX';
 ```
 
-Note: for a marker string to be usable in an associative array as a part of a query argument (see below) does it need to remain unchanged by the RFC3986-encoding. This is the case for the `~`-character, but characters such as `\#`, `\*` or `$` do get percent-encoded and are not usable in such a case.
+Note: for a marker string to be usable in an associative array as a part of a query argument (see below) does it need to remain unchanged by the RFC3986-encoding. This is the case for the `~`-character, but characters such as `#`, `*` or `$` do get percent-encoded and are not usable in such a case.
 
 ##### 2.4. `(bool) paging`
 
@@ -207,7 +207,7 @@ A toggle to change the behaviour of the `exec()`-method with regards to paged re
 $esi->paging = false;
 ```
 
-Note: requests that specify a page in their query arguments do not trigger paging, and can be used to request a single page while paging is enabled.
+Note: a request that specifies a page in its query arguments does not trigger automatic paging, and can be used to request a single page while automatic paging is enabled.
 
 ##### 2.5. `(int) retries`
 
